@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>${result.affectedRows} Transactions Added Seccessfully</title>
+</head>
+<style>
+  .swal-modal {
+  background-color: white;
+  border: 1px solid rgb(7, 7, 7);
+}
+.swal-overlay {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.swal-title {
+  margin: 0px;
+  font-size: 50px;
+color:green;
+  margin-bottom: 28px;
+}
+.swal-button {
+  padding: 10px;
+  border-radius: 2px;
+  /* background-color: #4962B3; */
+  font-size: 18px;
+  font-family: monospace;
+  color: black;
+  border: 5px solid rgb(116, 117, 116);
+  border-radius: 10px;
+  /* border: 1px solid #3e549a; */
+  /* text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3); */
+}
+
+  
+
+</style>
+<body>
+
+  <script>
+    swal("${result.affectedRows} Transactions Added Seccess Fully ","","success", {
+buttons: {
+cancel: "Dash Bord",
+catch: {
+text: "Home",
+value: "redirect",
+closeOnClickOutside: false,
+},
+
+},
+})
+.then((value) => {
+switch (value) {
+
+
+
+case "redirect":
+window.location="/"
+break;
+
+default:
+// window.location="/dash-bord"
+message();
+}
+
+});
+function message()
+{
+  document.write( '<h1>Please wait we redirecting  you to Dashboard </h1>');
+  window.location="/dash-bord"
+}
+</script>
+</body>
+</html>

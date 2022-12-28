@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title> Login Success</title>
+</head>
+<style>
+  .swal-overlay {
+  background-color: rgb(195, 195, 204);
+  }
+</style>
+<body>
+    <script>
+     
+              swal("Your Email Is Verified successFully","success", {
+  buttons: {
+    cancel: "Dash Bord",
+    catch: {
+      text: "Home",
+      value: "redirect",
+    },
+    
+  },
+})
+.then((value) => {
+  switch (value) {
+    case "redirect":
+     window.location="/"
+      break;
+    default:
+    window.location="/dash-bord"
+  }
+
+ });
+
+
+
+    </script>
+</body>
+</html>

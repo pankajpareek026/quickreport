@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="Footer.css">
+  <title> User | <%-username-%>
+  </title>
+</head>
+<style>
+  body {
+    /* background-image:  url(https://cdn.pixabay.com/photo/2020/05/01/16/42/palacio-nacional-de-mafra-5118010_1280.jpg);
+        background-repeat: no-repeat;
+        background-size: cover; */
+    background-color: #0B0E11
+  }
+
+  /* main color #f7a600 */
+  /* background color #0C0E12 */
+  /* second background   #1E2329 */
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  .mainmenu {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    height: 80px;
+    width: 100vw;
+    background-color: #201f1f;
+    margin: 0;
+    padding: 0;
+  }
+
+  a:link {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:valid {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: white;
+    text-decoration: none;
+  }
+
+  span {
+    font-size: xx-large;
+    padding: 25px;
+    color: #f7a600;
+    margin: auto;
+
+  }
+
+  a:hover {
+    color: #f7a600;
+    text-decoration: none;
+  }
+
+  .home {
+    margin-left: 15%;
+  }
+
+  ::placeholder {
+    color: rgb(96, 94, 94);
+  }
+
+
+
+
+
+
+
+  h1 {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: -2px;
+    color: #f88605;
+    font-weight: 100;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+  i {
+    color: #f88605;
+  }
+
+  #uname {
+    padding: 0px;
+    margin: 0px;
+  }
+
+
+
+
+
+  .userDetails {
+    background-color: #201f1f;
+    width: 95%;
+    height: 630px;
+    margin-top: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-radius: 10px;
+    color: rgb(142, 140, 140);
+  }
+
+
+
+  .fa-sign-out {
+    font-size: xx-large;
+    margin-left: 95%;
+    margin-top: 15px;
+    color: #f88605;
+  }
+
+  .fa-eye,
+  .fa-eye-slash {
+    margin-left: 3%;
+    margin-top: -150px;
+    margin-bottom: 10px;
+    color: rgb(7, 228, 248);
+    font-size: x-large;
+  }
+
+  .fa-sign-out:hover {
+    cursor: pointer;
+  }
+
+  .logout {
+    background-color: #f88605;
+  }
+
+  .fa-user {
+    color: #f88605;
+  }
+
+  .username {
+    margin-left: 50px;
+    padding: 10px;
+    width: 50%;
+    overflow-x: hidden;
+    background: #000;
+    border: 1px solid rgb(5, 5, 5);
+    border-radius: 10px;
+    color: antiquewhite;
+    /* box-shadow: 52px 52px 10px -50px rgb(253, 139, 1) inset, -52px -52px 10px -50px rgb(247, 166, 2) inset; */
+  }
+
+  .portfolio {
+    margin-top: 15px;
+    margin-left: 50px;
+    padding: 5px;
+  }
+
+  button {
+    margin: 5px 10px;
+    padding: 4px 15px;
+    border-radius: 3px;
+    background-color: black;
+    color: #f66605;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+    font-size: large;
+  }
+
+  button:hover {
+    cursor: pointer;
+    font-weight: bolder;
+    box-shadow: 1px 1px 2px rgb(171, 170, 169), -1px -1px 2px rgb(171, 170, 169);
+  }
+
+  .reset {
+    margin-top: 15px;
+    margin-left: 50px;
+    padding: 5px;
+    margin: 5px 10px;
+    color: #f8f5f5;
+    font-size: large;
+    display: grid;
+  }
+
+  .funding {
+    padding: 5px;
+    margin-left: 0px;
+  }
+
+  .p {
+    margin-top: 10px;
+    margin-left: 50px;
+    border-radius: 3px;
+    width: 50%;
+    background: #000;
+    overflow-x: hidden;
+    padding: 10px;
+    color: antiquewhite;
+    border: 1.5px solid rgb(103, 101, 101);
+    box-shadow: 0px 0px 10px -50px rgb(253, 139, 1) inset, -0px 0px 3px rgb(247, 166, 2) inset;
+  }
+
+  .Branding {
+    margin-top: 31%;
+    text-align: center;
+  }
+
+  input {
+    background-color: #201f1f;
+    border: none;
+    color: white;
+  }
+
+  /* <div class="user-info-container">
+
+<span>Username :</span><span>"<%-username-%></span>
+<span>Name :</span><span><%-name -%></span>
+<span>Email</span><span><%-userEmail-%></span>
+<span>User Since :</span> <span><%-Dj-%></span>
+</div>
+</div> */
+  /* .user-info-container {
+    display: flex;
+    flex-direction: column;
+    /* gap: .5rem; */
+  /* margin: 0;
+    justify-content: left;
+  }
+
+  .user-info-container div {
+    display: inline;
+    justify-content: left;
+  }
+
+  .user-info-container div span {
+    font-size: 1rem;
+    text-align: left;
+  } */
+
+  @media only screen and (min-width:200px) and (max-width:567px) {
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .fa-user,
+    .fa-chart-pie,
+    .fa-home,
+    .fa-newspaper {
+      font-size: .7rem;
+      margin-top: 20px;
+    }
+
+    .fa-sign-out {
+      font-size: 1.5rem;
+      color: red;
+    }
+
+    .coin-logo {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .current-price {
+      font-size: 1rem;
+    }
+
+    .change,
+    .redc,
+    .greenc {
+      display: none;
+    }
+
+    .mainmenu {
+      width: 100vw;
+    }
+
+    .resetFunding,
+    .resetPortfolio,
+    .resetAll {
+      font-size: 1rem;
+    }
+
+    button {
+      font-size: 1rem;
+    }
+
+    .userDetails {
+
+      /* margin-bottom: 7.5rem; */
+      margin-left: 0;
+      width: 100%;
+    }
+
+  }
+</style>
+
+<body>
+  <div class="mainmenu"><br>
+    <br>
+    <logo>
+      <m style="color: orangered;margin-left: 25px;  font-weight: bold; font-size: x-large; ">Q</m>
+      <m style="color:wheat ;">U</m>
+      <m style="color:white ;">I</m>
+      <m style="color: greenyellow;">C</m>
+      <m style="color:orangered;">K</m>
+      <m style="color:rgb(248, 247, 246) ;">Report</m>
+    </logo>
+    <span class="home"><a href="/"><i title="Quick Report Home" class="fas fa-home"></i></a></span>
+    <!-- <span><a href="/dash-bord"><i title="PortFolio" class="fas fa-chart-line"></i></a></span> -->
+    <span><a href="/dash-bord"><i title="DashBord" class="fas fa-chart-pie"></i></a></span>
+    <span><a href="/News"><i class="fas fa-newspaper"></i></a></span>
+    <span><a href="/register"><i title="User" class="far fa-user"></i></a></span>
+    <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
+
+  </div>
+
+  <div id="UD" class="userDetails">
+
+    <a onclick="cnfm()" style="color:#f66605;" class="fa fa-sign-out"></a>
+    <i id="eye" onclick="hideE()" class="fas fa-eye"></i>
+    <div class="username">
+      <table>
+        <tr>
+          <td>Username </td>
+          <td>: <%-username-%>
+          </td>
+        </tr>
+        <tr>
+          <td>Name </td>
+          <td>: <%-name -%>"
+          </td>
+        </tr>
+        <tr>
+          <td>Email Id</td>
+          <td>: <%-userEmail-%>
+          </td>
+        </tr>
+        <tr>
+          <td>User Since</td>
+          <td>: <%-Dj-%>
+          </td>
+        </tr>
+
+      </table>
+      <!-- <div class="user-info-container">
+
+        <div><span>Username :</span><span>"<%-username-%></span></div>
+        <div><span>Name :</span><span><%-name -%></span></div>
+        <div><span>Email</span><span><%-userEmail-%></span></div>
+        <div><span>User Since :</span> <span><%-Dj-%></span></div>
+      </div> -->
+    </div>
+
+    <div class="p">
+      <table>
+        <tr>
+          <td>Portfolio Value</td>
+          <td>: $ <%- (Current_Value+invested)?parseFloat(Current_Value+invested).toFixed(2):0.00-%>
+          </td>
+        </tr>
+        <tr>
+          <td>Funding Account Balance </td>
+          <td> : $ <%-b?b:0.00-%></td>
+          </td>
+        </tr>
+
+
+      </table>
+
+    </div>
+    <div class="reset">
+      <div class="resetFunding">Reset Funding Account <button onclick="ConfirmF()">Reset Funding </button> </div>
+      <div class="resetPortfolio"> Reset All orders <button onclick="ConfirmT()">Reset Transactions </button> </div>
+      <div class="resetAll"> Reset My Account Account <button onclick="ConfirmAll()">Reset My Account</button></div>
+    </div>
+    <p style="padding:10px  ; margin-left:50px;color: #f7a600;"> If portfolio balance and funding balance are not
+      correct
+      please visit &nbsp;&nbsp;
+      <a href="/dash-bord"><i style="font-size:large;" title="DashBord" class="fas fa-chart-pie"></i></a>
+    </p>
+    <p class="Branding">Made With ♥ By OrangeDevs</p>
+  </div>
+  <script>
+    function ConfirmF() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: " All Transaction In Your Funding Account Will Be Deleted You can not Recover It at Any Cost",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Reset Funding'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = "/resetF"
+          Swal.fire(
+            'Deleted!',
+            'Your Funding Account  Reset  Seccessfully',
+
+          )
+        }
+      })
+    }
+
+    function ConfirmAll() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: " All Transaction In  Account ( Funding Or Buy Sell ) Will Be Deleted You can not Recover It at Any Cost",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Reset My Account '
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = "/resetAll"
+          Swal.fire(
+            'Deleted!',
+            ' Reset Seccessfully',
+
+          )
+        }
+      })
+    }
+    function ConfirmT() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: " All Transaction In Your Buy / Sell Account Will Be Deleted You can not Recover It at Any Cost",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Reset PortFolio'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = "/reset"
+          Swal.fire(
+            'Deleted!',
+            'Portfolio Reset Seccessfully',
+
+          )
+        }
+      })
+    }
+    function cnfm() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Logout ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout'
+      }).then((result) => {
+
+        window.location = "/logout"
+      })
+    }
+    var clickCount = 1;
+
+    function hideE() {
+      clickCount++;
+      if (clickCount % 2 == 0) {
+        document.getElementById("eye").removeAttribute("class", "fa fa-eye")
+        document.getElementById("eye").setAttribute("class", "fa fa-eye-slash")
+        var a = document.getElementById("UD").getElementsByTagName('input')
+        for (var inpt = 0; inpt < a.length; inpt++) {
+          a[inpt].setAttribute("type", "password")
+        }
+      }
+      else {
+        document.getElementById("eye").removeAttribute("class", " fa fa-eye-slash")
+        document.getElementById("eye").setAttribute("class", "fa fa-eye")
+        var a = document.getElementById("UD").getElementsByTagName('input')
+        for (var inpt = 0; inpt < a.length; inpt++) {
+          a[inpt].setAttribute("type", "text")
+        }
+      }
+
+    }
+
+  </script>
+</body>
+
+
+</html>

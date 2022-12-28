@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Iceland&family=Teko:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+
+    <title>About us </title>
+</head>
+<style>
+    .fas {
+        color: #f88605;
+    }
+
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+    }
+
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #f88605;
+        margin: -4px 0 0 -4px;
+    }
+
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+
+    .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+    }
+
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+
+    .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+    }
+
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+
+    .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+    }
+
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+
+    .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+    }
+
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+
+    .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+    }
+
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+
+    .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+    }
+
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+
+    .lds-roller div:nth-child(7):after {
+        top: 63px;
+        left: 17px;
+    }
+
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+
+    .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12px;
+    }
+
+    @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    body {
+        /* background-image:  url(https://cdn.pixabay.com/photo/2020/05/01/16/42/palacio-nacional-de-mafra-5118010_1280.jpg);
+        background-repeat: no-repeat;
+        background-size: cover; */
+        background-color: #0B0E11
+    }
+
+    /* main color #f7a600 */
+    /* background color #0C0E12 */
+    /* second background   #1E2329 */
+    .mainmenu {
+        position: fixed;
+        top: 0px;
+        left: 0;
+        right: 0;
+        height: 80px;
+        width: 100%;
+        background-color: #201f1f;
+        margin: 0;
+        padding: 0;
+    }
+
+    a:link {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:valid {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: white;
+        text-decoration: none;
+    }
+
+    span {
+        font-size: xx-large;
+        padding: 25px;
+        color: #f7a600;
+        margin: auto;
+
+    }
+
+    a:hover {
+        color: #f7a600;
+        text-decoration: none;
+    }
+
+    .home {
+        margin-left: 15%;
+    }
+
+    ::placeholder {
+        color: rgb(96, 94, 94);
+    }
+
+
+
+    .message {
+        width: auto;
+        height: 50px;
+        text-align: center;
+        justify-content: center;
+        margin: -4px;
+        border-radius: 10px;
+        color: rgb(8, 213, 240);
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    hr {
+        margin-left: -5px;
+    }
+
+    p {
+        width: auto;
+        height: 50px;
+        text-align: center;
+        justify-content: center;
+        margin: -4px;
+        border-radius: 10px;
+        color: #9b9696;
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    .formcenter {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+    }
+
+    form {
+        color: white;
+        border-radius: 10px;
+        width: 70%;
+        margin-left: 12%;
+        height: auto;
+        margin-top: 170px;
+        padding: 5px 10px;
+        justify-content: center;
+        font-size: large;
+        font-weight: bolder;
+        background-color: #17181e;
+        box-shadow: -4px -4px 10px rgba(67, 67, 67, 0.5),
+            inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+            inset -4px -4px 10px rgba(67, 67, 67, 0.5),
+            4px 4px 10px rgba(0, 0, 0, 0.3);
+        text-decoration: wavy;
+        font-family: 'Crete Round', serif;
+        display: flexbox;
+        place-items: center;
+        justify-content: center;
+        position: relative;
+
+    }
+
+    .fa-user {
+        color: #f88605;
+    }
+
+    .username {
+        color: #61605d;
+    }
+
+    .fa-lock {
+        color: rgb(129, 124, 124);
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: -2px;
+        color: #f88605;
+        font-weight: 100;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+    .input {
+        background-color: rgba(16, 16, 16, 0.041);
+        box-shadow: -4px -4px 5px rgba(67, 67, 67, 0.5),
+            inset 4px 4px 5px rgba(0, 0, 0, 0.5),
+            inset -4px -4px 5px rgba(67, 67, 67, 0.5),
+            4px 4px 5px rgba(0, 0, 0, 0.3);
+        font-family: 'Crete Round', serif;
+        font-weight: 100;
+        color: #f5f4f4;
+        position: absolute;
+        left: 5%;
+        border: none;
+        height: 40px;
+        width: 85%;
+        padding: 5px;
+        margin-top: 3%;
+        text-align: center;
+        transition: all;
+        transition-duration: 10s;
+        font-size: large;
+        outline: none;
+        vertical-align: middle;
+        position: relative;
+        margin-bottom: 3px;
+        border-radius: 5px;
+        word-wrap: 1000px;
+
+
+
+    }
+
+    hr {
+        margin-left: -5px;
+        margin-bottom: 10px;
+    }
+
+    input[type=checkbox] {
+        color: #0B0E11;
+    }
+
+    span {
+        color: #f7a600;
+    }
+
+    button {
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        height: 50px;
+        width: 90%;
+        margin-bottom: 25px;
+        margin-left: 5%;
+        font-family: 'Crete Round', serif;
+        display: inline;
+        font-size: x-large;
+        border: none;
+        /* box-shadow: 2px 2px 3px 2px rgb(102, 102, 100); */
+        word-spacing: 20px;
+        background-color: #f88605;
+        color: rgb(7, 7, 7);
+        font-weight: bolder;
+        transition: all;
+        font-weight: 900;
+
+    }
+
+    button:hover {
+        background-color: rgb(34, 245, 6);
+        border-radius: 10px;
+        font-weight: bolder;
+        font-size: xx-large;
+
+    }
+
+    #hideshow {
+        margin-top: 13px;
+        width: 100px;
+
+        margin-left: -25px;
+        background-color: #17181e;
+        color: #0B0E11;
+        font-family: monospace;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+
+    a {
+        text-decoration: none;
+        color: #f7a600;
+    }
+
+    a {
+        color: #f88605;
+    }
+
+    #uname {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    #pass {
+        text-align: center;
+    }
+
+    b {
+        margin-top: 10px;
+        color: wheat;
+        display: inline;
+    }
+
+    b:hover {
+        cursor: pointer;
+    }
+
+    .showhide {
+        display: flex;
+        margin: 2px;
+    }
+
+    /* footer start */
+
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .fcontainer {
+        max-width: 1170px;
+        margin: auto;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .footer {
+        font-family: 'Source Serif 4', sans-serif;
+        position: absolute;
+        height: 330px;
+        border-radius: 40px 40px 0px 0px;
+        background-color: #24262b;
+        padding: 30px 0;
+        margin-top: 30%;
+        width: 100%;
+    }
+
+    .footer-col {
+        width: 25%;
+        padding: 0 15px;
+    }
+
+    .footer-col h4 {
+        font-size: 18px;
+        color: #f5f4f4;
+        text-transform: capitalize;
+        margin-bottom: 35px;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .fas,
+    .far {
+        font-size: xx-large;
+    }
+
+    .footer-col h4::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        background-color: #e91e63;
+        height: 2px;
+        box-sizing: border-box;
+        width: 50px;
+    }
+
+    .footer-col ul li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .ds {
+        display: flex;
+        margin-left: 35px;
+    }
+
+    .footer-col ul li a {
+        font-size: 16px;
+        text-transform: capitalize;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 300;
+        color: #bbbbbb;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .footer-col ul li a:hover {
+        color: #f71111;
+        padding-left: 8px;
+
+    }
+
+    .content {
+        text-transform: capitalize;
+        font-family: Verdana;
+        font-weight: 100;
+        text-align: center;
+        padding: 15px;
+        word-spacing: 3px;
+        font-size: large;
+
+    }
+
+    .LogosI {
+        height: 150px;
+        width: 200px;
+        padding: 15px;
+    }
+
+    .footer-col .social-links a {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        background-color: rgba(52, 194, 47, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+    }
+
+    .footer-col .social-links a:hover {
+        color: #24262b;
+        background-color: #eff304;
+    }
+
+    /*responsive*/
+    /* @media(max-width: 767px){
+      .footer-col{
+        width: 50%;
+        margin-bottom: 30px;
+    }
+    }
+    @media(max-width: 574px){
+      .footer-col{
+        width: 100%;
+    }
+    } */
+
+
+
+    /* footer end */
+    .fa-newspaper {
+        color: #f88605;
+    }
+</style>
+
+<body>
+    <div class="mainmenu"><br>
+        <br>
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <span class="home"><a href="/"><i title="Quick Report Home" class="fas fa-home"></i></a></span>
+        <!-- <span><a href="/dash-bord"><i title="PortFolio" class="fas fa-chart-line"></i></a></span> -->
+        <span><a href="/dash-bord"><i title="DashBord" class="fas fa-chart-pie"></i></a></span>
+        <span><a href="/News"><i class="fas fa-newspaper"></i></a></span>
+        <span><a href="/register"><i title="User" class="fa fa-user"></i></a></span>
+        <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
+        <coingecko-coin-price-marquee-widget coin-ids="bitcoin,eos,ethereum,litecoin,ripple,biconomy,dog" currency="inr"
+            background-color="#ffffff" locale="en"></coingecko-coin-price-marquee-widget>
+    </div>
+
+    <form action="" method="post">
+        <h1>About us</h1>
+
+        <div class="content">
+            Quick Report Is A cryptocurrency price and portfolio tracker we also provide the data about market
+            sentiments and latest crypto news which help users to manage there positions according to market
+            fundamental sentiments .We also provide a portfolio management system where user can track add there
+            transactions manualy or by uploading a transaction record file our system automaticly fetch the transactions
+            from JSON or CSV file add them into users portfolio .
+            <div class="sources">
+                <br>
+                <br>
+                <br>
+                <h3 style="color: rgb(250, 98, 4);font-size: xx-large; font-weight: 100;"> Our Data Sources </h3>
+                <div class="ds">
+                    <img alt="Binance.com" class="LogosI" title="Binance.com"
+                        src="https://www.logo.wine/a/logo/Binance/Binance-Logo.wine.svg"
+                        style="background-color: transparent;">
+                    <img alt="Coinmarketcap.com" title="Coinmarketcap" style="width: 150px; height:100px" class="LogosI"
+                        src="https://bankerdoge.com/wp-content/uploads/2021/08/CoinMarketCap_Logo2-296x300.png"
+                        style="background-color: transparent;">
+                    <img alt="Coinmarketcap.com" title="CoinGecko" style="width: 200px; height:100px" class="LogosI"
+                        src="https://static.coingecko.com/s/coingecko-branding-guide-4f5245361f7a47478fa54c2c57808a9e05d31ac7ca498ab189a3827d6000e22b.png"
+                        style="background-color: transparent;">
+                </div>
+            </div>
+            <b style="color: red;">DISCLAMER:</b> we are not responsible for all data infomation are provided here
+            becouse we are not the original source of these informations all data is provided by third party APIS
+        </div>
+
+
+    </form>
+
+    </div>
+    <footer class="footer">
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <div class="fcontainer">
+            <div class="row">
+                <div class="footer-col">
+
+                    <ul>
+                        <li><a href="#">about us</a></li>
+                        <li><a href="#">our services</a></li>
+                        <li><a href="#">privacy policy</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP CEX</h4>
+                    <ul>
+                        <li><a href="https://www.binance.com/">Binance</a></li>
+                        <li><a href="https://pro.coinbase.com">Coinbase Exchange</a></li>
+                        <li><a href="https://ftx.com/">FTX</a></li>
+                        <li><a href="https://www.kraken.com">Kraken</a></li>
+                        <li><a href="https://www.kucoin.com">KuCoin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP DEX</h4>
+                    <ul>
+                        <li><a href="https://trade.dydx.exchange/">DYDX</a></li>
+                        <li><a href="https://app.uniswap.org/#/swap">Uniswap(V)</a></li>
+                        <li><a href="https://pancakeswap.finance/">PancakeSwap (V2)</a></li>
+                        <li><a href="https://maiar.exchange">Maiar Exchange</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>follow us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function l() {
+            var uid = document.getElementById("username").value
+            var pass = document.getElementById("pass").value
+            if (uid != " " && pass != "") {
+                document.getElementById("submit").innerHTML = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>'
+            }
+        }
+        function show() {
+
+            var hide = document.getElementById("pass")
+            console.log("function running")
+            if (hide.type === "password") {
+                hide.type = "text";
+            } else {
+                hide.type = "password";
+            }
+
+            console.log(state.value)
+        }
+    </script>
+</body>
+
+</html>

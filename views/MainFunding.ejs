@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en
+<head>
+    <meta charset=" UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+<title>Transaction</title>
+</head>
+<style>
+    body {
+        font-family: 'Source Serif 4', sans-serif;
+        justify-content: center;
+        place-items: center;
+        place-content: center;
+        background: url(https://cdn.pixabay.com/photo/2020/08/14/17/13/light-bulbs-5488573_1280.jpg);
+        background-color: #282828;
+        font-family: 'Source Serif 4', sans-serif;
+        /* background: rgba(221, 221, 120, 255); */
+    }
+
+    .mainmenu {
+        position: fixed;
+        top: 0px;
+        left: 0;
+        right: 0;
+        height: 90px;
+        width: 100%;
+        background-color: #282828;
+        margin: 0;
+        padding: 0;
+    }
+
+    logo {
+        color: aliceblue;
+        position: relative;
+        left: 10px;
+        top: -20px;
+        display: inline;
+    }
+
+    a:link {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:valid {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: white;
+        text-decoration: none;
+    }
+
+    .fas {
+        font-size: xx-large;
+    }
+
+    a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+
+    span {
+        font-size: x-large;
+        padding: 15px;
+    }
+
+    .home {
+        margin-left: 15%;
+    }
+
+    ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: rgb(163, 161, 160);
+        opacity: 1;
+        /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: rgb(150, 149, 147);
+    }
+
+    ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: rgb(155, 154, 151);
+    }
+
+    .formcenter {
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+        margin-bottom: 205;
+    }
+
+    form {
+        color: rgb(247, 242, 242);
+        width: 350px;
+        height: 85%;
+        margin-top: 90px;
+        /* border: 0.1px solid #09f538; */
+        background: #282828;
+        border-radius: 1%;
+        font-family: 'Source Serif 4', sans-serif;
+        place-items: center;
+        display: block;
+        text-align: center;
+        align-items: center;
+        box-shadow: -4px -4px 10px rgba(191, 190, 190, 0.5),
+            4px 4px 10px rgba(244, 243, 243, 0.5),
+            -4px -4px 10px rgba(179, 177, 177, 0.5),
+            4px 4px 10px rgba(7, 7, 7, 0.3);
+        letter-spacing: 1.5px;
+
+
+
+    }
+
+    #coinname {
+        width: 85%;
+        height: 40px;
+        margin-top: 1%;
+        margin-bottom: 2%;
+        color: white;
+        border-radius: 5px 0px 0px 5px;
+        text-align: center;
+        background-color: rgb(39, 38, 38);
+        text-transform: uppercase;
+        font-style: bold;
+        margin-right: 0px;
+        font-size: larger;
+        border: none;
+        font-family: monospace;
+
+    }
+
+
+
+    #type {
+        padding-top: 0;
+        padding-left: -50px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        position: inherit;
+        width: 50%;
+        height: 40px;
+        color: black;
+        margin-top: 1%;
+        margin-bottom: 2%;
+        border-radius: 0px 5px 5px 0px;
+        text-align: center;
+        align-items: center;
+        box-shadow: -2px -2px 2px 2px rgba(12, 12, 12, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        border-left: 1px solid rgb(7, 7, 7);
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+        border-right: 2px solid;
+        background-color: rgb(185, 185, 151);
+        font-size: large;
+        box-shadow: 0px 0px 2px 2px rgb(246, 248, 244), 0px 0px 2px 2px rgb(241, 245, 238);
+        border-radius: 5px;
+        font-style: bold;
+        /* -webkit-appearance: none; */
+
+    }
+
+    #cn {
+        padding-top: 6px;
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 80%;
+        padding-bottom: 8px;
+        position: relative;
+        left: -6px;
+        height: 40px;
+        font-size: larger;
+        text-transform: uppercase;
+        font-style: bold;
+        border-radius: 5px;
+        border: 2px solid rgb(19, 18, 18);
+        background-color: #282828;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        font-family: 'Source Serif 4', sans-serif;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    /* input[type=number] {
+        -moz-appearance: textfield;
+    } */
+
+
+
+    textarea {
+        width: 85%;
+        margin-top: 1%;
+        color: white;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        border: 3px solid black;
+        background-color: #282828;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        text-transform: capitalize;
+        text-align: center;
+        font-size: larger;
+        font-family: monospace;
+    }
+
+    #date {
+        width: 85%;
+        height: 40px;
+        margin-top: 1%;
+        margin-bottom: 2%;
+        color: white;
+        border-radius: 3px 3px 3px 3px;
+        text-align: center;
+        background-color: rgb(39, 38, 38);
+        text-transform: uppercase;
+        font-style: bold;
+        margin-right: 0px;
+        font-size: larger;
+        font-family: monospace;
+        border: 2px solid black;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    #u {
+
+        margin-top: 1%;
+        margin-bottom: 2%;
+        text-transform: uppercase;
+    }
+
+
+
+
+
+    .btns {
+        border: 2px solid;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 90%;
+        margin-left: 10px;
+        height: 60px;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+        font-family: 'Source Serif 4', sans-serif;
+
+    }
+
+    .fa-user {
+        font-size: x-large;
+    }
+
+    select:hover {
+        cursor: pointer;
+    }
+
+    #clear {
+        color: white;
+        border: 3px ridge red;
+        background-color: black;
+        height: 50px;
+        width: 80px;
+        margin-left: 20px;
+        border-radius: 15px;
+        font-family: 'Source Serif 4', sans-serif;
+    }
+
+    #clear:hover {
+        background-color: red;
+        color: #000;
+        font-weight: bolder;
+        font-family: monospace;
+        font-size: x-large;
+        cursor: pointer;
+    }
+
+    #submit-record {
+        color: rgb(7, 7, 7);
+        background-color: #f7a600;
+        height: 50px;
+        border-radius: 15px;
+        font-family: monospace;
+        font-size: 25px;
+        text-decoration: solid;
+        font-weight: 900;
+    }
+
+    #submit-record:hover {
+        background-color: #f88605;
+        border: 3px ridge black;
+        cursor: pointer;
+        font-weight: bolder;
+
+    }
+
+
+    option {
+        background-color: black;
+        text-align: center;
+        color: white;
+        border-radius: 20px;
+    }
+
+
+
+
+    /* footer start */
+
+    .BuySellButton {
+
+        /* background-color: rgb(42, 41, 41); */
+        padding: 5px 10px;
+        margin-left: 50px;
+        border-radius: 10px;
+        font-size: x-large;
+        font-weight: bolder;
+    }
+
+    .BuySellButton:hover {
+        color: black;
+        background-color: #f88605;
+        box-shadow: 2px 2px 1px gray;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .fcontainer {
+        max-width: 1170px;
+        margin: auto;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .footer {
+        font-family: 'Source Serif 4', sans-serif;
+        position: absolute;
+        height: 330px;
+        border-radius: 40px 40px 0px 0px;
+        background-color: #24262b;
+        padding: 30px 0;
+        margin-top: 30%;
+        width: 100%;
+    }
+
+    .footer-col {
+        width: 25%;
+        padding: 0 15px;
+    }
+
+    .footer-col h4 {
+        font-size: 18px;
+        color: #f5f4f4;
+        text-transform: capitalize;
+        margin-bottom: 35px;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .footer-col h4::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        background-color: #e91e63;
+        height: 2px;
+        box-sizing: border-box;
+        width: 50px;
+    }
+
+    .footer-col ul li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .footer-col ul li a {
+        font-size: 16px;
+        text-transform: capitalize;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 300;
+        color: #bbbbbb;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .footer-col ul li a:hover {
+        color: #f71111;
+        padding-left: 8px;
+
+    }
+
+    .footer-col .social-links a {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        background-color: rgba(52, 194, 47, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+    }
+
+    .footer-col .social-links a:hover {
+        color: #24262b;
+        background-color: #eff304;
+    }
+
+    .fa-user,
+    .fa-chart-pie,
+    .fa-home,
+    .fa-newspaper {
+        font-size: xx-large;
+        color: #f88605;
+
+    }
+
+    .fa-newspaper {
+        color: #f88605;
+    }
+
+
+
+    /* footer end */
+</style>
+
+<body>
+    <div class="mainmenu"><br>
+        <br>
+        <logo style="text-align: center;">
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <span class="home"><a style="color: #f88605;" href="/"><i title="Quick Report Home"
+                    class="fas fa-home"></i></a></span>
+        <!-- <span><a href="/dash-bord"><i title="PortFolio" class="fas fa-chart-line"></i></a></span> -->
+        <span><a href="/dash-bord"><i title="DashBord" style="color:#f88605;" class="fas fa-chart-pie"></i></a></span>
+        <span><a href="/News"><i class="fas fa-newspaper"></i></a></span>
+        <span><a href="/register"><i title="User" style="color: #f88605;" class="far fa-user"></i></a></span>
+
+    </div>
+    <div class="formcenter">
+        <form action="" method="post">
+            <h2 style="color: #fc7f02;">Add Funding transaction</h2>
+
+
+            <br>
+
+            <span id="cn"><input id="coinname" name="amount" type="text" placeholder="Amount" required />
+
+            </span>
+            <br>
+            <br>
+            <select name="type" id="type" title="Funding Type" required="required">
+                <!--select for order type-->
+                <!-- <option selected="true" disabled="disabled">TYPE</option> -->
+                <!--TYPES OF ORDER-->
+                <option value="Deposit">Deposit</option>
+                <option value="withdraw">Withdrowl</option>
+            </select>
+            <br>
+            <br>
+
+            <textarea rows="5" cols="10" id="price" type="text" minlength="5" maxlength="100" step="any"
+                required="required" placeholder="Discription" name="Discription" required></textarea></span>
+
+            <br>
+            <input id="date" type="date" name="date" required />
+            <br>
+            <div class="btns">
+                <button id="clear" type="reset">Clear</button>
+                <button id="submit-record" type="submit" onclick="check()">continue</button>
+            </div>
+
+    </div>
+    </form>
+    </div>
+    <a class="BuySellButton" href="/portfolio">Buy sell</a>
+
+    <footer class="footer">
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <div class="fcontainer">
+            <div class="row">
+                <div class="footer-col">
+
+                    <ul>
+                        <li><a href="/about">about us</a></li>
+                        <li><a href="#">our services</a></li>
+                        <li><a href="#">privacy policy</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP CEX</h4>
+                    <ul>
+                        <li><a href="https://www.binance.com/">Binance</a></li>
+                        <li><a href="https://pro.coinbase.com">Coinbase Exchange</a></li>
+                        <li><a href="https://ftx.com/">FTX</a></li>
+                        <li><a href="https://www.kraken.com">Kraken</a></li>
+                        <li><a href="https://www.kucoin.com">KuCoin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP DEX</h4>
+                    <ul>
+                        <li><a href="https://trade.dydx.exchange/">DYDX</a></li>
+                        <li><a href="https://app.uniswap.org/#/swap">Uniswap(V)</a></li>
+                        <li><a href="https://pancakeswap.finance/">PancakeSwap (V2)</a></li>
+                        <li><a href="https://maiar.exchange">Maiar Exchange</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>follow us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector(".c").style.display = "none";
+        document.querySelector(".cc").style.display = "none";
+        function onlyNumberKey(evt) {
+
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode == 46)
+                return true;
+            else if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+
+        function f5() // to check all fielde are filled before API call
+
+        {
+
+            if (navigator.onLine == false) {
+                alert(" ! YOU ARE OFFLINE PLEASE CONNECT TO INTERNET ")
+            }
+
+            var coinlength = document.getElementById("coinname").value  //to verify that the coin name is selected or not 
+
+            if (coinlength.length == 0) {
+                swal({
+                    title: "Coin Name Not Selected !",
+                    text: "Please select Coin Name  Like : BTC ,ETH ,DOGE ",
+                    icon: "error",
+                });
+            }
+            if (document.getElementById("base-currancy").value == "CURRANCY") //to verify that the base currancy  is selected or not 
+            {
+                swal({
+                    title: "Base Currancy Not Selected !",
+                    text: "Please select Base Currancy Like : INR ,USDT ",
+                    icon: "error",
+                });
+            }
+            if (document.getElementById("base-currancy").value == coinlength) //to verify that the base currancy  is selected or not 
+            {
+                swal({
+                    title: "Coin Name and Base Can't Be Ssame !",
+                    text: "Please Select A Valid Pair",
+                    icon: "error",
+                });
+            }
+            if (document.getElementById("type").value == "TYPE")  //to verify that the Order Type  is selected or not 
+            {
+                swal({
+                    title: "Order Type Not selected !",
+                    text: "Please select Order Type  Like : Buy Or Sell ",
+                    icon: "error",
+                });
+            }
+
+
+            console.log(coinlength.length)
+
+            if (coinlength.length != 0 && document.getElementById("type").value != "TYPE" && document.getElementById("base-currancy").value != "CURRANCY" && document.getElementById("base-currancy").value != coinlength) {
+                function price() {
+                    var coinname = document.getElementById("coinname").value;
+                    var base = document.getElementById("base-currancy").value;
+                    var name = coinname + base;
+                    name = name.toLowerCase();
+                    // var name = document.getElementById("coinname").value;
+                    var url = "https://api.binance.com/api/v3/ticker/24hr?symbol="
+                    console.log(url);
+                    url = url + (name).toUpperCase();
+                    // url.toUpperCase()
+                    console.log(url)
+
+                    fetch(url)
+                        .then(Response => Response.json())
+                        .then(data => {
+                            // alert(data.code)
+                            if (data.code == -1121) {
+                                swal({
+                                    title: "PAIR NOT FOUND ",
+                                    text: "Please Select A Valid Pair",
+                                    icon: "error",
+                                });
+                                setTimeout(() => {
+                                    window.location.reload(true);
+
+                                }, 2000);
+
+                            }
+                            else {
+                                console.log("response code:" + data.code);
+                                var mp = parseFloat(data.askPrice).toFixed(4);
+                                if (mp <= 0.001) {
+                                    mp = parseFloat(data.askPrice).toFixed(8);
+                                }
+
+                                if (mp < 0) {
+                                    document.getElementById("price").value = 1;
+                                }
+
+                                if (document.getElementById("base-currancy").value == "INR") {
+                                    document.querySelector(".c").innerHTML = "₹";
+                                    document.querySelector(".cc").innerHTML = "₹";
+                                    document.querySelector(".c").style.display = "inline";
+                                    document.querySelector(".cc").style.display = "inline";
+                                    document.getElementById("price").style.width = "75%";
+                                    document.getElementById("totalcost").style.width = "75%";
+                                }
+                                if (document.getElementById("base-currancy").value == "USDT") {
+                                    document.querySelector(".c").innerHTML = "$"
+                                    document.querySelector(".cc").innerHTML = "$"
+                                    document.querySelector(".c").style.display = "inline";
+                                    document.querySelector(".cc").style.display = "inline";
+                                    document.getElementById("price").style.width = "75%";
+                                    document.getElementById("totalcost").style.width = "75%";
+                                }
+                                if (document.getElementById("base-currancy").value == "BTC") {
+                                    document.querySelector(".c").innerHTML = "₿"
+                                    document.querySelector(".cc").innerHTML = "₿"
+                                    document.querySelector(".c").style.display = "inline";
+                                    document.querySelector(".cc").style.display = "inline";
+                                    document.getElementById("price").style.width = "75%";
+                                    document.getElementById("totalcost").style.width = "75%";
+                                }
+                                else {
+                                    document.getElementById("price").value = mp;
+                                }
+                            }
+                        })
+
+                }
+                price();
+
+                function totalvalue() {
+                    var rate = document.getElementById("price").value;
+                    var unit = document.getElementById("unit").value;
+                    var tcost = rate * unit;
+                    console.log(tcost);
+                    tcost = parseFloat(tcost).toFixed(3);
+                    document.getElementById("totalcost").value = tcost;
+                    setTimeout(() => {
+                        totalvalue();
+
+                    }, 200);
+
+                }
+                totalvalue();
+            }
+
+
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

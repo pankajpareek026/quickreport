@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&family=Roboto+Mono&family=Rowdies:wght@700&family=Source+Serif+4:opsz,wght@8..60,300&family=Supermercado+One&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Signika+Negative&display=swap" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <title>Transaction Details | <%-CmcSymbol-%>USDT</title>
+    <style>
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            background-color: rgb(4, 4, 4);
+            font-family: Rajdhani;
+        }
+
+        .chart_div {
+            background-color: black;
+        }
+
+        h1 {
+            margin-top: 20%;
+            text-align: center;
+            color: aqua;
+            margin-left: 15%;
+        }
+
+        .swal2-popup {
+            width: 400px;
+            height: 270px;
+            background-color: #313131;
+
+        }
+
+
+
+        .buttons {
+            margin-top: 40px;
+
+            display: flex;
+            margin-left: 5px;
+            margin-right: 5px;
+
+        }
+
+        .fundingB {
+            background-color: #f88605;
+            color: white;
+            padding: 5px 10px;
+            width: 120px;
+            border-radius: 7px;
+            box-shadow: 2px 2px 1px rgb(105, 104, 104);
+            border: none;
+            margin: 10px;
+            height: 40px;
+            font-weight: bolder;
+            font-size: large;
+        }
+
+        canvas {
+            width: 100px;
+            height: 100px;
+        }
+
+        .buysell {
+            background-color: green;
+            color: white;
+            padding: 5px;
+            margin: 10px;
+            width: 120px;
+            border-radius: 7px;
+            box-shadow: 2px 2px 1px grey;
+            border: none;
+            height: 40px;
+            font-weight: bolder;
+            font-size: large;
+        }
+
+
+        .buysell:hover,
+        .fundingB:hover {
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: none;
+        }
+
+
+
+
+        #Ttable {
+            margin-top: 0px;
+            color: #070707;
+            font-size: large;
+            font-family: Rajdhani;
+            width: 100%;
+            height: inherit;
+            font-size: medium;
+            border-collapse: collapse;
+            border: none;
+        }
+
+        td {
+            border: none;
+            border-collapse: collapse;
+
+        }
+
+        table {
+            border: none;
+            border-collapse: collapse;
+        }
+
+        .orderdata {
+            width: auto;
+            color: white;
+            padding: 3px;
+            height: 100%;
+            text-align: center;
+            font-weight: 300;
+            background-color: #201f1f;
+            box-shadow: none;
+            border: none;
+            font-family: Rajdhani;
+            border-collapse: collapse;
+
+            font-size: large;
+        }
+
+        table {
+            border: none;
+        }
+
+
+        .mainmenu {
+            height: 100px;
+            width: 100%;
+            background-color: #201f1f;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+
+
+        span {
+            font-size: small;
+            padding: 15px;
+        }
+
+        .home {
+            margin-left: 15%;
+        }
+
+
+        i {
+            color: #f88605;
+            height: auto;
+            width: auto;
+
+        }
+
+        .fa-user {
+            font-size: medium;
+        }
+
+        th,
+        tfoot {
+            background-color: #f88605;
+            color: rgb(9, 9, 9);
+            border: none;
+            /* font-family: "Courier New", Courier, monospace; */
+            text-decoration: solid;
+            padding: 7px;
+            font-weight: 900;
+            font-size: large;
+            position: static;
+            top: 0px;
+
+        }
+
+        a:link {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:valid {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: white;
+            text-decoration: none;
+        }
+
+        .fas {
+            font-size: xx-large;
+        }
+
+        .far {
+            font-size: xx-large;
+        }
+
+        a:hover {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .coindetails {
+            align-items: center;
+            /* justify-content: center; */
+            height: 15vh;
+            width: 98%;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #201f1f;
+            display: flex;
+            padding: 5px;
+            padding-top: 20px;
+            margin-bottom: 0px;
+            margin-top: 10px;
+            border-radius: 0px 0px 10px 10px;
+            box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1.8px 1.8px 1.5px 0.2px rgba(153, 152, 152, 0.322);
+        }
+
+        .detail {
+            height: 18vh;
+            padding: 0px;
+            width: 98%;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: black;
+            display: flex;
+            padding: 3px;
+            padding-top: 20px;
+            margin-bottom: 0px;
+            margin-top: 10px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1px 1px 1.5px 0px rgba(153, 152, 152, 0.322);
+        }
+
+        .value {
+            height: 60%;
+            width: 30%;
+            overflow: hidden;
+            border: 1px ridge bla;
+            outline: none;
+            background-color: #2a2a2a;
+            margin-top: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-left: 2%;
+            /* border-radius: 2px; */
+            color: aliceblue;
+            text-align: center;
+            padding: 5px;
+            /* overflow-x: auto; */
+            font-size: medium;
+            /* background-color: #323030; */
+            box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1px 1px 1.5px 0px rgba(153, 152, 152, 0.322);
+        }
+
+        .pnl {
+            height: 65%;
+            width: 30%;
+            /* overflow-x: auto; */
+            /* border: 3px solid rgb(190, 238, 178); */
+            margin-top: 10px;
+            padding: 5px;
+            text-align: center;
+            margin-left: 2%;
+            border-radius: 2px;
+            color: white;
+            font-size: small;
+
+            background-color: #323030;
+            box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1px 1px 1.5px 0px rgba(153, 152, 152, 0.322);
+        }
+
+        .pnlG {
+
+            color: green
+        }
+
+        .pnlR {
+
+            color: red;
+        }
+
+
+        .tc {
+            height: 50%;
+            width: 30%;
+            border: 3px solid rgb(146, 144, 140);
+            margin-top: 10px;
+            margin-right: 10px;
+            padding-bottom: 3%;
+            text-align: center;
+            margin-left: 2%;
+            border-radius: 5px;
+            color: #e6d119;
+            overflow: auto;
+        }
+
+
+
+        .more {
+            background-image: url(https://i.ibb.co/FmXGsL8/canvas.png);
+            background-size: cover;
+            height: 50px;
+            width: 60px;
+            padding: 0px;
+            border-radius: 100%;
+            /* border: 1px solid red; */
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            box-shadow: 3px 3px 3px 0 black;
+        }
+
+        .add {
+            font-size: large;
+            border-radius: 5px;
+            padding: 10px;
+            position: relative;
+            left: 60%;
+            /* bottom: 20px;
+            right: 20px; */
+            color: white;
+            border: none;
+            font-weight: 500;
+            font-family: Rajdhani;
+            background-color: #22ca19;
+            ;
+
+        }
+
+        .add:hover {
+            cursor: pointer;
+            background-color: #106d0d;
+
+
+        }
+
+        .chart {
+            background: url(https://i.ibb.co/FKnnJNk/pie-chart.png);
+            height: 50px;
+            width: 50px;
+
+
+        }
+
+        /* footer start */
+
+
+        .fa-edit:hover {
+            cursor: pointer;
+            color: #f88605;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            /* box-sizing: border-box; */
+        }
+
+        .fcontainer {
+            max-width: 1170px;
+            margin: auto;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .footer {
+            font-family: 'Source Serif 4', sans-serif;
+            position: absolute;
+            height: 300px;
+            border-radius: 10px 10px 0px 0px;
+            background-color: #24262b;
+            padding: 30px 0;
+            margin-top: 30%;
+            width: 100%;
+        }
+
+        .footer-col {
+            width: 25%;
+            padding: 0 15px;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            color: #f5f4f4;
+            text-transform: capitalize;
+            margin-bottom: 35px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        tr {
+            border-collapse: collapse;
+            border: none;
+        }
+
+        .footer-col h4::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            background-color: #e91e63;
+            height: 2px;
+            box-sizing: border-box;
+            width: 50px;
+        }
+
+        .footer-col ul li:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            font-size: 16px;
+            text-transform: capitalize;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 300;
+            color: #bbbbbb;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .footer-col ul li a:hover {
+            color: #f71111;
+            padding-left: 8px;
+
+        }
+
+        .footer-col .social-links a {
+            display: inline-block;
+            height: 40px;
+            width: 40px;
+            background-color: rgba(5, 5, 5, 0.2);
+            margin: 0 10px 10px 0;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            color: #ffffff;
+            transition: all 0.5s ease;
+        }
+
+        .footer-col .social-links a:hover {
+            color: #f88605;
+            background-color: black;
+        }
+
+
+
+        .tds {
+            /*this is for add transaction button*/
+            margin-bottom: 10px;
+            border: 2px solid white;
+            border: none;
+            width: 100%;
+            height: 80px;
+            margin-top: 10px;
+            text-align: left;
+            color: white;
+            margin-bottom: 0px;
+            margin-left: 20px;
+            display: inline-block;
+            /* background-color: #4d4b4b; */
+        }
+
+
+
+
+
+        tfoot {
+            border-radius: 0px 50px 0px 0px;
+        }
+
+        .fa-edit {
+            padding: 10px, 20px;
+        }
+
+        .fa-times {
+            margin: 5%;
+        }
+
+
+
+        .orderdataid {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 3px;
+            text-align: center;
+            font-weight: 600;
+            /* background-color: rgb(203, 202, 202); */
+            /* box-shadow: none */
+            border: none;
+
+        }
+
+        .edit {
+            width: 80%;
+            height: 100%;
+            color: rgb(228, 225, 225);
+            padding: 3px;
+            border-radius: 3px;
+            text-align: center;
+            font-weight: 600;
+            background-color: rgb(79, 77, 77);
+            box-shadow: none;
+            border: none;
+        }
+
+        /* fas fa-trash-alt */
+        .fa-trash-alt {
+            font-size: small;
+            color: #f71111;
+            margin-left: 2%;
+            width: 20%;
+        }
+
+        .fa-trash:hover {
+            cursor: pointer;
+
+        }
+
+        .red {
+            color: red;
+            /* width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 3px;
+            text-align: center;
+            font-weight: 600;
+            background-color: rgb(203, 202, 202);
+            box-shadow: none;
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bolder;
+            font-size: medium; */
+        }
+
+        .fa-trash {
+            font-size: small;
+            color: #f71111;
+        }
+
+        .container {
+            margin-top: 25px;
+            display: flex;
+            margin-left: -5px;
+            margin-right: -5px;
+
+        }
+
+        .column {
+            float: left;
+            width: 50%;
+            padding: 5px;
+        }
+
+        .details {
+            color: red;
+        }
+
+        /* footer end */
+        .coin-logo {
+            margin: 5px;
+            margin-left: 10px;
+            width: auto;
+            height: 12.5vh;
+            padding: 5px;
+            padding: 10px;
+            box-shadow: -2.1px -2.1px 1.5px 0px #686565, 2.1px 2.1px 1.5px 0px rgba(124, 122, 122, 0.96);
+            border-radius: 100%;
+
+
+        }
+
+        .green {
+            color: rgb(251, 253, 251);
+            background-color: green;
+            display: block;
+            height: 25px;
+            width: 35px;
+            text-align: center;
+            padding: 3px 7px;
+            border-radius: 5px;
+            font-size: small;
+        }
+
+        .red {
+            color: #f8f7f7;
+            background-color: #f71111;
+            display: block;
+            width: auto;
+            height: auto;
+            padding: 3px;
+            border-radius: 100px;
+            font-size: small;
+        }
+
+
+
+        .fa-trash-alt {
+            color: red;
+        }
+
+        .current-price {
+            color: #f88605;
+            font-size: x-large;
+            padding-left: 5px;
+            display: flex;
+        }
+
+        .redc {
+            color: red;
+            display: inline-table;
+        }
+
+        .greenc {
+            color: green;
+            display: inline-table;
+        }
+
+        .change {
+            align-self: center;
+            display: flex;
+            width: auto;
+            background-color: #060606;
+            color: #d5d3d0;
+            padding: 2px 5px;
+            border: none;
+            box-shadow: -1px -1px 1.5px 0px #3d3c3b, 1px 1px 1.5px 0px #5e5c5b;
+        }
+
+        .fa-times {
+            color: red;
+            font-size: medium;
+        }
+
+
+        .fa-times:hover {
+            color: #f88605;
+            cursor: pointer;
+        }
+
+        .fa-edit {
+            font-size: medium;
+            color: green;
+        }
+
+        /* media query For responsive  */
+        @media only screen and (min-width:200px) and (max-width:567px) {
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            body {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .fa-user,
+            .fa-chart-pie,
+            .fa-home,
+            .fa-newspaper {
+                font-size: .7rem;
+                margin-top: 20px;
+            }
+
+            .coin-logo {
+                width: 3rem;
+                height: 3rem;
+            }
+
+            .current-price {
+                font-size: 1rem;
+            }
+
+            .change,
+            .redc,
+            .greenc {
+                display: none;
+            }
+
+            .red {
+                font-size: .5rem;
+            }
+
+            .coindetails {
+                height: max-content;
+            }
+
+            .value {
+                font-size: .7rem;
+                height: max-content;
+            }
+
+            .detail {
+                padding-bottom: 1rem;
+                height: max-content;
+            }
+
+            .add {
+                font-size: .5rem;
+            }
+
+            th {
+                font-size: .9rem;
+                padding: .4rem;
+            }
+
+            .orderdata {
+                font-size: .35rem;
+            }
+
+            tfoot td {
+                font-size: 1rem;
+            }
+
+            .footer {
+                font-size: .7rem;
+            }
+
+            .mainmenu {
+                width: 100vw;
+            }
+        }
+    </style>
+</head>
+
+<body onload="load()">
+    <div class="mainmenu"><br>
+        <br>
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; margin-left: 25px; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <span class="home"><a href="/"><i title="Quick Report Home" class="fas fa-home"></i></a></span>
+        <!-- <span><a href="/dash-bord"><i title="PortFolio" class="fas fa-chart-line"></i></a></span> -->
+        <span><a href="/dash-bord"><i title="DashBord" class="fas fa-chart-pie"></i></a></span>
+        <span><a href="/News"><i class="fas fa-newspaper"></i></a></span>
+        <span><a href="/register"><i title="User" class="far fa-user"></i></a></span>
+        <!-- <span  ><a class="logout" title="Logout" href="/logout">Logout</a></span> -->
+        <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
+        <!-- <coingecko-coin-price-marquee-widget  coin-ids="bitcoin,eos,ethereum,litecoin,ripple,biconomy,dog" currency="inr" background-color="#ffffff" locale="en"></coingecko-coin-price-marquee-widget> -->
+    </div>
+    <div class="coindetails">
+        <p style="color: rgb(0, 191, 255); padding: 20px;">
+            <%-CmcName-%>
+                <br>
+                <%-CmcSymbol-%>
+        </p>
+        <img src="<%-ImageSrc-%>" alt="" class="coin-logo">
+
+        <div class="current-price">
+            $ <%-parseFloat(CurrenPrice).toFixed(3)-%>
+        </div>
+        <br>
+        <span class="change24">
+            <%if(ChangeIn24H<0) {%>
+                <div class="red">
+                    <%-parseFloat(ChangeIn24H).toFixed(2)-%> %
+                </div>
+                <%}else{%>
+                    <div class="green">
+                        <%-parseFloat(ChangeIn24H).toFixed(2)-%> %
+                    </div>
+                    <%}%>
+
+        </span>
+        <div style="display: flex;">
+
+            <span>
+                <button class="change">7 D</button>
+                <%if(ChangeIn7D<0) {%>
+                    <p class="redc">
+                        <%-parseFloat(ChangeIn7D).toFixed(2)-%>%
+                    </p>
+                    <%}else{%>
+                        <p class="greenc">
+                            <%-parseFloat(ChangeIn7D).toFixed(2)-%> %
+                        </p>
+                        <%}%>
+            </span>
+
+            <span>
+                <button class="change">30 D</button>
+                <%if(ChangeIn30D<0) {%>
+                    <p class="redc">
+                        <%-parseFloat(ChangeIn30D).toFixed(2)-%> %
+                    </p>
+                    <%}else{%>
+                        <p class="greenc">
+                            <%-parseFloat(ChangeIn30D).toFixed(2)-%> %
+                        </p>
+                        <%}%>
+            </span>
+
+            <span>
+                <button class="change">60 D</button>
+                <%if(ChangeIn60D<0) {%>
+                    <p class="redc">
+                        <%-parseFloat(ChangeIn60D).toFixed(2)-%> %
+                    </p>
+                    <%}else{%>
+                        <p class="greenc">
+                            <%-parseFloat(ChangeIn60D).toFixed(2)-%> %
+                        </p>
+                        <%}%>
+            </span><span>
+                <button class="change">90D</button>
+                <%if(ChangeIn90D<0) {%>
+                    <p class="redc">
+                        <%-parseFloat(ChangeIn90D).toFixed(2)-%> %
+                    </p>
+                    <%}else{%>
+                        <p class="greenc">
+                            <%-parseFloat(ChangeIn90D).toFixed(2)-%> %
+                        </p>
+                        <%}%>
+            </span>
+        </div>
+    </div>
+    <div class="detail">
+        <div class="value">
+            Invested <br>
+            $ <%-parseFloat(SumInvested).toFixed(3)-%>
+
+        </div>
+        <div class="value">
+            <!-- <span style="font-size: small;" class=""> -->
+            Current value <br>
+            $ <%-parseFloat(holding*CurrenPrice).toFixed(2)-%>
+                <!-- </span> -->
+
+        </div>
+        <div class="value">
+            A. price <br> $ <%-parseFloat(Avp).toFixed(3)-%>
+
+        </div>
+        <div class="value">
+            Holding <br>
+            <%- parseFloat(holding).toFixed(3)-%>
+                <%-CmcSymbol-%>
+
+        </div>
+        <div class="value">
+            Volume <br>
+            <%- parseFloat(volume).toFixed(3)-%>
+                <%-CmcSymbol-%>
+                    <!-- <span style="font-size: small;">Volume : <%- parseFloat(volume).toFixed(3)-%> <%-CmcSymbol-%> -->
+
+        </div>
+
+        <div class="value" style="margin-right:10px ;">
+            <% if(TotalPNLP>0){%>
+
+                PNL:
+                $ <%-parseFloat((TotalPNLP*SumInvested) /100).toFixed(2)-%>
+                    <p class="pnlG">(<%-parseFloat(TotalPNLP).toFixed(2)-%> % )</p>
+
+                    <%}else{%>
+                        PNL:
+                        $ <%-parseFloat(TotalPNLP*SumInvested).toFixed(2) /100-%>
+                            <p class="pnlR">(<%-parseFloat(TotalPNLP).toFixed(2)-%> % )</p>
+                            <%}%>
+
+
+                                </span>
+        </div>
+    </div>
+    <div class="tds" style="color:rgb(253, 253, 4);">
+        <button class="add" onclick="ShowOptions()">+ add Transaction
+        </button>
+    </div>
+
+    <div class="tablec">
+        <table border="none" id=" Ttable" style="width: 100%;">
+            <tr>
+
+                <th style="border-radius: 10px 0px 0px 0px;">ORDER TYPE</th>
+                <th>PRICE</th>
+                <th>UNITS</th>
+                <th>COST</th>
+                <th>SELL COST</th>
+
+                <th style="border-radius: 0px 10px 0px 0px;">ACTION</th>
+            <tr>
+                <% var totalUNITS=0,TotalCOST=0;%>
+                    <% if( results.length> 0 ){ %>
+                        <% for(var i=0 ;i < results.length;i++){ totalUNITS+=parseFloat(results[i].UNITS);
+                            TotalCOST+=parseFloat(results[i].TOTAL_COST )%>
+            <tr>
+                <form id="deleteForm" method="post">
+
+                    <td class="orderdata">
+                        <%- results[i].ORDER_TYPE.toUpperCase () -%>
+                    </td>
+
+                    <td class="orderdata">
+                        <%-results[i].PRICE -%>
+                    </td>
+
+                    <td class="orderdata">
+                        <%- results[i].UNITS -%>
+                    </td>
+
+                    <td class="orderdata">
+                        <%- results[i].TOTAL_COST -%>
+                    </td>
+
+                    <td class="orderdata">
+                        <%- results[i].SELL_COST -%>
+                    </td>
+                </form>
+                <!-- onclick="s('<%- results[i].ORDER_TYPE -%>','<%- results[i].PRICE -%>','<%- results[i].UNITS -%>','<%- results[i].TOTAL_COST -%>','<%- results[i].SELL_COST -%>')" -->
+                <td><a onclick="deleteTransaction(`<%- results[i].ID-%>`,`<%- results[i].Coin_Name-%>`)"
+                        class="fas fa-times"></a> ,<a onclick="edit()" href="/update?id=<%- results[i].ID-%>"
+                        class="far fa-edit"></a></td>
+            </tr>
+
+            <%}%>
+                <tfoot style="text-align: center;">
+
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <%-totalUNITS-%>
+                            <%- CmcSymbol-%>
+                    </td>
+                    <td style="font-size: x-large;">
+                        $ <%-TotalCOST-%>
+                    </td>
+                    <td></td>
+                    <td></td>
+
+                </tfoot>
+                <%}else{ i=1 %>
+                    <h1>No Transaction Found</h1>
+                    <script>
+                        var i = '<%=i%>'
+                        if (i == 1) {
+                            document.getElementById(" Ttable").style.display = "none"
+                        } else {
+                            document.getElementById("table").style.display = "block"
+                        }
+                        window.onload(document.write("Loading......")) </script>
+
+                    <% }%>
+
+                        </tr>
+
+        </table>
+    </div>
+
+    <h3>No Transaction Found</h3>
+
+    <script>
+        var i = '<%=i%>'
+        if (i == 1) {
+            document.getElementById("Ftable").style.display = "none"
+        }
+        else {
+            document.getElementById("table").style.display = "block"
+
+        }
+        window.onload(document.write("Loading......"))
+    </script>
+
+
+
+    </div>
+    </tr>
+    <div id="chart_div" class="chart_div"></div>
+    <footer class="footer">
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <div class="fcontainer">
+            <div class="row">
+                <div class="footer-col">
+
+                    <ul>
+                        <li><a href="/about">about us</a></li>
+                        <li><a href="#">our services</a></li>
+                        <li><a href="#">privacy policy</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP CEX</h4>
+                    <ul>
+                        <li><a href="https://www.binance.com/">Binance</a></li>
+                        <li><a href="https://pro.coinbase.com">Coinbase Exchange</a></li>
+                        <li><a href="https://ftx.com/">FTX</a></li>
+                        <li><a href="https://www.kraken.com">Kraken</a></li>
+                        <li><a href="https://www.kucoin.com">KuCoin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP DEX</h4>
+                    <ul>
+                        <li><a href="https://trade.dydx.exchange/">DYDX</a></li>
+                        <li><a href="https://app.uniswap.org/#/swap">Uniswap(V)</a></li>
+                        <li><a href="https://pancakeswap.finance/">PancakeSwap (V2)</a></li>
+                        <li><a href="https://maiar.exchange">Maiar Exchange</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>follow us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        console.log("<%-FinalData-%>")
+        var Garray = [];
+        var Carray = [];
+
+
+        console.log(Garray, Carray)
+        function d() {
+            document.querySelector('form').submit();
+            alert("delete")
+        }
+        function ShowOptions() {
+            swal.fire({
+                html: ` <h3 style="color:#f88605;">Add Transaction </h3> <br> <div class= "buttons" ><button id="funding" class="fundingB">Funding</button><button id="buysell"
+                     class="buysell">Buy/Sell</button</div> `,
+                showConfirmButton: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCancelButton: true,
+
+
+            })
+
+            document.getElementById("funding").addEventListener('click', function () {
+                window.location = "/funding"
+            })
+
+            document.getElementById("buysell").addEventListener('click', function () {
+                window.location = "/portfolio"
+            })
+        }
+        console.log("PNL :<%-parseFloat(SumInvested).toFixed(2)-%>")
+
+        function deleteTransaction(id, Asset) {
+            Swal.fire({
+                title: 'Sure ?',
+                // showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Delete Transaction ',
+                // denyButtonText: `Don't save`,
+                icon: 'question'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                var Did = parseInt(id)
+                console.log(Did)
+                if (result.isConfirmed) {
+                    Swal.fire('Deleted', '', 'success')
+                    window.location = `/delete?id=${Did}&Asset='${Asset}'`
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+            // draws it.
+
+    </script>
+    </script>
+
+
+</body>
+
+</html>

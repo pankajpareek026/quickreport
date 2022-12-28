@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en
+<head>
+    <meta charset=" UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+<title>Transaction</title>
+</head>
+<style>
+    body {
+        font-family: 'Source Serif 4', sans-serif;
+        justify-content: center;
+        place-items: center;
+        place-content: center;
+        /* background: url(https://cdn.pixabay.com/photo/2020/08/14/17/13/light-bulbs-5488573_1280.jpg); */
+        background-color: #282828;
+        font-family: 'Source Serif 4', sans-serif;
+        /* background: rgba(221, 221, 120, 255); */
+    }
+
+    .mainmenu {
+        position: fixed;
+        top: 0px;
+        left: 0;
+        right: 0;
+        height: 90px;
+        width: 100%;
+
+        background-color: #201f1f;
+        margin: 0;
+        padding: 0;
+    }
+
+    logo {
+        color: aliceblue;
+        position: relative;
+        left: 10px;
+        top: -20px;
+        display: inline;
+    }
+
+    a:link {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:valid {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: white;
+        text-decoration: none;
+    }
+
+    .fas {
+        font-size: xx-large;
+    }
+
+    a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+
+    span {
+        font-size: x-large;
+        padding: 15px;
+    }
+
+    .BuySellButton {
+
+        /* background-color: rgb(42, 41, 41); */
+        padding: 5px 10px;
+        margin-left: 50px;
+        border-radius: 10px;
+        font-size: x-large;
+        font-weight: bolder;
+    }
+
+    .BuySellButton:hover {
+        color: black;
+        background-color: #f88605;
+        box-shadow: 2px 2px 1px gray;
+    }
+
+    .home {
+        margin-left: 15%;
+    }
+
+    ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-size: large;
+        opacity: 1;
+        /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: rgb(150, 149, 147);
+    }
+
+    ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: rgb(155, 154, 151);
+    }
+
+    .formcenter {
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+        margin-bottom: 205;
+    }
+
+    form {
+        color: rgb(247, 242, 242);
+        width: 350px;
+        height: 85%;
+        margin-top: 90px;
+        border: 0px solid #f9fafa;
+        background: #282828;
+        border-radius: 5%;
+        font-family: 'Source Serif 4', sans-serif;
+        place-items: center;
+        display: block;
+        text-align: center;
+        align-items: center;
+        box-shadow: -4px -4px 10px rgba(67, 67, 67, 0.5),
+            inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+            inset -4px -4px 10px rgba(67, 67, 67, 0.5),
+            4px 4px 10px rgba(0, 0, 0, 0.3);
+
+
+
+
+    }
+
+    #coinname {
+        width: 45%;
+        height: 40px;
+        margin-top: 1%;
+        margin-bottom: 2%;
+        color: white;
+        border-radius: 5px 0px 0px 5px;
+        text-align: center;
+
+        background-color: rgb(8, 6, 4);
+        text-transform: uppercase;
+        font-style: bold;
+        margin-right: 0px;
+        font-size: larger;
+        border: none;
+        font-family: monospace;
+
+    }
+
+
+
+    #type {
+        padding-top: 0;
+        padding-left: -50px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        position: inherit;
+        width: 33%;
+        height: 40px;
+        color: black;
+        margin-top: 1%;
+        margin-bottom: 2%;
+        border-radius: 0px 5px 5px 0px;
+        text-align: center;
+        align-items: center;
+        box-shadow: -2px -2px 2px 2px rgba(12, 12, 12, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        border-left: 2px solid rgb(7, 7, 7);
+        border-top: 2px solid v;
+        border-bottom: 2px solid v;
+        border-right: 2px solid v;
+        background-color: rgb(11, 226, 250);
+        font-size: large;
+        /* box-shadow: 0px 0px 3px 2px rgb(246, 248, 244), 0px 0px 5px 5px rgb(241, 245, 238);  */
+        border-radius: 2px;
+        font-style: bold;
+        /* -webkit-appearance: none; */
+
+    }
+
+    #cn {
+        padding-top: 6px;
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 80%;
+        padding-bottom: 8px;
+        position: relative;
+        left: 0;
+        height: 40px;
+        font-size: larger;
+        text-transform: uppercase;
+        font-style: bold;
+        border-radius: 5px;
+        border: 1px solid rgb(19, 18, 18);
+        background-color: #282828;
+        box-shadow: -4px -4px 10px rgba(67, 67, 67, 0.5),
+            inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+            inset -4px -4px 10px rgba(67, 67, 67, 0.5),
+            4px 4px 10px rgba(0, 0, 0, 0.3);
+        font-family: 'Source Serif 4', sans-serif;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    #totalcost {
+        width: 80%;
+        height: 40px;
+        margin-top: 1%;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        border: none;
+        text-decoration: solid;
+        text-align: center;
+        color: white;
+        border: 3px solid black;
+        background-color: #282828;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        font-size: larger;
+        font-family: monospace;
+    }
+
+
+    #price {
+
+        height: 40px;
+        width: 80%;
+        margin-top: 1%;
+        color: white;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        border: 3px solid rgb(3, 3, 3);
+        background-color: #282828;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        text-align: center;
+        font-size: larger;
+        font-family: monospace;
+    }
+
+    .c,
+    .cc {
+        height: 35px;
+        margin-left: -10px;
+        font-size: x-large;
+        margin-top: 1%;
+        color: gold;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        border: 3px solid rgb(248, 247, 247);
+        background-color: #282828;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        text-align: center;
+        padding: 5px;
+
+    }
+
+    #u {
+
+        margin-top: 1%;
+        margin-bottom: 2%;
+        text-transform: uppercase;
+    }
+
+    #unit {
+        height: 40px;
+        width: 80%;
+        margin-top: 1%;
+        color: white;
+        margin-bottom: 2%;
+        border-radius: 5px;
+        border: 3px solid black;
+        background-color: #282828;
+        box-shadow: -2px -2px 2px 2px rgba(255, 255, 255, 0.2),
+            2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        text-align: center;
+        font-size: larger;
+        font-family: monospace;
+    }
+
+    #tc {
+        margin-top: 2%;
+    }
+
+
+    #d {
+        margin-bottom: 2%;
+    }
+
+    td {
+        height: 20px;
+    }
+
+    .btns {
+
+        border: 2px solid;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 90%;
+        margin-left: 10px;
+        height: 60px;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+        font-family: 'Source Serif 4', sans-serif;
+
+    }
+
+    .fa-user {
+        font-size: x-large;
+    }
+
+    select:hover {
+        cursor: pointer;
+    }
+
+    #clear {
+        color: white;
+        border: 3px ridge red;
+        background-color: black;
+        height: 50px;
+        width: 80px;
+        margin-left: 20px;
+        border-radius: 15px;
+        font-family: 'Source Serif 4', sans-serif;
+    }
+
+    #clear:hover {
+        background-color: red;
+        color: #000;
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    #submit-record {
+        color: rgb(7, 7, 7);
+        background-color: #f88605;
+        height: 50px;
+        border-radius: 15px;
+        font-family: 'Source Serif 4', sans-serif;
+        font-size: 25px;
+        text-decoration: solid;
+        font-weight: bolder;
+    }
+
+    #submit-record:hover {
+        background-color: rgb(78, 228, 78);
+        border: 3px ridge black;
+        cursor: pointer;
+
+    }
+
+
+    option {
+        background-color: black;
+        text-align: center;
+        color: white;
+    }
+
+    option {
+        border-radius: 20px !important;
+    }
+
+    hr {
+        color: orange;
+    }
+
+    /* footer start */
+
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .fcontainer {
+        max-width: 1170px;
+        margin: auto;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .footer {
+        font-family: 'Source Serif 4', sans-serif;
+        position: absolute;
+        height: 330px;
+        border-radius: 40px 40px 0px 0px;
+        background-color: #24262b;
+        padding: 30px 0;
+        margin-top: 30%;
+        width: 100%;
+    }
+
+    .footer-col {
+        width: 25%;
+        padding: 0 15px;
+    }
+
+    .footer-col h4 {
+        font-size: 18px;
+        color: #f5f4f4;
+        text-transform: capitalize;
+        margin-bottom: 35px;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .footer-col h4::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        background-color: #e91e63;
+        height: 2px;
+        box-sizing: border-box;
+        width: 50px;
+    }
+
+    .footer-col ul li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .footer-col ul li a {
+        font-size: 16px;
+        text-transform: capitalize;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 300;
+        color: #bbbbbb;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .footer-col ul li a:hover {
+        color: #f71111;
+        padding-left: 8px;
+
+    }
+
+    .footer-col .social-links a {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        background-color: black;
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+    }
+
+    .footer-col .social-links a:hover {
+        color: #24262b;
+        background-color: #eff304;
+    }
+
+    i {
+        color: #f88605;
+    }
+
+    /*responsive*/
+    /* @media(max-width: 767px){
+      .footer-col{
+        width: 50%;
+        margin-bottom: 30px;
+    }
+    }
+    @media(max-width: 574px){
+      .footer-col{
+        width: 100%;
+    }
+    } */
+
+
+
+    /* footer end */
+</style>
+
+<body>
+    <div class="mainmenu"><br>
+        <br>
+        <logo style="text-align: center;">
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <span class="home"><a href="/"><i title="Quick Report Home" class="fas fa-home"></i></a></span>
+        <!-- <span><a href="/dash-bord"><i title="PortFolio" class="fas fa-chart-line"></i></a></span> -->
+        <span><a href="/dash-bord"><i title="DashBord" class="fas fa-chart-pie"></i></a></span>
+        <span><a href="/News"><i class="fas fa-newspaper"></i></a></span>
+        <span><a href="/register"><i title="User" class="fa fa-user"></i></a></span>
+
+    </div>
+    <div class="formcenter">
+        <form action="" method="post">
+            <h1 style="color: #f88605;">Add Transaction</h1>
+            <hr><br>
+            <span>Name</span><br>
+            <span id="cn"><input id="coinname" name="coinName" list="bb" type="text" placeholder="select coin"
+                    required />
+
+                <datalist id="bb">
+                    <option value="BTCUSDT"> BTCUSDT </option>
+                    <option value="ETHUSDT"> ETHUSDT </option>
+                    <option value="BCCUSDT"> BCCUSDT </option>
+                    <option value="BNBUSDT"> BNBUSDT </option>
+                    <option value="QTUMUSDT"> QTUMUSDT </option>
+                    <option value="LTCUSDT"> LTCUSDT </option>
+                    <option value="XRPUSDT"> XRPUSDT </option>
+                    <option value="ADAUSDT"> ADAUSDT </option>
+                    <option value="EOSUSDT"> EOSUSDT </option>
+                    <option value="TUSDUSDT"> TUSDUSDT </option>
+                    <option value="IOTAUSDT"> IOTAUSDT </option>
+                    <option value="XLMUSDT"> XLMUSDT </option>
+                    <option value="ONTUSDT"> ONTUSDT </option>
+                    <option value="ICXUSDT"> ICXUSDT </option>
+                    <option value="NEOUSDT"> NEOUSDT </option>
+                    <option value="ETCUSDT"> ETCUSDT </option>
+                    <option value="TRXUSDT"> TRXUSDT </option>
+                    <option value="VENUSDT"> VENUSDT </option>
+                    <option value="NULSUSDT"> NULSUSDT </option>
+                    <option value="VETUSDT"> VETUSDT </option>
+                    <option value="PAXUSDT"> PAXUSDT </option>
+                    <option value="BCHABCUSDT"> BCHABCUSDT </option>
+                    <option value="BCHSVUSDT"> BCHSVUSDT </option>
+                    <option value="USDCUSDT"> USDCUSDT </option>
+                    <option value="LINKUSDT"> LINKUSDT </option>
+                    <option value="WAVESUSDT"> WAVESUSDT </option>
+                    <option value="USDSUSDT"> USDSUSDT </option>
+                    <option value="BTTUSDT"> BTTUSDT </option>
+                    <option value="ONGUSDT"> ONGUSDT </option>
+                    <option value="HOTUSDT"> HOTUSDT </option>
+                    <option value="ZILUSDT"> ZILUSDT </option>
+                    <option value="FETUSDT"> FETUSDT </option>
+                    <option value="ZRXUSDT"> ZRXUSDT </option>
+                    <option value="XMRUSDT"> XMRUSDT </option>
+                    <option value="BATUSDT"> BATUSDT </option>
+                    <option value="ZECUSDT"> ZECUSDT </option>
+                    <option value="IOSTUSDT"> IOSTUSDT </option>
+                    <option value="CELRUSDT"> CELRUSDT </option>
+                    <option value="DASHUSDT"> DASHUSDT </option>
+                    <option value="NANOUSDT"> NANOUSDT </option>
+                    <option value="OMGUSDT"> OMGUSDT </option>
+                    <option value="ENJUSDT"> ENJUSDT </option>
+                    <option value="THETAUSDT"> THETAUSDT </option>
+                    <option value="MATICUSDT"> MATICUSDT </option>
+                    <option value="ONEUSDT"> ONEUSDT </option>
+                    <option value="ATOMUSDT"> ATOMUSDT </option>
+                    <option value="TFUELUSDT"> TFUELUSDT </option>
+                    <option value="MITHUSDT"> MITHUSDT </option>
+                    <option value="USDSBUSDT"> USDSBUSDT </option>
+                    <option value="GTOUSDT"> GTOUSDT </option>
+                    <option value="ALGOUSDT"> ALGOUSDT </option>
+                    <option value="FTMUSDT"> FTMUSDT </option>
+                    <option value="DOGEUSDT"> DOGEUSDT </option>
+                    <option value="ANKRUSDT"> ANKRUSDT </option>
+                    <option value="ERDUSDT"> ERDUSDT </option>
+                    <option value="DUSKUSDT"> DUSKUSDT </option>
+                    <option value="COCOSUSDT"> COCOSUSDT </option>
+                    <option value="WINUSDT"> WINUSDT </option>
+                    <option value="NPXSUSDT"> NPXSUSDT </option>
+                    <option value="COSUSDT"> COSUSDT </option>
+                    <option value="PERLUSDT"> PERLUSDT </option>
+                    <option value="TOMOUSDT"> TOMOUSDT </option>
+                    <option value="MTLUSDT"> MTLUSDT </option>
+                    <option value="DENTUSDT"> DENTUSDT </option>
+                    <option value="STORMUSDT"> STORMUSDT </option>
+                    <option value="KEYUSDT"> KEYUSDT </option>
+                    <option value="DOCKUSDT"> DOCKUSDT </option>
+                    <option value="FUNUSDT"> FUNUSDT </option>
+                    <option value="WANUSDT"> WANUSDT </option>
+                    <option value="CVCUSDT"> CVCUSDT </option>
+                    <option value="MFTUSDT"> MFTUSDT </option>
+                    <option value="BANDUSDT"> BANDUSDT </option>
+                    <option value="BUSDUSDT"> BUSDUSDT </option>
+                    <option value="CHZUSDT"> CHZUSDT </option>
+                    <option value="BEAMUSDT"> BEAMUSDT </option>
+                    <option value="XTZUSDT"> XTZUSDT </option>
+                    <option value="HCUSDT"> HCUSDT </option>
+                    <option value="HBARUSDT"> HBARUSDT </option>
+                    <option value="STXUSDT"> STXUSDT </option>
+                    <option value="RENUSDT"> RENUSDT </option>
+                    <option value="KAVAUSDT"> KAVAUSDT </option>
+                    <option value="NKNUSDT"> NKNUSDT </option>
+                    <option value="IOTXUSDT"> IOTXUSDT </option>
+                    <option value="RVNUSDT"> RVNUSDT </option>
+                    <option value="ARPAUSDT"> ARPAUSDT </option>
+                    <option value="BCHUSDT"> BCHUSDT </option>
+                    <option value="TROYUSDT"> TROYUSDT </option>
+                    <option value="MCOUSDT"> MCOUSDT </option>
+                    <option value="CTXCUSDT"> CTXCUSDT </option>
+                    <option value="FTTUSDT"> FTTUSDT </option>
+                    <option value="VITEUSDT"> VITEUSDT </option>
+                    <option value="USDTTRY"> USDTTRY </option>
+                    <option value="BUSDTRY"> BUSDTRY </option>
+                    <option value="EURUSDT"> EURUSDT </option>
+                    <option value="OGNUSDT"> OGNUSDT </option>
+                    <option value="USDTRUB"> USDTRUB </option>
+                    <option value="DREPUSDT"> DREPUSDT </option>
+                    <option value="ETHBULLUSDT"> ETHBULLUSDT </option>
+                    <option value="RLCUSDT"> RLCUSDT </option>
+                    <option value="BULLUSDT"> BULLUSDT </option>
+                    <option value="ETHBEARUSDT"> ETHBEARUSDT </option>
+                    <option value="TCTUSDT"> TCTUSDT </option>
+                    <option value="BEARUSDT"> BEARUSDT </option>
+                    <option value="WRXUSDT"> WRXUSDT </option>
+                    <option value="EOSBEARUSDT"> EOSBEARUSDT </option>
+                    <option value="BNTUSDT"> BNTUSDT </option>
+                    <option value="EOSBULLUSDT"> EOSBULLUSDT </option>
+                    <option value="BTSUSDT"> BTSUSDT </option>
+                    <option value="XRPBEARUSDT"> XRPBEARUSDT </option>
+                    <option value="LSKUSDT"> LSKUSDT </option>
+                    <option value="XRPBULLUSDT"> XRPBULLUSDT </option>
+                    <option value="STRATUSDT"> STRATUSDT </option>
+                    <option value="LTOUSDT"> LTOUSDT </option>
+                    <option value="AIONUSDT"> AIONUSDT </option>
+                    <option value="BNBBULLUSDT"> BNBBULLUSDT </option>
+                    <option value="COTIUSDT"> COTIUSDT </option>
+                    <option value="BNBBEARUSDT"> BNBBEARUSDT </option>
+                    <option value="STPTUSDT"> STPTUSDT </option>
+                    <option value="WTCUSDT"> WTCUSDT </option>
+                    <option value="DATAUSDT"> DATAUSDT </option>
+                    <option value="XZCUSDT"> XZCUSDT </option>
+                    <option value="SOLUSDT"> SOLUSDT </option>
+                    <option value="USDTIDRT"> USDTIDRT </option>
+                    <option value="CTSIUSDT"> CTSIUSDT </option>
+                    <option value="HIVEUSDT"> HIVEUSDT </option>
+                    <option value="CHRUSDT"> CHRUSDT </option>
+                    <option value="BTCUPUSDT"> BTCUPUSDT </option>
+                    <option value="GXSUSDT"> GXSUSDT </option>
+                    <option value="BTCDOWNUSDT"> BTCDOWNUSDT </option>
+                    <option value="LENDUSDT"> LENDUSDT </option>
+                    <option value="MDTUSDT"> MDTUSDT </option>
+                    <option value="ARDRUSDT"> ARDRUSDT </option>
+                    <option value="KNCUSDT"> KNCUSDT </option>
+                    <option value="REPUSDT"> REPUSDT </option>
+                    <option value="USDTZAR"> USDTZAR </option>
+                    <option value="STMXUSDT"> STMXUSDT </option>
+                    <option value="MBLUSDT"> MBLUSDT </option>
+                    <option value="USDTUAH"> USDTUAH </option>
+                    <option value="LRCUSDT"> LRCUSDT </option>
+                    <option value="PNTUSDT"> PNTUSDT </option>
+                    <option value="BKRWUSDT"> BKRWUSDT </option>
+                    <option value="ZENUSDT"> ZENUSDT </option>
+                    <option value="COMPUSDT"> COMPUSDT </option>
+                    <option value="SCUSDT"> SCUSDT </option>
+                    <option value="ETHUPUSDT"> ETHUPUSDT </option>
+                    <option value="ETHDOWNUSDT"> ETHDOWNUSDT </option>
+                    <option value="ADAUPUSDT"> ADAUPUSDT </option>
+                    <option value="ADADOWNUSDT"> ADADOWNUSDT </option>
+                    <option value="SNXUSDT"> SNXUSDT </option>
+                    <option value="VTHOUSDT"> VTHOUSDT </option>
+                    <option value="LINKDOWNUSDT"> LINKDOWNUSDT </option>
+                    <option value="SXPUSDT"> SXPUSDT </option>
+                    <option value="USDTBIDR"> USDTBIDR </option>
+                    <option value="LINKUPUSDT"> LINKUPUSDT </option>
+                    <option value="GBPUSDT"> GBPUSDT </option>
+                    <option value="DAIUSDT"> DAIUSDT </option>
+                    <option value="STORJUSDT"> STORJUSDT </option>
+                    <option value="DCRUSDT"> DCRUSDT </option>
+                    <option value="BNBUPUSDT"> BNBUPUSDT </option>
+                    <option value="BNBDOWNUSDT"> BNBDOWNUSDT </option>
+                    <option value="XTZUPUSDT"> XTZUPUSDT </option>
+                    <option value="MANAUSDT"> MANAUSDT </option>
+                    <option value="USDTBKRW"> USDTBKRW </option>
+                    <option value="YFIUSDT"> YFIUSDT </option>
+                    <option value="AUDUSDT"> AUDUSDT </option>
+                    <option value="XTZDOWNUSDT"> XTZDOWNUSDT </option>
+                    <option value="BALUSDT"> BALUSDT </option>
+                    <option value="BLZUSDT"> BLZUSDT </option>
+                    <option value="MKRUSDT"> MKRUSDT </option>
+                    <option value="IRISUSDT"> IRISUSDT </option>
+                    <option value="USDTDAI"> USDTDAI </option>
+                    <option value="JSTUSDT"> JSTUSDT </option>
+                    <option value="KMDUSDT"> KMDUSDT </option>
+                    <option value="ANTUSDT"> ANTUSDT </option>
+                    <option value="SANDUSDT"> SANDUSDT </option>
+                    <option value="SRMUSDT"> SRMUSDT </option>
+                    <option value="DGBUSDT"> DGBUSDT </option>
+                    <option value="OCEANUSDT"> OCEANUSDT </option>
+                    <option value="NMRUSDT"> NMRUSDT </option>
+                    <option value="LUNAUSDT"> LUNAUSDT </option>
+                    <option value="DOTUSDT"> DOTUSDT </option>
+                    <option value="RSRUSDT"> RSRUSDT </option>
+                    <option value="CRVUSDT"> CRVUSDT </option>
+                    <option value="WNXMUSDT"> WNXMUSDT </option>
+                    <option value="TRBUSDT"> TRBUSDT </option>
+                    <option value="BZRXUSDT"> BZRXUSDT </option>
+                    <option value="SUSHIUSDT"> SUSHIUSDT </option>
+                    <option value="EGLDUSDT"> EGLDUSDT </option>
+                    <option value="KSMUSDT"> KSMUSDT </option>
+                    <option value="DIAUSDT"> DIAUSDT </option>
+                    <option value="RUNEUSDT"> RUNEUSDT </option>
+                    <option value="FIOUSDT"> FIOUSDT </option>
+                    <option value="PAXGUSDT"> PAXGUSDT </option>
+                    <option value="EOSUPUSDT"> EOSUPUSDT </option>
+                    <option value="EOSDOWNUSDT"> EOSDOWNUSDT </option>
+                    <option value="TRXUPUSDT"> TRXUPUSDT </option>
+                    <option value="UMAUSDT"> UMAUSDT </option>
+                    <option value="TRXDOWNUSDT"> TRXDOWNUSDT </option>
+                    <option value="XRPDOWNUSDT"> XRPDOWNUSDT </option>
+                    <option value="DOTUPUSDT"> DOTUPUSDT </option>
+                    <option value="XRPUPUSDT"> XRPUPUSDT </option>
+                    <option value="USDTNGN"> USDTNGN </option>
+                    <option value="DOTDOWNUSDT"> DOTDOWNUSDT </option>
+                    <option value="BELUSDT"> BELUSDT </option>
+                    <option value="LTCUPUSDT"> LTCUPUSDT </option>
+                    <option value="WINGUSDT"> WINGUSDT </option>
+                    <option value="UNIUSDT"> UNIUSDT </option>
+                    <option value="NBSUSDT"> NBSUSDT </option>
+                    <option value="LTCDOWNUSDT"> LTCDOWNUSDT </option>
+                    <option value="SUNUSDT"> SUNUSDT </option>
+                    <option value="AVAXUSDT"> AVAXUSDT </option>
+                    <option value="FLMUSDT"> FLMUSDT </option>
+                    <option value="UNIUPUSDT"> UNIUPUSDT </option>
+                    <option value="HNTUSDT"> HNTUSDT </option>
+                    <option value="YFIIUSDT"> YFIIUSDT </option>
+                    <option value="UNIDOWNUSDT"> UNIDOWNUSDT </option>
+                    <option value="UTKUSDT"> UTKUSDT </option>
+                    <option value="XVSUSDT"> XVSUSDT </option>
+                    <option value="OXTUSDT"> OXTUSDT </option>
+                    <option value="ALPHAUSDT"> ALPHAUSDT </option>
+                    <option value="AAVEUSDT"> AAVEUSDT </option>
+                    <option value="USDTBRL"> USDTBRL </option>
+                    <option value="NEARUSDT"> NEARUSDT </option>
+                    <option value="SXPUPUSDT"> SXPUPUSDT </option>
+                    <option value="FILUSDT"> FILUSDT </option>
+                    <option value="SXPDOWNUSDT"> SXPDOWNUSDT </option>
+                    <option value="FILDOWNUSDT"> FILDOWNUSDT </option>
+                    <option value="FILUPUSDT"> FILUPUSDT </option>
+                    <option value="YFIDOWNUSDT"> YFIDOWNUSDT </option>
+                    <option value="INJUSDT"> INJUSDT </option>
+                    <option value="YFIUPUSDT"> YFIUPUSDT </option>
+                    <option value="BCHUPUSDT"> BCHUPUSDT </option>
+                    <option value="BCHDOWNUSDT"> BCHDOWNUSDT </option>
+                    <option value="CTKUSDT"> CTKUSDT </option>
+                    <option value="AUDIOUSDT"> AUDIOUSDT </option>
+                    <option value="AXSUSDT"> AXSUSDT </option>
+                    <option value="AKROUSDT"> AKROUSDT </option>
+                    <option value="HARDUSDT"> HARDUSDT </option>
+                    <option value="STRAXUSDT"> STRAXUSDT </option>
+                    <option value="UNFIUSDT"> UNFIUSDT </option>
+                    <option value="AVAUSDT"> AVAUSDT </option>
+                    <option value="DNTUSDT"> DNTUSDT </option>
+                    <option value="ROSEUSDT"> ROSEUSDT </option>
+                    <option value="XEMUSDT"> XEMUSDT </option>
+                    <option value="AAVEDOWNUSDT"> AAVEDOWNUSDT </option>
+                    <option value="SKLUSDT"> SKLUSDT </option>
+                    <option value="AAVEUPUSDT"> AAVEUPUSDT </option>
+                    <option value="SUSHIDOWNUSDT"> SUSHIDOWNUSDT </option>
+                    <option value="SUSDUSDT"> SUSDUSDT </option>
+                    <option value="SUSHIUPUSDT"> SUSHIUPUSDT </option>
+                    <option value="XLMDOWNUSDT"> XLMDOWNUSDT </option>
+                    <option value="XLMUPUSDT"> XLMUPUSDT </option>
+                    <option value="GRTUSDT"> GRTUSDT </option>
+                    <option value="USDTBVND"> USDTBVND </option>
+                    <option value="REEFUSDT"> REEFUSDT </option>
+                    <option value="PSGUSDT"> PSGUSDT </option>
+                    <option value="1INCHUSDT"> 1INCHUSDT </option>
+                    <option value="JUVUSDT"> JUVUSDT </option>
+                    <option value="ATMUSDT"> ATMUSDT </option>
+                    <option value="OGUSDT"> OGUSDT </option>
+                    <option value="ASRUSDT"> ASRUSDT </option>
+                    <option value="RIFUSDT"> RIFUSDT </option>
+                    <option value="CELOUSDT"> CELOUSDT </option>
+                    <option value="BTCSTUSDT"> BTCSTUSDT </option>
+                    <option value="CKBUSDT"> CKBUSDT </option>
+                    <option value="TRUUSDT"> TRUUSDT </option>
+                    <option value="ORNUSDT"> ORNUSDT </option>
+                    <option value="TWTUSDT"> TWTUSDT </option>
+                    <option value="FIROUSDT"> FIROUSDT </option>
+                    <option value="DODOUSDT"> DODOUSDT </option>
+                    <option value="LITUSDT"> LITUSDT </option>
+                    <option value="CAKEUSDT"> CAKEUSDT </option>
+                    <option value="ACMUSDT"> ACMUSDT </option>
+                    <option value="BADGERUSDT"> BADGERUSDT </option>
+                    <option value="FISUSDT"> FISUSDT </option>
+                    <option value="SFPUSDT"> SFPUSDT </option>
+                    <option value="PONDUSDT"> PONDUSDT </option>
+                    <option value="ALICEUSDT"> ALICEUSDT </option>
+                    <option value="OMUSDT"> OMUSDT </option>
+                    <option value="PERPUSDT"> PERPUSDT </option>
+                    <option value="LINAUSDT"> LINAUSDT </option>
+                    <option value="RAMPUSDT"> RAMPUSDT </option>
+                    <option value="SUPERUSDT"> SUPERUSDT </option>
+                    <option value="DEGOUSDT"> DEGOUSDT </option>
+                    <option value="EPSUSDT"> EPSUSDT </option>
+                    <option value="AUTOUSDT"> AUTOUSDT </option>
+                    <option value="TLMUSDT"> TLMUSDT </option>
+                    <option value="1INCHUPUSDT"> 1INCHUPUSDT </option>
+                    <option value="PUNDIXUSDT"> PUNDIXUSDT </option>
+                    <option value="BTGUSDT"> BTGUSDT </option>
+                    <option value="1INCHDOWNUSDT"> 1INCHDOWNUSDT </option>
+                    <option value="BARUSDT"> BARUSDT </option>
+                    <option value="FORTHUSDT"> FORTHUSDT </option>
+                    <option value="BURGERUSDT"> BURGERUSDT </option>
+                    <option value="BAKEUSDT"> BAKEUSDT </option>
+                    <option value="SLPUSDT"> SLPUSDT </option>
+                    <option value="ICPUSDT"> ICPUSDT </option>
+                    <option value="USDTGYEN"> USDTGYEN </option>
+                    <option value="MIRUSDT"> MIRUSDT </option>
+                    <option value="SHIBUSDT"> SHIBUSDT </option>
+                    <option value="ARUSDT"> ARUSDT </option>
+                    <option value="CFXUSDT"> CFXUSDT </option>
+                    <option value="MASKUSDT"> MASKUSDT </option>
+                    <option value="MDXUSDT"> MDXUSDT </option>
+                    <option value="POLSUSDT"> POLSUSDT </option>
+                    <option value="NUUSDT"> NUUSDT </option>
+                    <option value="LPTUSDT"> LPTUSDT </option>
+                    <option value="TORNUSDT"> TORNUSDT </option>
+                    <option value="TKOUSDT"> TKOUSDT </option>
+                    <option value="GTCUSDT"> GTCUSDT </option>
+                    <option value="KEEPUSDT"> KEEPUSDT </option>
+                    <option value="ERNUSDT"> ERNUSDT </option>
+                    <option value="ATAUSDT"> ATAUSDT </option>
+                    <option value="KLAYUSDT"> KLAYUSDT </option>
+                    <option value="DEXEUSDT"> DEXEUSDT </option>
+                    <option value="BONDUSDT"> BONDUSDT </option>
+                    <option value="PHAUSDT"> PHAUSDT </option>
+                    <option value="MLNUSDT"> MLNUSDT </option>
+                    <option value="QNTUSDT"> QNTUSDT </option>
+                    <option value="FLOWUSDT"> FLOWUSDT </option>
+                    <option value="C98USDT"> C98USDT </option>
+                    <option value="MINAUSDT"> MINAUSDT </option>
+                    <option value="TVKUSDT"> TVKUSDT </option>
+                    <option value="FARMUSDT"> FARMUSDT </option>
+                    <option value="XVGUSDT"> XVGUSDT </option>
+                    <option value="ALPACAUSDT"> ALPACAUSDT </option>
+                    <option value="RAYUSDT"> RAYUSDT </option>
+                    <option value="MBOXUSDT"> MBOXUSDT </option>
+                    <option value="QUICKUSDT"> QUICKUSDT </option>
+                    <option value="REQUSDT"> REQUSDT </option>
+                    <option value="GHSTUSDT"> GHSTUSDT </option>
+                    <option value="FORUSDT"> FORUSDT </option>
+                    <option value="TRIBEUSDT"> TRIBEUSDT </option>
+                    <option value="XECUSDT"> XECUSDT </option>
+                    <option value="ELFUSDT"> ELFUSDT </option>
+                    <option value="DYDXUSDT"> DYDXUSDT </option>
+                    <option value="WAXPUSDT"> WAXPUSDT </option>
+                    <option value="VIDTUSDT"> VIDTUSDT </option>
+                    <option value="IDEXUSDT"> IDEXUSDT </option>
+                    <option value="USDPUSDT"> USDPUSDT </option>
+                    <option value="POLYUSDT"> POLYUSDT </option>
+                    <option value="GALAUSDT"> GALAUSDT </option>
+                    <option value="ILVUSDT"> ILVUSDT </option>
+                    <option value="DFUSDT"> DFUSDT </option>
+                    <option value="GNOUSDT"> GNOUSDT </option>
+                    <option value="FIDAUSDT"> FIDAUSDT </option>
+                    <option value="SYSUSDT"> SYSUSDT </option>
+                    <option value="AGLDUSDT"> AGLDUSDT </option>
+                    <option value="FRONTUSDT"> FRONTUSDT </option>
+                    <option value="CVPUSDT"> CVPUSDT </option>
+                    <option value="RADUSDT"> RADUSDT </option>
+                    <option value="BETAUSDT"> BETAUSDT </option>
+                    <option value="RAREUSDT"> RAREUSDT </option>
+                    <option value="CHESSUSDT"> CHESSUSDT </option>
+                    <option value="ADXUSDT"> ADXUSDT </option>
+                    <option value="AUCTIONUSDT"> AUCTIONUSDT </option>
+                    <option value="LAZIOUSDT"> LAZIOUSDT </option>
+                    <option value="BNXUSDT"> BNXUSDT </option>
+                    <option value="DARUSDT"> DARUSDT </option>
+                    <option value="RGTUSDT"> RGTUSDT </option>
+                    <option value="MOVRUSDT"> MOVRUSDT </option>
+                    <option value="CITYUSDT"> CITYUSDT </option>
+                    <option value="ENSUSDT"> ENSUSDT </option>
+                    <option value="KP3RUSDT"> KP3RUSDT </option>
+                    <option value="PORTOUSDT"> PORTOUSDT </option>
+                    <option value="YGGUSDT"> YGGUSDT </option>
+                    <option value="QIUSDT"> QIUSDT </option>
+                    <option value="CLVUSDT"> CLVUSDT </option>
+                    <option value="POWRUSDT"> POWRUSDT </option>
+                    <option value="JASMYUSDT"> JASMYUSDT </option>
+                    <option value="AMPUSDT"> AMPUSDT </option>
+                    <option value="VGXUSDT"> VGXUSDT </option>
+                    <option value="RNDRUSDT"> RNDRUSDT </option>
+                    <option value="ALCXUSDT"> ALCXUSDT </option>
+                    <option value="SANTOSUSDT"> SANTOSUSDT </option>
+                    <option value="MCUSDT"> MCUSDT </option>
+                    <option value="PYRUSDT"> PYRUSDT </option>
+                    <option value="PLAUSDT"> PLAUSDT </option>
+                    <option value="BICOUSDT"> BICOUSDT </option>
+                    <option value="FXSUSDT"> FXSUSDT </option>
+                    <option value="FLUXUSDT"> FLUXUSDT </option>
+                    <option value="VOXELUSDT"> VOXELUSDT </option>
+                    <option value="HIGHUSDT"> HIGHUSDT </option>
+                    <option value="PEOPLEUSDT"> PEOPLEUSDT </option>
+                    <option value="OOKIUSDT"> OOKIUSDT </option>
+                    <option value="SPELLUSDT"> SPELLUSDT </option>
+                    <option value="ANYUSDT"> ANYUSDT </option>
+                    <option value="JOEUSDT"> JOEUSDT </option>
+                    <option value="ACHUSDT"> ACHUSDT </option>
+                    <option value="USTUSDT"> USTUSDT </option>
+                    <option value="LOKAUSDT"> LOKAUSDT </option>
+                    <option value="GLMRUSDT"> GLMRUSDT </option>
+                    <option value="CVXUSDT"> CVXUSDT </option>
+                    <option value="API3USDT"> API3USDT </option>
+                    <option value="SCRTUSDT"> SCRTUSDT </option>
+                    <option value="XNOUSDT"> XNOUSDT </option>
+                    <option value="ANCUSDT"> ANCUSDT </option>
+                    <option value="BTTCUSDT"> BTTCUSDT </option>
+                    <option value="ALPINEUSDT"> ALPINEUSDT </option>
+                    <option value="TUSDT"> TUSDT </option>
+                    <option value="ACAUSDT"> ACAUSDT </option>
+                    <option value="ASTRUSDT"> ASTRUSDT </option>
+                    <option value="IMXUSDT"> IMXUSDT </option>
+                    <option value="NBTUSDT"> NBTUSDT </option>
+                    <option value="WOOUSDT"> WOOUSDT </option>
+                    <option value="BSWUSDT"> BSWUSDT </option>
+                    <option value="KDAUSDT"> KDAUSDT </option>
+                    <option value="BIFIUSDT"> BIFIUSDT </option>
+                    <option value="MULTIUSDT"> MULTIUSDT </option>
+                    <option value="APEUSDT"> APEUSDT </option>
+                    <option value="STEEMUSDT"> STEEMUSDT </option>
+                    <option value="NEXOUSDT"> NEXOUSDT </option>
+                    <option value="REIUSDT"> REIUSDT </option>
+                    <option value="GALUSDT"> GALUSDT </option>
+                    <option value="LDOUSDT"> LDOUSDT </option>
+                    <option value="EPXUSDT"> EPXUSDT </option>
+                    <option value="OPUSDT"> OPUSDT </option>
+                    <option value="GMTUSDT"> GMTUSDT </option>
+                    <option value="MOBUSDT"> MOBUSDT </option>
+
+
+                </datalist>
+
+                <select name="ordertype" id="type" title="Order Type" required="required">
+                    <!--select for order type-->
+                    <option selected="true" disabled="disabled">TYPE</option>
+                    <!--TYPES OF ORDER-->
+                    <option value="BUY">BUY</option>
+                    <option value="SELL">SELL</option>
+                </select>
+            </span>
+
+            <span id="p"><br>Price <br>
+                <input id="price" type="number" maxlength="19" step="any" required="required" placeholder="PRICE"
+                    onkeypress=" return onlyNumberKey(event)
+                    " onclick="f5()" name="price" required></span><a class="c"></a><br>
+            <!--store the price of coin-->
+
+
+            <span id="u">Unit <br> <input id="unit" maxlength="19" step="any" name="units" required="required"
+                    onkeypress="return onlyNumberKey(event)" onkeydown="totl()" onkeyup="totl()" type="number"
+                    placeholder="quantity / units"><br></span>
+            <!--UNIT S-->
+            <span id="tc">Total <br> <input id="totalcost" onkeypress="return onlyNumberKey(event)"
+                    onclick="totalvalue()" name="totals" type="number" placeholder="TOTAL" value="" maxlength="19"
+                    step="any" required> </span><a class="cc"></a>
+            <!--TOTAL COST-->
+
+            <div class="btns">
+                <button id="clear" type="reset">Clear</button>
+                <button id="submit-record" type="submit" onclick="check()">Submit</button>
+            </div>
+
+    </div>
+    </form>
+    </div>
+    <a class="BuySellButton" href="/funding">Funding</a>
+    <footer class="footer">
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <div class="fcontainer">
+            <div class="row">
+                <div class="footer-col">
+
+                    <ul>
+                        <li><a href="/about">about us</a></li>
+                        <li><a href="#">our services</a></li>
+                        <li><a href="#">privacy policy</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP CEX</h4>
+                    <ul>
+                        <li><a href="https://www.binance.com/">Binance</a></li>
+                        <li><a href="https://pro.coinbase.com">Coinbase Exchange</a></li>
+                        <li><a href="https://ftx.com/">FTX</a></li>
+                        <li><a href="https://www.kraken.com">Kraken</a></li>
+                        <li><a href="https://www.kucoin.com">KuCoin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>TOP DEX</h4>
+                    <ul>
+                        <li><a href="https://trade.dydx.exchange/">DYDX</a></li>
+                        <li><a href="https://app.uniswap.org/#/swap">Uniswap(V)</a></li>
+                        <li><a href="https://pancakeswap.finance/">PancakeSwap (V2)</a></li>
+                        <li><a href="https://maiar.exchange">Maiar Exchange</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>follow us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector(".c").style.display = "none";
+        document.querySelector(".cc").style.display = "none";
+        function onlyNumberKey(evt) {
+
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode == 46)
+                return true;
+            else if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+
+        function f5() // to check all fielde are filled before API call
+
+        {
+
+            if (navigator.onLine == false) {
+                alert(" ! YOU ARE OFFLINE PLEASE CONNECT TO INTERNET ")
+            }
+
+            var coinlength = document.getElementById("coinname").value  //to verify that the coin name is selected or not 
+
+            if (coinlength.length == 0) {
+                swal({
+                    title: "Coin Name Not Selected !",
+                    text: "Please select Coin Name  Like : BTC ,ETH ,DOGE ",
+                    icon: "error",
+                });
+            }
+
+            if (document.getElementById("type").value == "TYPE")  //to verify that the Order Type  is selected or not 
+            {
+                swal({
+                    title: "Order Type Not selected !",
+                    text: "Please select Order Type  Like : Buy Or Sell ",
+                    icon: "error",
+                });
+            }
+
+
+            console.log(coinlength.length)
+
+            if (coinlength.length != 0 && document.getElementById("type").value != "TYPE") {
+                function price() {
+                    var coinname = document.getElementById("coinname").value;
+
+                    var name = coinname;
+                    name = name.toLowerCase();
+                    // var name = document.getElementById("coinname").value;
+                    var url = "https://api.binance.com/api/v3/ticker/24hr?symbol="
+                    console.log(url);
+                    url = url + (name).toUpperCase();
+                    // url.toUpperCase()
+                    console.log(url)
+
+                    fetch(url)
+                        .then(Response => Response.json())
+                        .then(data => {
+                            // alert(data.code)
+                            if (data.code == -1121) {
+                                swal({
+                                    title: "PAIR NOT FOUND ",
+                                    text: "Please Select A Valid Pair",
+                                    icon: "error",
+                                });
+                                setTimeout(() => {
+                                    window.location.reload(true);
+
+                                }, 2000);
+
+                            }
+                            else {
+                                console.log("response code:" + data.code);
+                                var mp = parseFloat(data.askPrice).toFixed(4);
+                                if (mp <= 0.001) {
+                                    mp = parseFloat(data.askPrice).toFixed(8);
+                                }
+
+                                if (mp < 0) {
+                                    document.getElementById("price").value = 1;
+                                }
+
+
+
+
+                                else {
+                                    document.getElementById("price").value = mp;
+                                }
+                            }
+                        })
+
+                }
+                price();
+
+
+            }
+
+
+        }
+
+
+        function totl() {
+            console.log("total in colled")
+            var rate = document.getElementById("price").value;
+            var unit = document.getElementById("unit").value;
+            var tcost = rate * unit;
+            console.log(tcost);
+            tcost = parseFloat(tcost).toFixed(3);
+            document.getElementById("totalcost").value = tcost;
+        }
+
+    </script>
+
+</body>
+
+</html>

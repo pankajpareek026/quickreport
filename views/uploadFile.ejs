@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
+    <link rel="stylesheet" href="https://use.typekit.net/wrq2zzf.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6e5493fd32.js" crossorigin="anonymous"></script>
+    <title>Upload Trade History</title>
+</head>
+<style>
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+    }
+
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #030303;
+        margin: -4px 0 0 -4px;
+    }
+
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+
+    .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+    }
+
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+
+    .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+    }
+
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+
+    .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+    }
+
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+
+    .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+    }
+
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+
+    .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+    }
+
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+
+    .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+    }
+
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+
+    .lds-roller div:nth-child(7):after {
+        top: 63px;
+        left: 17px;
+    }
+
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+
+    .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12px;
+    }
+
+    .buttons {
+        display: flex;
+
+    }
+
+    .fundingB {
+        background-color: #f88605;
+        color: white;
+        padding: 5px 10px;
+        width: 120px;
+        border-radius: 7px;
+        box-shadow: 2px 2px 1px rgb(105, 104, 104);
+        border: none;
+        margin: 10px;
+        height: 40px;
+        font-weight: bolder;
+        font-size: large;
+    }
+
+    canvas {
+        width: 100px;
+        height: 100px;
+    }
+
+    .buysell {
+        background-color: green;
+        color: white;
+        padding: 5px;
+        margin: 10px;
+        width: 120px;
+        border-radius: 7px;
+        box-shadow: 2px 2px 1px grey;
+        border: none;
+        height: 40px;
+        font-weight: bolder;
+        font-size: large;
+    }
+
+
+    .buysell:hover {
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: none;
+    }
+
+    .fundingB:hover {
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: none;
+    }
+
+    .h1a {
+        color: #f88605;
+
+        margin-bottom: 0px;
+        font-size: xx-large;
+
+    }
+
+    .tablec {
+        margin-top: -53px;
+        width: 92%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    a {
+        color: #f88605;
+    }
+
+    #Ttable {
+        color: #979191;
+        font-size: large;
+        margin-top: 20px;
+        width: 100%;
+        font-family: 'Signika Negative', sans-serif;
+        height: inherit;
+        font-size: medium;
+        border-collapse: collapse;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .Fheading {
+        margin: 0;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        background-color: #040404;
+        height: 35px;
+        padding: 5px;
+        color: #f88605;
+        font-weight: 600;
+        font-size: x-large;
+        border-radius: 16px 50px 0px 0px;
+    }
+
+    #Ftable {
+        margin-top: 35px;
+        padding: 0px;
+        color: #070707;
+        text-align: center;
+        font-size: large;
+        font-family: 'Signika Negative', sans-serif;
+        height: 100%;
+        width: 410px;
+        border: 1px solid #f88605;
+        float: auto;
+        font-size: medium;
+        background-color: #201f1f;
+        border-collapse: collapse;
+        /* border-radius: 10px; */
+        margin-left: 20px;
+        margin-right: 10px;
+
+    }
+
+    th {
+        color: aquamarine;
+        height: 35px;
+    }
+
+    .mainmenu {
+        height: 60px;
+        width: 100vw;
+        margin: 0;
+        background-color: #201f1f;
+        margin-top: 0px;
+        padding: 0px 0px 0px 0px;
+
+    }
+
+    td {
+
+        font-size: small;
+        border: none;
+    }
+
+    tr {
+        border: 1px solid rgb(46, 58, 46);
+        border-collapse: collapse;
+    }
+
+    /* span {
+        font-size: large;
+        padding: 5px 15px;
+        margin-top: -35px;
+    } */
+
+    .home {
+        margin-left: 15%;
+    }
+
+    .feargreed {
+        border: 3px solid rgb(181, 122, 255);
+        border-radius: 20px;
+        padding: 10px;
+        max-width: 300px;
+        margin: 30px auto 0px;
+        height: 100%;
+        min-height: 60px;
+        position: relative;
+        color: wheat;
+        text-align: center;
+        font-size: larger;
+    }
+
+    i {
+        color: #f88605;
+        height: auto;
+        width: auto;
+
+    }
+
+    .fa-user {
+        font-size: medium;
+    }
+
+    th {
+        background-color: #030303;
+        color: #f88605;
+        font-weight: 9000;
+        border: none;
+        font-weight: bolder;
+        font-family: 'Signika Negative', sans-serif;
+        font-size: small;
+        border-radius: 2px;
+    }
+
+
+
+    /* .fas {
+            font-size: xx-large;
+        }
+
+        .far {
+            font-size: xx-large;
+        } */
+
+
+
+    .detail {
+        height: 15vh;
+        width: 98vw;
+        margin-left: 10px;
+        margin-right: 10px;
+        background-color: #201f1f;
+        display: flex;
+        font-size: large;
+        padding-top: 20px;
+        margin-bottom: 0px;
+        margin-top: 10px;
+        border-radius: 10px 10px 0 0;
+        box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1px 1px 1.5px 0px rgba(153, 152, 152, 0.322);
+    }
+
+    .value {
+        height: 60%;
+        width: 30%;
+
+        border: none;
+        margin-top: 10px;
+        padding: 5px;
+        text-align: center;
+        margin-left: 2%;
+        border-radius: 2px;
+        color: rgb(253, 253, 251);
+        text-align: center;
+        padding: 5px;
+        font-size: larger;
+        background-color: #323030;
+        box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1px 1px 1.5px 0px rgba(153, 152, 152, 0.322);
+    }
+
+    .pnl {
+        height: 60%;
+        width: 30%;
+        /* border: 3px solid rgb(190, 238, 178); */
+        margin-top: 10px;
+        padding: 5px;
+        text-align: center;
+        margin-left: 2%;
+        border-radius: 2px;
+        color: white;
+        font-size: small;
+        background-color: #323030;
+        box-shadow: -1px -1px 1.5px 0px #7e7e7b, 1px 1px 1.5px 0px rgba(153, 152, 152, 0.322);
+    }
+
+    .pnlG {
+
+        color: green
+    }
+
+    .pnlR {
+
+        color: red;
+    }
+
+    td {
+        height: 20px;
+        text-align: center;
+        font-size: medium;
+        border: 1px solid grey;
+        border-collapse: collapse;
+    }
+
+
+
+
+    .more {
+        background-image: url(https://i.ibb.co/FmXGsL8/canvas.png);
+        background-size: cover;
+        height: 50px;
+        width: 60px;
+        padding: 0px;
+        border-radius: 100%;
+        /* border: 1px solid red; */
+        position: absolute;
+        top: 50px;
+        right: 20px;
+        box-shadow: 3px 3px 3px 0 black;
+    }
+
+    input[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        top: -100%;
+        left: 0;
+        background-color: black;
+        color: #05c2fc;
+        height: 100px;
+    }
+
+    .add {
+        font-size: large;
+        border-radius: 5px;
+        padding: 10px;
+        position: absolute;
+        right: 20px;
+        /* bottom: 20px;
+    right: 20px; */
+        margin-bottom: 10px;
+        color: white;
+        border: none;
+        font-weight: 500;
+        font-family: 'Signika Negative', sans-serif;
+        background-color: #22ca19;
+
+
+    }
+
+    .add:hover {
+        cursor: pointer;
+        background-color: #106d0d;
+
+
+    }
+
+    .chart {
+        background: url(https://i.ibb.co/FKnnJNk/pie-chart.png);
+        height: 50px;
+        width: 50px;
+
+
+    }
+
+    /* footer start */
+
+
+
+
+    .fcontainer {
+        max-width: 1170px;
+        margin: auto;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .footer {
+        font-family: 'Source Serif 4', sans-serif;
+        position: absolute;
+        height: 300px;
+        border-radius: 10px 10px 0px 0px;
+        background-color: #24262b;
+        padding: 30px 0;
+        margin-top: 30%;
+        width: 100%;
+    }
+
+    .footer-col {
+        width: auto;
+        padding: 0 15px;
+    }
+
+    .footer-col h4 {
+        font-size: 18px;
+        color: #f5f4f4;
+        text-transform: capitalize;
+        margin-bottom: 35px;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .footer-col h4::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        background-color: #e91e63;
+        height: 2px;
+        box-sizing: border-box;
+        width: 50px;
+    }
+
+    .footer-col ul li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .footer-col ul li a {
+        font-size: 16px;
+        text-transform: capitalize;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 300;
+        color: #bbbbbb;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .footer-col ul li a:hover {
+        color: #f71111;
+        padding-left: 8px;
+
+    }
+
+    .footer-col .social-links a {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        background-color: rgba(5, 5, 5, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+    }
+
+
+
+
+    .tds {
+        margin-bottom: 10px;
+        border: 2px solid white;
+        border: none;
+        width: 100%;
+        height: 80px;
+        margin-top: 20px;
+        text-align: left;
+        color: white;
+        margin-bottom: 15px;
+        margin-left: 20px;
+        display: inline-block;
+        /* background-color: #4d4b4b; */
+    }
+
+    .fa-plus-circle:hover {
+        cursor: pointer;
+    }
+
+    .tdsvalue {
+        color: rgb(5, 5, 5);
+        padding: 3px;
+        font-weight: bolder;
+        font-size: large;
+        border: none;
+        background-color: #faf7f8;
+        height: 30px;
+        width: 150px;
+        text-align: center;
+        border-radius: 2px;
+        margin-bottom: 10px;
+    }
+
+    /*responsive*/
+    /* @media(max-width: 767px){
+    .footer-col{
+    width: 50%;
+    margin-bottom: 30px;
+    }
+    }
+    @media(max-width: 574px){
+    .footer-col{
+    width: 100%;
+    }
+    } */
+
+
+    .fa-angle-right:hover {
+        box-shadow: 2px 2px 10px rgb(250, 250, 250), -2px -2px 10px rgb(104, 102, 102);
+    }
+
+    .fa {
+        font-size: medium;
+    }
+
+
+    /* .fas,
+        .far {
+            font-size: xx-large;
+        } */
+
+    .fa-file-upload {
+        color: rgb(249, 249, 249);
+        margin-left: 5px;
+        padding: 3px;
+    }
+
+    .fa-file-upload:hover {
+        cursor: pointer;
+        color: #f88605;
+    }
+
+    .container {
+        margin-top: 25px;
+        display: flex;
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .column {
+        float: left;
+        width: 50%;
+        padding: 5px;
+    }
+
+    i:hover {
+        text-decoration: underline;
+        /* border-bottom-color: #050505; */
+    }
+
+
+    .logo {
+        margin-top: 50px;
+        height: 75px;
+        width: 85px;
+        margin-left: 50px;
+    }
+
+
+
+
+    .details {
+        color: red;
+    }
+
+
+    .fa-chart-pie {
+        text-decoration: underline;
+    }
+
+    .footer-col .social-links a:hover {
+        color: #040404;
+        background-color: #040404;
+    }
+
+    .fa-user,
+    .fa-chart-pie,
+    .fa-home,
+    .fa-newspaper {
+        font-size: xx-large;
+        margin-top: -50px;
+        padding: 5px 15px;
+    }
+
+    body {
+        font-family: 'Source Serif 4', sans-serif;
+        justify-content: center;
+        place-items: center;
+        place-content: center;
+        /* background: url(https://cdn.pixabay.com/photo/2020/08/14/17/13/light-bulbs-5488573_1280.jpg); */
+        background-color: #282828;
+        font-family: 'Source Serif 4', sans-serif;
+        /* background: rgba(221, 221, 120, 255); */
+    }
+
+    .formcenter {
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+        margin-bottom: 205;
+    }
+
+    form {
+        color: rgb(247, 242, 242);
+        width: 450px;
+        border-radius: 10px;
+        height: 85%;
+        margin-top: 90px;
+        /* border: 0.1px solid #09f538; */
+        background: #282828;
+        font-family: 'Source Serif 4', sans-serif;
+        place-items: center;
+        display: block;
+        text-align: center;
+        align-items: center;
+        box-shadow: -4px -4px 10px rgba(191, 190, 190, 0.5),
+            4px 4px 10px rgba(244, 243, 243, 0.5),
+            -4px -4px 10px rgba(179, 177, 177, 0.5),
+            4px 4px 10px rgba(7, 7, 7, 0.3);
+        letter-spacing: 1.5px;
+    }
+
+    .content {
+        width: 800px;
+
+    }
+
+    .heading {
+        color: #fbfaf9;
+        font-size: x-large;
+        font-weight: bold;
+    }
+
+    input:hover {
+        cursor: pointer;
+    }
+
+    .Ufile {
+        /* border: 2px ridge rgb(251, 249, 249); */
+        color: red;
+        font-size: large;
+        height: 50px;
+        align-items: center;
+        width: 50%;
+        padding: 10px;
+        border-radius: 0px;
+        text-align: center;
+        box-shadow: -2px -2px 2px 2px rgb(108, 237, 16),
+            2px 2px 2px 2px rgb(5, 237, 59);
+    }
+
+    .upload {
+        width: 80%;
+        margin-top: 50px;
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: #f88605;
+        font-weight: bolder;
+        font-size: x-large;
+        border: none;
+        box-shadow: 3px 3px 2px wheat;
+    }
+
+    .upload:hover {
+        cursor: pointer;
+        border-radius: 500px;
+        box-shadow: none;
+    }
+
+    .mainmenu {
+        height: 90px;
+        width: 100vw;
+        margin: 0;
+        background-color: #201f1f;
+        margin-bottom: 5px;
+        margin-top: 0px;
+        padding: 5px 0px 0px 0px;
+
+    }
+
+    .logo {
+
+        height: 75px;
+        width: 85px;
+        margin-left: 25px;
+    }
+
+    .far:hover {
+        text-decoration: underline;
+    }
+
+    .fas:hover {
+        text-decoration: underline;
+    }
+
+    .far:hover {
+        text-decoration: underline;
+    }
+
+    .fa-user,
+    .fa-chart-pie,
+    .fa-home,
+    .fa-newspaper {
+        font-size: xx-large;
+        margin-bottom: 20px;
+        margin-top: -25pxpx;
+    }
+
+    .fa-user:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<body>
+    <div class="mainmenu"><br>
+        <br>
+        <logo>
+            <m style="color: orangered;  font-weight: bold; font-size: x-large; ">Q</m>
+            <m style="color:wheat ;">U</m>
+            <m style="color:white ;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color:orangered;">K</m>
+            <m style="color:rgb(248, 247, 246) ;">Report</m>
+        </logo>
+        <span class="home"><a href="/"><i title="Quick Report Home" class="fas fa-home"></i></a></span>
+        <!-- <span><a href="/dash-bord"><i title="PortFolio" class="fas fa-chart-line"></i></a></span> -->
+        <span><a href="/dash-bord"><i title="DashBord" class="fas fa-chart-pie"></i></a></span>
+        <span><a href="/News"><i class="fas fa-newspaper"></i></a></span>
+        <span><a href="/register"><i title="User" class="fa fa-user"></i></a></span>
+        <script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
+        <coingecko-coin-price-marquee-widget coin-ids="bitcoin,eos,ethereum,litecoin,ripple,biconomy,dog" currency="inr"
+            background-color="#ffffff" locale="en"></coingecko-coin-price-marquee-widget>
+    </div>
+    <div class="formcenter">
+        <form id="form" action="" method="post" enctype="multipart/form-data">
+            <p class="heading">Select A JSON Or CSV File</p>
+            <input type="file" class="Ufile" id="file" name="Tfile" accept=".JSON,.CSV" required />
+            <br>
+            <button id="submit" class="upload" onclick="l()">upload</button>
+        </form>
+
+    </div>
+    <div class="formcenter">
+        <div class="content">
+            <p
+                style="color:rgb(252, 249, 249) ; font-family: rajdhani, sans-serif; font-size: x-large; font-weight: 500;; ">
+                <b style="color :#f88605;">NOTE </b> :- For Now We Are Supporting Binance Exchange ( JSONFile ) and For
+                KUcoin
+                Exchange we support CSV File Only.
+                If You Are Uploding Trade Report Other Then Binance and KUcoin Results May Be Loss Of All Transactions
+                ,You May Need
+                To Reset Portfolio We Are Not Responsible For That .
+            </p>
+        </div>
+    </div>
+    <script>
+        function l() {
+            var form = document.getElementById('form')
+            var f = document.getElementById('file').value;
+            if (f == "") {
+                swal({
+                    title: "  File Not Selected !",
+                    text: "Please Select A CSV Or JSON  file To Process .",
+                    icon: "warning",
+                });
+            }
+            else {
+
+
+                form.submit()
+                document.getElementById("form").style.display = "none"
+
+                document.getElementById("submit").innerHTML = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>'
+
+
+            }
+        }
+        console.log("File Nme :", f)
+
+
+    </script>
+</body>
+
+</html>
