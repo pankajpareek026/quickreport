@@ -1,6 +1,6 @@
 const express = require("express");
 require('dotenv').config()
-const JWT_KEY = process.env.JWT_KEY;
+const JWT_KEY = "67@#65ygfghyfhYOUDFGH54-d45fhgg9854656";
 // console.log("Jwt key :", JWT_KEY)
 const axios = require("axios");
 const upload = require('express-fileupload')
@@ -20,8 +20,9 @@ const session = require("express-session");
 const { request, response } = require("express");
 const { dirname } = require("path");
 const cnn = require("./config/connection");
-cnn.connect((err) => {
-  if (err) console.log("DB connected SuccessFully !")
+cnn.getConnection((err, connection) => {
+  if (err) console.log(err)
+  console.log("DB connected SuccessFully !,", connection)
 })
 const { stringify } = require("querystring");
 const { SlowBuffer } = require("buffer");
@@ -43,7 +44,7 @@ app.use(
   })
 );
 
-// middle ware to verify JWT tocken
+// middle ware to verify JWT token
 const Authentication = async (req, res, next) => {
   if (req.cookies.AUTH) {
     try {
@@ -52,7 +53,6 @@ const Authentication = async (req, res, next) => {
           res.json({ Error: err.message })
         }
         else {
-
           req.auth = result
           next()
         }
@@ -69,15 +69,12 @@ const Authentication = async (req, res, next) => {
 }
 var userEmail;
 var tablename;
-var found;
 var name;
-var Dj;
 app.get('/update', Authentication, (req, res) => {
   const user = req.auth.User;
   if (user) {
     var Id = req.query.id;
     console.log("COIN ID :", Id)
-    // console.log(`You have clicked on ID :`, Id)
     var updateQuery = `SELECT *FROM ${user}_portfolio WHERE ID=${Id}`
     cnn.query(updateQuery, (err, result) => {
       if (err) console.log(err)
@@ -146,7 +143,6 @@ app.get('/user', Authentication, async (req, res) => {
     cnn.query(`select *from newUsers WHERE username='${user}'`, (err, result) => {
       if (err) console.log(err)
       else {
-        // console.log("RESULT :", result)
         result && res.render(__dirname + "/views/already", {
           username: result[0].username, userEmail: result[0].emailid, name: result[0].name, Current_Value, invested, b, Dj: result[0].JoiningDAte
 
@@ -214,7 +210,7 @@ app.post("/login", async (req, res) => {
       }
     })
   }
-  // console.log("BODY::::", req.body)
+  
   usernameorEmail = req.body.usrName;
   passwordlog = req.body.Passlog;
   DbOperationsForLogin(req, res) //call if handshake already done
@@ -224,7 +220,7 @@ app.post("/login", async (req, res) => {
 app.get("/portfolio", Authentication, (req, res) => {
   const user = req.auth.User
   if (user) {
-    res.render("/portfolio");
+    res.render("portfolio");
 
   } else {
     res.redirect('/login')
@@ -260,37 +256,24 @@ app.post("/portfolio", Authentication, (req, res) => {
     unit = unit;
     sellcost = 0
   }
-  if (!cnn._connectCalled) {
-    cnn.connect(function (err) {
-      if (err) throw err;
-      console.log("connected");
-      var sql = `INSERT INTO ${user}_portfolio (Coin_Name,ORDER_TYPE,PRICE,UNITS,TOTAL_COST,SELL_COST) VALUES('${coinname}','${ordertype}',${price},${unit},${total},${sellcost})`;
-      cnn.query(sql, (err, result) => {
-        if (err) throw err;
-        res.render("response");
-      });
-    });
-  } else {
-    var sql = `INSERT INTO ${user}_portfolio (Coin_Name,ORDER_TYPE,PRICE,UNITS,TOTAL_COST,SELL_COST ) VALUES('${coinname}','${ordertype}',${price},${unit},${total},${sellcost})`;
-    cnn.query(sql, (err, results) => {
-      if (err) throw err;
-      res.render("response");
-    });
-  }
+  
+  var sql = `INSERT INTO ${user}_portfolio (Coin_Name,ORDER_TYPE,PRICE,UNITS,TOTAL_COST,SELL_COST ) VALUES('${coinname}','${ordertype}',${price},${unit},${total},${sellcost})`;
+  cnn.query(sql, (err, results) => {
+    if (err) throw err;
+    res.render("response");
+  });
+  
 });
 //Funding route start
 app.get('/funding', Authentication, (req, res) => {
   const user = req.auth.User
   if (user) {
     res.render("MainFunding")
-
   } else {
     res.redirect('/login')
   }
 })
-// const lodingDashBord = () => {
 
-// }
 app.get('/News', (req, res) => {
   res.render("news")
 })
@@ -331,16 +314,14 @@ app.post('/emailvarification', Authentication, (request, response) => {
     response.send("Invalid OTP")
   }
 })
-
+// Route to reset All Transaction Of the user
 app.get('/reset', Authentication, (req, res) => {
   const user = req.auth.User
   if (user) {
     cnn.query(`truncate table ${user}_portfolio`, (err, result) => {
       if (err) console.log(err)
-
       res.redirect('/dash-bord')
     })
-
   }
   else {
     res.redirect('/login')
@@ -353,13 +334,12 @@ app.get('/resetF', Authentication, (req, res) => {
       if (err) console.log(err)
       res.redirect('/dash-bord')
     })
-    // res.redirect('/dash-bord')
   }
   else {
     res.redirect('/login')
   }
 })
-
+// route to verify the Email Address of the User
 app.get('/v', Authentication, (req, res) => {
   console.log("V route Hitted @")
   const user = req.auth.User
@@ -373,7 +353,6 @@ app.get('/v', Authentication, (req, res) => {
 
       })
     })
-
   }
   if (user) {
     cnn.query(`update newUsers SET sts=1 where username='${user}'`, (e, result) => {
@@ -388,9 +367,7 @@ app.get('/v', Authentication, (req, res) => {
           res.render("EmailSuccess")
         }
       }
-      // console.log('SET 1 RESULT :: ', result)
-
-
+     
     })
   }
   else {
@@ -404,14 +381,11 @@ app.get('/emailvarification', Authentication, async (request, response) => {
     cnn.query(`select emailid , sts from newUsers WHERE username='${user}'`, (err, result) => {
       if (err) console.log(err)
       else {
-
         const status = result[0].sts
         const mail = result[0].emailid
-
         setTimeout(() => {
           if (status) {
             response.redirect('/dash-bord')
-
           }
           else {
             let mailTransporter = nodemailer.createTransport({
@@ -423,14 +397,12 @@ app.get('/emailvarification', Authentication, async (request, response) => {
             })
             otp = Math.floor(100000 + Math.random() * 900000);
             var emailTime = new Date()
-
             let details = {
               Form: "noreplay.quickreport@gmail.com",
               to: mail,
               subject: "Email Varification",
               text: `Welcome To Quick Report `,
               html: `<body style="font-family:'Source Serif 4', sans-serif;">
-
             <b
                 style="color:rgb(7, 7, 7) ;margin-bottom: 0px;margin-top: 25px; ;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                 welcome , <p
@@ -442,7 +414,6 @@ app.get('/emailvarification', Authentication, async (request, response) => {
                 <P style="color:rgb(17, 17, 17) margin :0px; font-size: small; text-align: left; font-weight: 500; font-size: large;">
                     Registration Was Successfull please verify your
                     email address !</P>
-
                 <p style="font-family:'Source Serif 4',font-weight:100px sans-serif;"> Your Email Varification Code</p>
                 <p style="font-size: xx-large; color:#f88605; font-weight:bold;  ">
                     ${otp}
@@ -458,12 +429,9 @@ app.get('/emailvarification', Authentication, async (request, response) => {
             mailTransporter.sendMail(details, (err) => {
               if (err) {
                 console.log(err)
-
               }
               else {
-
                 response.render("Emailvarify", { otp, userEmail: mail })
-
               }
             })
             // response.send(`OTP:${otp}`)
@@ -471,7 +439,6 @@ app.get('/emailvarification', Authentication, async (request, response) => {
         }, 2000);
       }
     })
-
   }
   else {
     response.redirect('/')
@@ -485,7 +452,6 @@ app.get("/logout", Authentication, (req, res) => {
   req.session.loggedin = false;
   res.clearCookie('AUTH')
   res.render("logout");
-  // console.log("log out success");
 });
 //logout END
 //upload Start
@@ -498,13 +464,13 @@ app.get('/upload', Authentication, (req, res) => {
     res.render("uploadFile")
   }
 })
+
+// Process the uploaded file 
 app.post('/upload', Authentication, (req, res) => {
   const user = req.auth.User
   if (req.files) {
     var file = req.files.Tfile
     var fileName = file.name
-    // console.log(file.mimetype)
-
     console.log(fileName)
     var fileNewName = Math.floor(Math.random() * 1000) + fileName
     file.mv('./upload/' + fileNewName, (err) => {
@@ -512,11 +478,9 @@ app.post('/upload', Authentication, (req, res) => {
         console.log(err)
       }
       else {
-        // res.send(`file has ben seve by NAME :${fileNewName}`);
         var FileExtenson = path.extname(fileNewName);
         if (FileExtenson == ".json") {
           ReadJSONFile(fileName, res);
-          // console.log("FIle IS JSON")
         }
         else if (FileExtenson == ".csv") {
           console.log("FIle IS CSV")
@@ -637,7 +601,6 @@ app.post('/upload', Authentication, (req, res) => {
                   CSVlocalArray.push(`${RemoveUSDT}`, `${orderside}`, assetprice, filledunits, buycost, sellcost)
                   console.log(CSVlocalArray)
                   CSVfinalArray.push(CSVlocalArray)
-
                   // console.log(CSVfinalArray)
                 }
               }
@@ -653,10 +616,6 @@ app.post('/upload', Authentication, (req, res) => {
 
             })
         }
-
-        // setTimeout(() => {
-        //   res.redirect('/dash-bord')
-        // }, 10000)
       }
     })
   }
@@ -675,29 +634,11 @@ app.post("/register", (req, res) => {
   name = req.body.Name;
   emailid = req.body.emailId;
   var password = req.body.password;
-
-  if (!cnn._connectCalled) {
-    cnn.connect(function (err) {
-      if (err) throw err;
-      console.log("connected");
-      sqlqr = `insert into newUsers values('${username}','${name}' ,'${emailid}',${sts},'${password}','${JoinningDAte}')`
-      cnn.query(sqlqr, (err, result) => {
-        // console.log(result);
-        if (err) throw err;
-
-        res.render(__dirname + "/views/Rresponse", { name })
-      })
-    });
-  }
-  else {
-    sqlqr = `insert into newUsers values('${username}','${name}' ,'${emailid}',${sts},'${password}','${JoinningDAte}')`
-    cnn.query(sqlqr, (err, result) => {
-      // console.log(result);
-      if (err) throw err;
-      // console.log("after create table" + result)
-      res.render(__dirname + "/views/Rresponse", { name })
-    })
-  }
+  sqlqr = `insert into newUsers values('${username}','${name}' ,'${emailid}',${sts},'${password}','${JoinningDAte}')`
+  cnn.query(sqlqr, (err, result) => {
+    if (err) throw err;
+    res.render(__dirname + "/views/Rresponse", { name })
+  })
 });
 app.get("/", (req, res) => {
   res.render("index");
@@ -715,7 +656,6 @@ const validateCoinName = (req, res, next) => {
 app.get('/resetAll', Authentication, (req, res) => {
   const user = req.auth.User
   if (user) {
-
     cnn.query(`truncate table ${user}_funding `, (err, result) => {
       if (err)
         console.log(err)
@@ -726,7 +666,6 @@ app.get('/resetAll', Authentication, (req, res) => {
         }
       })
     })
-
     res.redirect('/dash-bord')
   }
   else {
@@ -747,9 +686,7 @@ app.get('/about', (req, res) => {
   res.render("about")
 })
 app.get('/Transactions', Authentication, validateCoinName, (req, res) => {
-
   const user = req.auth.User
-  // console.log("AUTH inside Transactions :", user)
   if (user) {
     cnn.query(`select *from ${user}_portfolio where Coin_Name=${req.query.Asset}`, (err, result) => {
       if (err) console.log(err)
@@ -842,10 +779,7 @@ app.get('/Transactions', Authentication, validateCoinName, (req, res) => {
               return response.data;
             })
             .then((FinalData) => {
-
-              // console.log("COIN GECKO START")
               ImageSrc = FinalData.image.large;
-              // console.log(ImageSrc)
               let AvpQuery = `select SUM(UNITS) AS UnitTotal,Sum(TOTAL_COST) AS CostTotal from ${user}_portfolio where Coin_Name=${Asset_Name} `
               cnn.query(AvpQuery, (err, Avpresult) => {
                 if (err) console.log(err)
@@ -853,7 +787,6 @@ app.get('/Transactions', Authentication, validateCoinName, (req, res) => {
                 Avp = parseFloat(Avpresult[0].CostTotal / Avpresult[0].UnitTotal)
                 cnn.query(`select *from ${user}_portfolio where Coin_Name=${Asset_Name}`, (err, results) => {
                   if (err) console.log(err)
-
                   var holding = 0
                   console.log(results)
                   for (var u = 0; u < results.length; u++) {
@@ -865,7 +798,6 @@ app.get('/Transactions', Authentication, validateCoinName, (req, res) => {
                       volume = parseFloat(volume) + parseFloat(results[u].UNITS)
                     } //END
                     holding = holding + parseFloat(results[u].UNITS);
-
                     if (results[u].ORDER_TYPE == "BUY" || results[u].ORDER_TYPE == "buy") {
                       var Detailspnl;
                       Detailspnl = parseFloat(((CurrenPrice - results[u].PRICE) / results[u].PRICE) * 100)
@@ -873,29 +805,22 @@ app.get('/Transactions', Authentication, validateCoinName, (req, res) => {
                     }
                   }
                   TotalPNLP = ((CurrenPrice - Avp) / Avp) * 100
-
                   TotalPNLD = parseFloat((100 + TotalPNLP * Avp) / 100)
-
                   console.log("AVERage price ::", Avp)
                   // console.log("volume= =================", volume)
                   res.render(__dirname + "/views/Details", {
                     results, holding, ImageSrc, CurrenPrice, FinalData, CMCDATA, ChangeIn24H, ChangeIn30D, ChangeIn7D, ChangeIn60D, ChangeIn90D, Avp, CmcName, CmcSymbol, TotalPNLP, SumInvested: Avpresult[0].CostTotal, Asset_Name, volume
                   })
-
                 })
               })
-
             });
-
         }
-
       }
       else {
         res.redirect('/dash-bord')
       }
     })
   }
-
   else {
     res.redirect('/login')
   }
@@ -933,7 +858,6 @@ app.get("/dash-bord", Authentication, async (req, res) => {
         cnn.query(`select  Coin_Name, sum(UNITS) as TU ,sum(TOTAL_COST) as TC, sum(SELL_COST) as SC from ${user}_portfolio group BY Coin_Name`, (err, results) => {
           if (err) console.log(err);
           var len = results.length;
-
           var pnl = [];
           for (var i = 0; i < len; i++) {
             coinname.push(results[i].Coin_Name.toUpperCase());
@@ -970,7 +894,6 @@ app.get("/dash-bord", Authentication, async (req, res) => {
                       Ppnl.push(ppnlvalue)
                     }
                     else {
-
                       dpnlvalue = SellCost[i] - TotalCost[i];
                       dpnlvalue = parseFloat(dpnlvalue)
                       Current_Value += dpnlvalue
@@ -981,7 +904,6 @@ app.get("/dash-bord", Authentication, async (req, res) => {
                     }
                     i++;
                   }, 100)
-
                 });
             }
             setTimeout(() => {
@@ -1000,7 +922,6 @@ app.get("/dash-bord", Authentication, async (req, res) => {
         });
       })
     });
-
   }
   if (user) {
     DbOperationsForDashbord(user, req, res)
