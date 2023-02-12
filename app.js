@@ -180,7 +180,7 @@ app.get('/register', (req, res) => {
     res.redirect('/user')
   }
   else {
-    res.redirect('/login')
+    res.render('signin')
   }
 })
 //register END
