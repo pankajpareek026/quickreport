@@ -1,8 +1,9 @@
 
-# Quick Report
+# Quick Report                                                                                   
 
 This is a cryptocurrency portfolio tracker through which users can track the performance (P&L) of their digital assets by inserting each transaction manually or users can upload the transactions file (CSV File). the system will automatically parse transactions from the file and appear on the user's dashboard.
 
+[Live](https://quickreport.cyclic.app)
 
 ## Run Locally
 
@@ -63,5 +64,18 @@ module.exports = conn;
 **User**
 
 ![User](https://i.ibb.co/GkYT2ts/user.png)
+
+
+## Tech Stack
+
+**Client:** HTML , CSS ,JAVASCRIPT , EJS
+
+
+**Server:** Node, Express ,
+
+**Other Resources** 
+[coinmarketcap API](https://coinmarketcap.com/api/) ,
+[coingecko API](https://www.coingecko.com/en/api/documentation) ,
+[Binance API](https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md)
 
 
