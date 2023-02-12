@@ -854,7 +854,7 @@ app.get("/dash-bord", Authentication, async (req, res) => {
       console.log(fundingResult)
       cnn.query(`select SUM(amount) as balance from ${user}_funding`, (err, Fbalance) => {
         if (err) console.log(err)
-        b = Fbalance[0].balance;
+        b = Fbalance[0].balance>0?Fbalance[0].balance:0;
         cnn.query(`select  Coin_Name, sum(UNITS) as TU ,sum(TOTAL_COST) as TC, sum(SELL_COST) as SC from ${user}_portfolio group BY Coin_Name`, (err, results) => {
           if (err) console.log(err);
           var len = results.length;
