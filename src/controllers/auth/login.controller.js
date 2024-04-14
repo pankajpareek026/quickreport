@@ -6,37 +6,8 @@ import { ApiRespose } from '../../utils/apiResponse.utils.js';
 import { ApiErrors } from '../../utils/apiErrors.utils.js';
 import { statusCode } from '../../utils/httpStatusCode.utils.js';
 import jwtUtil from '../../utils/jwt.util.js';
+import { User } from '../../models/users.model.js';
 
-
-
-
-// Function to show the login page
-// const showLoginPage = async (req, res, next) => {
-//   // Log the access token from cookies
-//   console.log("accesstoken =>", req.cookies.AUTH)
-//   console.log(req)
-//   // Check if the user is already authenticated using a JWT
-//   if (req.cookies.AUTH) {
-//     // Verify the JWT
-//     const jwtResult = await verifyToken(req.cookies.AUTH, process.env.JWT_KEY)
-
-//     // Log JWT verification result and current date
-//     // console.log("jwtResult =>", jwtResult)
-//     // const date = Date.now()
-//     // console.log("expiry :=>", jwtResult.exp, ", now =>", date)
-//     // console.log("login jwt result :=>", jwtResult)
-//     if (jwtResult.type == "error") {
-//       res.clearCookie('AUTH')
-//       return res.status(403).json(jwtResult)
-//     }
-
-//     // Redirect to the dashboard if the user is authenticated
-//     // return res.redirect('/dash-bord')
-//   }
-
-//   // Render the login page if the user is not authenticated
-//   res.render("login");
-// }
 
 
 // Function to handle user login
@@ -52,10 +23,11 @@ const login = async (req, res, next) => {
     }
 
     // Find the user by email or username
-    const user = await findOne({
+    const user = await User.findOne({
       $or: [{ "email": usernameorEmail }, { "username": usernameorEmail }]
     });
 
+    console.log("USER =>", user)
     // Return a warning if the user is not found
     if (!user) {
 
@@ -72,7 +44,7 @@ const login = async (req, res, next) => {
 
 
     // Create a JWT for the authenticated user
-    const token = await createToken({ user: user._id }, process.env.JWT_KEY, { expiresIn: "27d" });
+    const token = await jwtUtil.createToken({ user: user._id }, process.env.JWT_KEY, { expiresIn: "27d" });
 
     // Check if there was an error creating the token
     if (token.data == null) {
@@ -90,21 +62,15 @@ const login = async (req, res, next) => {
     }).status(200).json(new ApiRespose(
       true,
       'Logged in successfully',
-      '/dashboard',
+      user.isVerified ? '/dashboard' : "/verify",
       {
         auth: 'Bearer' + token.data
       }));
 
 
   } catch (error) {
-    // Log and return an error response if an exception occurs
-    console.error(error);
-    // res.status(500).json({
-    //   type: "error",
-    //   title: "Internal Server Error",
-    //   message: error.message,
-    // });
-    return next(new ApiErrors(statusCode.internalServerError, 'internal server error'))
+
+    return next(new Error(error.message))
   }
 };
 

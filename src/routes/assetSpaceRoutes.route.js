@@ -11,50 +11,51 @@ import deleteAssetSpace from "../controllers/assetSpace/assetSpace.delete.contro
 import assetSpacePaggination from "../controllers/assetSpace/assetSpace.pagination.controller.js";
 import SearchInassetSpace from "../controllers/assetSpace/assetSpace.search.controller.js";
 import assetInfoFromAssetSpace from "../controllers/assetSpace/assetSpace.assetInfo.controller.js";
+import auth from './../middlewares/auth.middleware.js';  //middleware to cerify token in cookies
 
 
 const router = Router();
 
 // 
-router.get('/asset_space', assetSpace)
+router.get('/asset_space', auth, assetSpace)
 
 
 // create a new assetSpace
-router.post('/asset_space/new', createAssetSpace)
+router.post('/asset_space/new', auth, createAssetSpace)
 
 
 // information about  ## asset space which will be used to update or rename asset Space
-router.get('/asset_space/:spaceId/info', assetSpaceInfo)
+router.get('/asset_space/:spaceId/info', auth, assetSpaceInfo)
 
 
 // delete a assetSpace
-router.patch('/asset_space/:spaceId/delete', deleteAssetSpace)
+router.patch('/asset_space/:spaceId/delete', auth, deleteAssetSpace)
 
 
 // rename asset space
-router.put('/asset_space/:spaceId/rename', renameAssetSpace)
+router.put('/asset_space/:spaceId/rename', auth, renameAssetSpace)
 
 
 // add asset in assest Spce
-router.post('/asset_space/:spaceId/asset/new', addAssetToAssetSpace)
+router.post('/asset_space/:spaceId/asset/new', auth, addAssetToAssetSpace)
 
 // information about asset
-router.get('/asset_space/:spaceId/info/:assetId', assetInfoFromAssetSpace)
+router.get('/asset_space/:spaceId/info/:assetId', auth, assetInfoFromAssetSpace)
 
 
 // edit asset in assetSpace [ ?transactionId]
-router.put('/asset_space/:spaceId/asset/edit', editAssetFromAssetSpace)
+router.put('/asset_space/:spaceId/asset/edit', auth, editAssetFromAssetSpace)
 
 
 // delete asset in assetSpace  [ ?transactionId]
-router.patch('/asset_space/:spaceId/asset/delete', deleteAssetFromAssetSpace)
+router.patch('/asset_space/:spaceId/asset/delete', auth, deleteAssetFromAssetSpace)
 
 // paggination in assetSpace [ ?start=0&end=100]
-router.get('/asset_space/:spaceId/', assetSpacePaggination)
+router.get('/asset_space/:spaceId/', auth, assetSpacePaggination)
 
 
 // search anything in a perticular asset space
-router.get('/asset_space/:spaceId/search', SearchInassetSpace)
+router.get('/asset_space/:spaceId/search', auth, SearchInassetSpace)
 
 
 

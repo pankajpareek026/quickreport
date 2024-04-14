@@ -1,17 +1,19 @@
-import { statusCode } from "../utils/httpStatusCode.utils"
-import jwtUtil from "../utils/jwt.util"
+import { statusCode } from "../utils/httpStatusCode.utils.js"
+import jwtUtil from "../utils/jwt.util.js"
 const privateKey = process.env.JWT_KEY
 const auth = async (req, res, next) => {
     console.log("Authentication")
-    const bearedToken = req.cookies.AUTH
-    if (req.cookies.AUTH) {
+    const bearedToken = req.cookies.auth
+    console.log("bearer Token: " + bearedToken)
+    if (req.cookies.auth) {
         try {
-            const token = bearedToken.split()[1]
+            const token = bearedToken.split('Bearer')[1]
+            console.log("Token: " + token)
             console.log("Token: " + token)
 
             // verify token which is send by user through cookies
             const verificationResult = await jwtUtil.verifyToken(token, privateKey)
-           
+
             // if token verification failed
             if (!verificationResult.verified) {
 
@@ -24,12 +26,8 @@ const auth = async (req, res, next) => {
 
             // pass to the next with user credentials
             req.auth = verificationResult?.data
-            console.log(result)
+            console.log(verificationResult)
             next()
-
-
-            console.log(autherised)
-
 
         }
         catch (err) {
@@ -39,7 +37,10 @@ const auth = async (req, res, next) => {
         }
     }
     else {
-        res.render('error', { message: "Invalid Credentials" })
+        res.status(statusCode.badRequest).json({
+            error: true,
+            message: 'unauthorized access'
+        })
     }
 }
 

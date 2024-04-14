@@ -3,9 +3,10 @@ import { statusCode } from "../../utils/httpStatusCode.utils.js";
 
 const sendVerificationMail = async (req, res, next) => {
     try {
-        return res.status(statusCode.ok).json(new ApiRespose())
+        console.log("user=>", req.user)
+        return res.status(statusCode.ok).json(new ApiRespose(req.auth))
     } catch (error) {
-        next(error);
+        next(new Error(error.message));
     }
 }
 
