@@ -28,7 +28,7 @@
     <script>
         swal("! Error ", "<%-message-%>", "warning", {
             buttons: {
-                cancel: "Register",
+                cancel: "login",
                 catch: {
                     text: "Try Again",
                     value: "redirect",
@@ -38,16 +38,13 @@
         })
             .then((value) => {
                 switch (value) {
-
-
-
                     case "redirect":
                         window.location = "/login"
                         break;
 
                     default:
                         swal.close()
-                        window.location = "/register"
+                        window.location = "/login"
                 }
 
             });

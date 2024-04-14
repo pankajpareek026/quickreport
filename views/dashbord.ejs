@@ -1043,39 +1043,40 @@
 
                         </td>
                         <form method="post" id="<%-i-%>">
-                            <td class="orderdata">
-                                <%- results[i].Coin_Name-%>
+                            <td style="color: #f88605;" class="orderdata">
+                                <%- results[i].pair.toUpperCase()-%>
                         </form>
                         </td>
 
                         <!-- <td><input class="orderdata" name="base"  type="text" value=<%- results[i].BASE -%>  disabled></td> -->
                         <td class="orderdata">
-                            <%- parseFloat(results[i].TU).toFixed(5) -%>
+                            <%- parseFloat(results[i].holding).toFixed(5) -%>
                         </td>
-                        <td class="orderdata">$ <%- parseFloat(results[i].TC -results[i].SC).toFixed(3) -%>
+                        <!-- PNL in base / usd -->
+                        <td class="orderdata">$ <%- parseFloat(results[i].buyingCost - results[i].sellingCost).toFixed(3) -%>
                         </td>
-                        <% if( Dpnl[i] < 0 ){ %>
+                        <% if( results[i].pnlInBase < 0 ){ %>
                             <td class="orderdata pnlR">
-                                <%- Ppnl[i] -%> %
+                                <%- results[i].pnlInPercent-%> %
                             </td>
                             <%}else{%>
                                 <td class="orderdata pnlG">
-                                    <%- Ppnl[i]-%> %
+                                    <%-results[i].pnlInPercent-%> %
                                 </td>
 
                                 <%}%>
-                                    <% if( Dpnl[i] < 0 ){ %>
-                                        <td class="orderdata pnlR">$ <%-parseFloat(Dpnl[i]).toFixed(2) -%>
+                                    <% if(results[i].pnlInBase< 0 ){ %>
+                                        <td class="orderdata pnlR">$ <%-results[i].pnlInBase -%>
                                         </td>
                                         <%}else{%>
-                                            <td class="orderdata pnlG"> $ <%-parseFloat(Dpnl[i]).toFixed(3) -%>
+                                            <td class="orderdata pnlG"> $ <%-results[i].pnlInBase -%>
                                             </td>
 
                                             <%}%>
                                                 <td
                                                     style="background-color: #201f1f; font-size: small; border: none; text-align: center; ">
                                                     <a id="<%-i-%>" href="/Transactions?Asset='<%-
-                                        results[i].Coin_Name-%>'" onclick="l('<%-i-%>')"
+                                        results[i].pair-%>'" onclick="l('<%-i-%>')"
                                                         class="fas fa-angle-right"></a><br><br>
 
                                                 </td>
@@ -1231,10 +1232,7 @@
         }
 
 
-        console.log('<%-coinname-%>')
-        for (var coin of JSON.stringify('<%=coinname%>')) {
-            console.log(coin)
-        }
+      
 
         function ShowOptions() {
             console.log("hiii")
@@ -1262,7 +1260,7 @@
                 window.location = "/portfolio"
             })
         }
-        console.log('<%chartContent%>')
+       
 
         // Load the Visualization API and the corechart package.
 

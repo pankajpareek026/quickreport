@@ -86,6 +86,9 @@
             height: 100px;
         }
 
+        .black{
+            color: black !important;
+        }
         .buysell {
             background-color: green;
             color: white;
@@ -116,11 +119,13 @@
             color: #070707;
             font-size: large;
             font-family: Rajdhani;
-            width: 100%;
+            width: auto;
             height: inherit;
             font-size: medium;
             border-collapse: collapse;
             border: none;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         td {
@@ -690,6 +695,7 @@
             * {
                 padding: 0;
                 margin: 0;
+                font-size: small;
             }
 
             body {
@@ -701,7 +707,7 @@
             .fa-chart-pie,
             .fa-home,
             .fa-newspaper {
-                font-size: .7rem;
+                font-size: small;
                 margin-top: 20px;
             }
 
@@ -711,7 +717,7 @@
             }
 
             .current-price {
-                font-size: 1rem;
+                font-size:small;
             }
 
             .change,
@@ -721,7 +727,7 @@
             }
 
             .red {
-                font-size: .5rem;
+                font-size: small;
             }
 
             .coindetails {
@@ -729,7 +735,7 @@
             }
 
             .value {
-                font-size: .7rem;
+                font-size: small;
                 height: max-content;
             }
 
@@ -739,7 +745,7 @@
             }
 
             .add {
-                font-size: .5rem;
+                font-size: small;
             }
 
             th {
@@ -748,11 +754,11 @@
             }
 
             .orderdata {
-                font-size: .35rem;
+                font-size: small;
             }
 
             tfoot td {
-                font-size: 1rem;
+                font-size: small;
             }
 
             .footer {
@@ -850,7 +856,7 @@
                         </p>
                         <%}%>
             </span><span>
-                <button class="change">90D</button>
+                <button class="change">1Y</button>
                 <%if(ChangeIn90D<0) {%>
                     <p class="redc">
                         <%-parseFloat(ChangeIn90D).toFixed(2)-%> %
@@ -918,13 +924,14 @@
 
     <div class="tablec">
         <table border="none" id=" Ttable" style="width: 95%; margin-left:2.5%">
-            <tr>
-
-                <th style="border-radius: 10px 0px 0px 0px;">ORDER TYPE</th>
-                <th>PRICE</th>
-                <th>UNITS</th>
-                <th>COST</th>
-                <th>SELL COST</th>
+            <tr style="color: #070707;">
+                <th style="border-radius: 10px 0px 0px 0px;">TIME</th>
+                <th class="black">ORDER TYPE</th>
+               
+                <th class="black">PRICE</th>
+                <th class="black">UNITS</th>
+                <th class="black">COST</th>
+                <th class="black">SELL COST</th>
 
                 <th style="border-radius: 0px 10px 0px 0px;">ACTION</th>
             <tr>
@@ -933,10 +940,15 @@
                         <% for(var i=0 ;i < results.length;i++){ totalUNITS+=parseFloat(results[i].UNITS);
                             TotalCOST+=parseFloat(results[i].TOTAL_COST )%>
             <tr>
+                <% let date=new Date(results[i].TIME)%>
                 <form id="deleteForm" method="post">
+                    <td class="orderdata">
+                        
+                        <%- date.toLocaleString("en-IN")-%>
+                    </td>
 
                     <td class="orderdata">
-                        <%- results[i].ORDER_TYPE.toUpperCase () -%>
+                        <%- results[i].ORDER_TYPE.toUpperCase() -%>
                     </td>
 
                     <td class="orderdata">
@@ -944,20 +956,20 @@
                     </td>
 
                     <td class="orderdata">
-                        <%- results[i].UNITS -%>
+                        <%- results[i].UNITS+" "+CmcSymbol -%> 
                     </td>
 
                     <td class="orderdata">
-                        <%- results[i].TOTAL_COST -%>
+                        <%- results[i].TOTAL_COST+" "+base -%>
                     </td>
 
                     <td class="orderdata">
-                        <%- results[i].SELL_COST -%>
+                        <%- results[i].SELL_COST+" "+base -%>
                     </td>
                 </form>
                 <!-- onclick="s('<%- results[i].ORDER_TYPE -%>','<%- results[i].PRICE -%>','<%- results[i].UNITS -%>','<%- results[i].TOTAL_COST -%>','<%- results[i].SELL_COST -%>')" -->
-                <td><a onclick="deleteTransaction(`<%- results[i].ID-%>`,`<%- results[i].Coin_Name-%>`)"
-                        class="fas fa-times"></a> ,<a onclick="edit()" href="/update?id=<%- results[i].ID-%>"
+                <td class="orderdata"><a style="width: '50%';" onclick="deleteTransaction(`<%- results[i].ID-%>` `<%- results[i].Coin_Name-%>`)"
+                        class="fas fa-times"></a> <a  style="width: '50%'; margin-left: '10%';"onclick="edit()" href="/update?id=<%- results[i].ID-%>"
                         class="far fa-edit"></a></td>
             </tr>
 
@@ -970,7 +982,9 @@
                         <%-totalUNITS-%>
                             <%- CmcSymbol-%>
                     </td>
-                    <td style="font-size: x-large;">
+                   
+                    <td></td>
+                    <td style="font-size: 1rem;">
                         $ <%-parseFloat(TotalCOST).toFixed(4)-%>
                     </td>
                     <td></td>

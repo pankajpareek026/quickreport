@@ -1,0 +1,157 @@
+------------------------------- CONTROLLERS --------------------------------
+
+
+project_root/
+│
+├── controllers/
+│   ├── auth/
+│   │   ├── login.controller.js
+│   │   ├── signup.controller.js
+│   │   ├── password.controller.js
+│   │   └── emailVerification.controller.js
+│   │
+│   ├── finance/
+│   │   ├── funding.show.controller.js
+│   │   ├── funding.search.controller.js
+│   │   ├── funding.pagination.controller.js
+│   │   ├── funding.addTransaction.controller.js
+│   │   ├── funding.editTransaction.controller.js
+│   │   └── funding.deleteTransaction.controller.js
+│   │
+│   ├── assetSpace/
+│   │   ├── assetSpace.create.controller.js
+│   │   ├── assetSpace.update.controller.js
+│   │   ├── assetSpace.delete.controller.js
+│   │   ├── assetSpace.addAsset.controller.js
+│   │   ├── assetSpace.deleteAsset.controller.js
+│   │   ├── assetSpace.updateAsset.controller.js
+│   │   └── assetSpace.show.controller.js
+│   │
+│   └── portfolio/
+│       ├── portfolio.create.controller.js
+│       ├── portfolio.update.controller.js
+│       ├── portfolio.delete.controller.js
+│       ├── portfolio.addTransaction.controller.js
+│       ├── portfolio.deleteTransaction.controller.js
+│       ├── portfolio.updateTransaction.controller.js
+│       ├── portfolio.addToFavorate.controller.js
+│       ├── portfolio.removeFromFavorate.controller.js
+│       ├── portfolio.addToTrack.controller.js
+│       ├── portfolio.removeFromTrack.controller.js
+│       ├── portfolio.pagination.controller.js
+│       └── portfolio.search.controller.js
+│       └── portfolio.show.controller.js
+│
+├── models/
+│   ├── User.module.js
+│   ├── AssetSpace.module.js
+│   ├── Funding.module.js
+│   ├── Portfolio.module.js
+│   └── Transaction.module.js
+│
+│
+├── routes/
+│   ├── authRoutes.route.js
+│   ├── financeRoutes.route.js
+│   ├── assetSpaceRoutes.route.js
+│   └── portfolioRoutes.route.js
+
+
+
+
+
+
+
+------------------------------- MODELS /SCHEMA DESIGN --------------------------------
+
+
+User:
+- id (ObjectId)
+- username (String)
+- email (String)
+- password (String)
+- createdAt (Date)
+- updatedAt (Date)
+
+AssetSpace:
+- id (ObjectId)
+- name (String)
+- owner (ObjectId - reference to User)
+- assets (Array of ObjectIds - reference to Asset)
+
+Funding:
+- id (ObjectId)
+- amount (Number)
+- type (String) // e.g., investment, donation, etc.
+- date (Date)
+- user (ObjectId - reference to User)
+- transactions (Array of ObjectIds - reference to Transaction)
+
+Portfolio:
+- id (ObjectId)
+- name (String)
+- owner (ObjectId - reference to User)
+- transactions (Array of ObjectIds - reference to Transaction)
+- favorite (Array of ObjectIds - reference to User)
+- track (Array of ObjectIds - reference to User)
+
+Transaction:
+- id (ObjectId)
+- amount (Number)
+- type (String) // e.g., buy, sell
+- date (Date)
+- asset (ObjectId - reference to Asset)
+- portfolio (ObjectId - reference to Portfolio)
+- funding (ObjectId - reference to Funding)
+  
+
+  -------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const mongoose = require('mongoose');
+
+const transactionSchema = new mongoose.Schema({
+    amount: { type: Number, required: true },
+    type: { type: String, required: true },
+    date: { type: Date, default: Date.now },
+    asset: { type: mongoose.Schema.Types.ObjectId, ref: 'Asset' },
+    portfolio: { type: mongoose.Schema.Types.ObjectId, ref: 'Portfolio' }
+});
+
+const Transaction = mongoose.model('Transaction', transactionSchema);
+
+module.exports = Transaction;
+
+const mongoose = require('mongoose');
+const Transaction = require('./transactionModel'); // Assuming you've defined the Transaction model
+
+const fundingSchema = new mongoose.Schema({
+    amount: { type: Number, required: true },
+    type: { type: String, required: true },
+    date: { type: Date, default: Date.now },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    transactions: [Transaction.schema] // Embedding Transaction schema as a subdocument
+});
+
+const Funding = mongoose.model('Funding', fundingSchema);
+
+module.exports = Funding;
+
+

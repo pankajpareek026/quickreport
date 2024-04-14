@@ -1,12 +1,18 @@
+import mongoose from "mongoose";
+import DB_NAME from '../constants.js';
+import { config } from "./config.js";
 
-//database connection file 
-var mysql = require('mysql2');
-var conn = mysql.createPool({
-    host: "sql.freedb.tech",
-    user: "freedb_quickreport",
-    password: "fUAde$SfZ228N53",
-    database: "freedb_main-master",
-    connectTimeout:28800
-})
 
-module.exports = conn;  
+
+const connectDB = async () => {
+    try {
+        const connectionInstance = await mongoose.connect(`${config.mongoUrl}${DB_NAME}`)
+        console.log(`\n MongoDB connected !! ✔️ ✔️  ✅ 👍 `);
+
+    } catch (error) {
+        console.log("MONGODB connection FAILED ", error.message);
+        process.exit(1)
+    }
+}
+
+export default connectDB

@@ -1,0 +1,3 @@
+﻿UID,Account Type,Order ID,Order Time(UTC+05:30),Symbol,Side,Order Type,Order Price,Order Amount,Avg. Filled Price,Filled Amount,Filled Volume,Filled Volume (USDT),Filled Time(UTC+05:30),Fee,Fee Currency,Status
+****4746,mainAccount,604dff6f02385c000664c41f,2021-03-14 17:49:59,VELO-USDT,BUY,LIMIT,1.741,8.5899,1.741,8.5899,14.9550159,14.9550159,2021-03-14 17:50:23,0.0448650477,USDT,deal
+****4746,mainAccount,604fa73fceb2bf00061db2fb,2021-03-15 23:58:15,EWT-USDT,BUY,LIMIT,14.108,0.7081,14.108,0.7081,9.9898748,9.9898748,2021-03-16 00:17:03,0.0099898748,USDT,deal

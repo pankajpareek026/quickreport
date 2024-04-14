@@ -495,13 +495,22 @@
     }
 
     /*responsive*/
-    /* @media(max-width: 767px){
-      .footer-col{
-        width: 50%;
-        margin-bottom: 30px;
+    @media(max-width: 767px) {
+        .footer-col {
+            width: 50%;
+            margin-bottom: 30px;
+        }
+
+        .formcenter {
+            width: 100%;
+        }
+
+        form {
+            width: 100% !important;
+        }
     }
-    }
-    @media(max-width: 574px){
+
+    /* @media(max-width: 574px){
       .footer-col{
         width: 100%;
     }
@@ -962,7 +971,7 @@
 
                 </datalist>
 
-                <select name="ordertype" id="type" title="Order Type" required="required">
+                <select name="orderType" id="type" title="Order Type" required="required">
                     <!--select for order type-->
                     <option selected="true" disabled="disabled">TYPE</option>
                     <!--TYPES OF ORDER-->
@@ -983,8 +992,13 @@
                     placeholder="quantity / units"><br></span>
             <!--UNIT S-->
             <span id="tc">Total <br> <input id="totalcost" onkeypress="return onlyNumberKey(event)"
-                    onclick="totalvalue()" name="totals" type="number" placeholder="TOTAL" value="" maxlength="19"
+                    onclick="totalvalue()" name="totalCost" type="number" placeholder="TOTAL" value="" maxlength="19"
                     step="any" required> </span><a class="cc"></a>
+
+            <span id="tc">Date <br> <input id="totalcost" name="date" type="datetime-local" placeholder="TOTAL" value=""
+                    maxlength="19" step="any" required> </span>
+            <span id="tc">Note <br> <input id="totalcost" "
+                     name=" note" type="text" placeholder="comment/note" value="" maxlength="20" step="any"> </span>
             <!--TOTAL COST-->
 
             <div class="btns">
