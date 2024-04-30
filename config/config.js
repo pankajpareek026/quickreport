@@ -12,7 +12,8 @@ const _config = {
     maxFileSize: process.env.MAX_FILE_SIZE,
     port: process.env.PORT,
     corsOrigin: process.env.CORS_ORIGIN,
-    resendAPIKey: process.env.RESEND_API_KEY
+    resendAPIKey: process.env.RESEND_API_KEY,
+    otpSecret: process.env.OTP_SECRET
 
 
 

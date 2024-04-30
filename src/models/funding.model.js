@@ -10,21 +10,23 @@
 */
 
 import mongoose from 'mongoose';
-import { FundingTrasaction } from './fundingTransaction.model';
-const fundingSchema =  mongoose.Schema({
+import fundingTransactionSchema from './fundingTransaction.model.js';
+
+// fundingTransactionSchema
+const fundingSchema = mongoose.Schema({
     owner: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         validator: async function (value) {
-            const user = await Mongoose.model('user').findOne({ _id: value });
+            const user = await mongoose.model('user').findOne({ _id: value });
             return !!user;
         }
     },
-    transactions: [FundingTrasaction]
+    transactions: [fundingTransactionSchema]
 }, {
     timestamps: true
 })
 
 const Funding = mongoose.model('funding', fundingSchema)
 
-export { Funding }
+export default Funding 

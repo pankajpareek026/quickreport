@@ -1,20 +1,32 @@
 // To add funding transactions
 
+import Joi from "joi";
+import Funding from "../../models/funding.model.js";
+import { User } from "../../models/users.model.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
+import mongoose from "mongoose";
+import { ApiRespose } from "../../utils/apiResponse.utils.js";
 
 const addFundingTransaction = async (req, res, next) => {
     // let { amount, type, discription, date,currency } = req.body;
 
     try {
-        const user = req.auth.user
-        console.log("user req", user)
-        const isValidUser = await User.findOne({ _id: user }, { _id: 1 })
-        if (!isValidUser) {
+        // extract user id from request
+        const { user: userId } = req.auth
+
+        console.log("user req =>", userId)
+        // const isValidUser = await User.findOne({ _id: user }, { _id: 1 })
+        console.log("user =>", userId)
+        // const { _id: userId } = isValidUser;
+
+
+        // if userId not exists send error message
+        if (!userId) {
             return next(new ApiErrors(statusCode.unauthorized, "unauthorized access"));
         }
 
-
+        // validate user data
         const validationSchema = Joi.object({
             amount: Joi.number().min(1).max(1000000000000).label("'Amount'").messages({
                 "number.min": "Amount Must be Greater than zero",
@@ -41,30 +53,51 @@ const addFundingTransaction = async (req, res, next) => {
             }).required() // Allaow an empty string for the note
         });
 
-        const { error, value } = validationSchema.validate(req.body)
+        // extract error and valid data 
+        const { error, value: validData } = validationSchema.validate(req.body)
+
+        console.log("Valid Data =>", validData)
+        // if any data validation falils then send error message
         if (error) {
             const message = error.details[0].message
             // .replace(/[^\w\s]/gi, '')
             console.log(error)
             return next(new ApiErrors(statusCode.badRequest, message,))
-
         }
-        // let { amount, type, discription, date } = req.body;
-        let { amount, type, discription, date, note, currency } = value
 
+        //  extract data from valid data
+        let { amount, type, discription, date, note, currency } = validData
+
+        console.log("valid data =>", validData)
         // Convert withdraw amount to negative
         if (type === 'withdraw' || type === "WITHRDAW") {
-            amount = -amount;
+            amount *= -1;
         }
 
-        const fundingResult = await Funding.create({
-            amount, type, amount, note, currency, user_id: user
-        })
-        if (!fundingResult._id) {
-            return next(error)
+        // create a finala transaction data with owner and object id
+        const transactionData = await {
+            you: "1010",
+            owner: userId,
+            _id: new mongoose.Types.ObjectId(),
+            amount,
+            type,
+            discription,
+            date,
+            note,
+            currency
         }
+
+
+        //  save data in database
+        const fundingResult = await Funding.updateOne({ owner: userId }, {
+            $push: { transactions: transactionData }
+        })
+
+        console.log("transaction result =>", fundingResult)
+
+
         // Respond with JSON data for now
-        return res.status(statusCode.ok).json(new ApiResponse(true, 'transaction saved successfully'));
+        return res.status(statusCode.ok).json(new ApiRespose(true, 'Transaction saved successfully',));
 
     } catch (error) {
         return next(error)

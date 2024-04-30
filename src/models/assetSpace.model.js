@@ -41,7 +41,8 @@ const assetSpaceSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: [true, 'Asset Space Name is required']
+        required: [true, 'Asset Space Name is required'],
+        
     },
     assets: [assetSchema],// to store all assets 
     spaceInfo: { // to store the information that is space is a exchange ,wallet ,dex,staked 

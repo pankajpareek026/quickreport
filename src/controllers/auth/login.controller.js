@@ -62,10 +62,11 @@ const login = async (req, res, next) => {
     }).status(200).json(new ApiRespose(
       true,
       'Logged in successfully',
-      user.isVerified ? '/dashboard' : "/verify",
       {
         auth: 'Bearer' + token.data
-      }));
+      },
+      user.isVerified ? '/dashboard' : "/verify",
+    ));
 
 
   } catch (error) {

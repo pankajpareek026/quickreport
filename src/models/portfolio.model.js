@@ -8,9 +8,11 @@
 - track (Array of ObjectIds - reference to User)
 */
 
-import { ref } from "joi";
+
 import mongoose from "mongoose";
-import { PortfolioTransaction } from "./portfolioTransaction.model";
+// import { PortfolioTransaction } from "./portfolioTransaction.model.js";
+import portfolioTransactionSchema from './portfolioTransaction.model.js';
+
 
 const portfolioSchema = new mongoose.Schema({
     name: {
@@ -18,22 +20,22 @@ const portfolioSchema = new mongoose.Schema({
         required: [true, "Portfolio Name is required"],
     },
     owner: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: [true, "user id is required"],
         validate: {
             validator: async function (value) {
-                const user = await Mongoose.model('user').findOne({ _id: value });
+                const user = await mongoose.model('user').findOne({ _id: value });
                 return !!user;
             },
             message: 'Invalid user id',
         },
     },
-    transactions: [PortfolioTransaction]
+    transactions: [portfolioTransactionSchema]
 }, {
     timestamps: true
 })
 
-const Portfolio = mongoose.modal('Portfolio', portfolioSchema);
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
 
 export default Portfolio 

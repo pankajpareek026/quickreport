@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 const fundingTransactionSchema = mongoose.Schema({
     amount: {
         type: Number,
@@ -6,15 +7,23 @@ const fundingTransactionSchema = mongoose.Schema({
     },
     currency: {
         type: String,
-        required: [true, "currency is required"]
+        required: [true, "currency is required"],
+        default: "INR"
     },
     type: {
         type: String,
-        required: [true, "type is required"]
+        enum: ["deposit", 'withdraw', 'airdrop', 'lost'],
+        required: [true, " Transaction type is required"],
+
+    },
+    date: {
+        type: Date,
+        default: Date.now(),
     },
     note: {
         type: String,
-        required: [true, "note is required"]
+        default: ""
+        // required: [true, "note is required"]
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -28,8 +37,13 @@ const fundingTransactionSchema = mongoose.Schema({
             message: 'Invalid user id',
         },
     },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: new mongoose.Types.ObjectId()
+    }
 }, { timeStamp: true })
 
-const FundingTransactionModle = mongoose.model("funding", fundingTransactionSchema);
+// const FundingTransactionModle = mongoose.model("funding", fundingTransactionSchema);
 
-export { FundingTransactionModle as FundingTrasaction }
+// export { FundingTransactionModle as FundingTrasaction }
+export default fundingTransactionSchema;

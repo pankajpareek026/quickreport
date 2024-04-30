@@ -110,7 +110,7 @@ const portfolioTransactionSchema = mongoose.Schema({
     timestamps: true
 })
 
-const PortfolioTransactionModel = mongoose.model('tnx', portfolioTransactionSchema)
+// const PortfolioTransactionModel = mongoose.model('tnx', portfolioTransactionSchema)
 
 
-export { PortfolioTransactionModel as PortfolioTransaction }
+export default portfolioTransactionSchema;

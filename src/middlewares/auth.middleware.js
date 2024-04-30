@@ -7,7 +7,7 @@ const auth = async (req, res, next) => {
     console.log("bearer Token: " + bearedToken)
     if (req.cookies.auth) {
         try {
-            const token = bearedToken.split('Bearer')[1]
+            const token =await bearedToken.split('Bearer')[1]
             console.log("Token: " + token)
             console.log("Token: " + token)
 
