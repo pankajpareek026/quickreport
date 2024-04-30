@@ -7,6 +7,7 @@ import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import mongoose from "mongoose";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
+import { Message } from "../../utils/responseMessage.utils.js";
 
 const addFundingTransaction = async (req, res, next) => {
     // let { amount, type, discription, date,currency } = req.body;
@@ -66,7 +67,7 @@ const addFundingTransaction = async (req, res, next) => {
         }
 
         //  extract data from valid data
-        let { amount, type, discription, date, note, currency } = validData
+        let { amount, type, discription, date, note, currency, tag } = validData
 
         console.log("valid data =>", validData)
         // Convert withdraw amount to negative
@@ -84,7 +85,8 @@ const addFundingTransaction = async (req, res, next) => {
             discription,
             date,
             note,
-            currency
+            currency,
+            tag
         }
 
 
@@ -97,7 +99,7 @@ const addFundingTransaction = async (req, res, next) => {
 
 
         // Respond with JSON data for now
-        return res.status(statusCode.ok).json(new ApiRespose(true, 'Transaction saved successfully',));
+        return res.status(statusCode.ok).json(new ApiRespose(true, Message.trnSaved,));
 
     } catch (error) {
         return next(error)

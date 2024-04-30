@@ -8,6 +8,7 @@ import verifyOTP from "../../utils/verifyOTP.utils.js";
 import Portfolio from './../../models/portfolio.model.js';
 import AssetSpace from "../../models/assetSpace.model.js";
 import Funding from "../../models/funding.model.js";
+import { Message } from "../../utils/responseMessage.utils.js";
 
 const verifyEmail = async (req, res, next) => {
     try {
@@ -37,7 +38,7 @@ const verifyEmail = async (req, res, next) => {
 
         // if otp not match with database result
         if (!verificationResult.valid) {
-            return next(new ApiErrors(statusCode.badRequest, "Invalid OTP"))
+            return next(new ApiErrors(statusCode.badRequest, Message.wOtp))
         }
 
 
@@ -51,7 +52,7 @@ const verifyEmail = async (req, res, next) => {
         console.log("setVerified=>", setVerified)
         // check is user verification status updated successfully if not then send error message
         if (setVerified.modifiedCount !== 1) {
-            return next(new ApiErrors(statusCode.internalServerError, "something went wrong . try again"))
+            return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong))
 
         }
         console.log(" 1. email verified 1/5 ")
@@ -61,16 +62,16 @@ const verifyEmail = async (req, res, next) => {
 
 
         // if OTP not deleted successfully
-        if (deleteOTP.deletedCount !== 1) return next(new ApiErrors(statusCode.internalServerError, "something went wrong . try again"))
+        if (deleteOTP.deletedCount !== 1) return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong))
         console.log('OTP deleted successfully= >', deleteOTP)
-        
-        
+
+
         // create main PortFolio
         const portfolioResult = await Portfolio.create({ owner: userId, name: "main" })
 
 
         //any error while creating portfolio return error message
-        if (!portfolioResult._id) return next(new ApiErrors(statusCode.internalServerError, "something went wrong . try again"))
+        if (!portfolioResult._id) return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong));
         console.log(" 2. portfolio created 2/5")
         console.log("portfolio ID :", portfolioResult._id)
 
@@ -85,7 +86,7 @@ const verifyEmail = async (req, res, next) => {
 
 
         // if any error while creating asset space retuen error message
-        if (!assetSpaceResult._id) return next(new ApiErrors(statusCode.internalServerError, "something went wrong . try again"))
+        if (!assetSpaceResult._id) return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong))
 
 
         // create funding 
@@ -94,7 +95,7 @@ const verifyEmail = async (req, res, next) => {
         console.log("Funding ID :=> " + fundingResult._id);
 
         // if any error while creating funding retuen error message
-        if (!fundingResult._id) return next(new ApiErrors(statusCode.internalServerError, "something went wrong . try again"));
+        if (!fundingResult._id) return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong));
 
         console.log("5. Account set Completed 5/5")
         // if user user isVerified update successfully create funding and portfolio(main) and asset space (main)
@@ -103,8 +104,8 @@ const verifyEmail = async (req, res, next) => {
         //     return next(new ApiErrors(statusCode.unauthorized, "unauthorized access"));
         // }
 
-        
-        return res.status(statusCode.created).json(new ApiRespose(true, "account setup complete", null, '/dashboard'));
+
+        return res.status(statusCode.created).json(new ApiRespose(true, Message.acSetupDone, null, '/dashboard'));
     } catch (error) {
         console.log(error.message);
         // return next(error);

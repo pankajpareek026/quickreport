@@ -3,6 +3,7 @@ import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import Funding from './../../models/funding.model.js';
+import { Message } from "../../utils/responseMessage.utils.js";
 
 const transactionInfoFromFunding = async (req, res, next) => {
     try {
@@ -10,12 +11,6 @@ const transactionInfoFromFunding = async (req, res, next) => {
         console.log("quries =>", transactionId)
 
         console.log("is Transaction Id :", mongoose.isObjectIdOrHexString(transactionId));
-
-        // check is it a valid transactio id
-
-        // if (!mongoose.isObjectIdOrHexString(transactionId)) {
-        //     return next(new ApiErrors(statusCode.badRequest, "Bad request . try again"))
-        // }
 
         // find out the transactio detail using transaction id in from transactios Array
         const transactionDetail = await Funding.aggregate([
@@ -42,7 +37,7 @@ const transactionInfoFromFunding = async (req, res, next) => {
         // if transaction is not found
 
         if (!transactionDetail?.length > 0) {
-            return next(new ApiErrors(statusCode.badRequest, "something went wrong"))
+            return next(new ApiErrors(statusCode.badRequest, Message.wentWrong))
         }
 
         console.log("transaction Data :", transactionDetail)

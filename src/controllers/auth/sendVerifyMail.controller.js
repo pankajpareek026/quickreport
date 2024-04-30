@@ -6,6 +6,7 @@ import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import generateOTP from "../../utils/otpGenerator.utils.js";
 import generateVerifyEmailTemplate from '../../../templets/verifyEmail.template.js';
 import sendMail from "../../utils/sendMail.utils.js";
+import { Message } from "../../utils/responseMessage.utils.js";
 
 const sendVerificationMail = async (req, res, next) => {
     try {
@@ -16,7 +17,7 @@ const sendVerificationMail = async (req, res, next) => {
 
         // if user not found then send error message 
         if (!userInfo) {
-            return next(new ApiErrors(statusCode.badRequest, 'unauthorized access'))
+            return next(new ApiErrors(statusCode.badRequest, Message.unAuth))
         }
 
 
@@ -47,7 +48,7 @@ const sendVerificationMail = async (req, res, next) => {
             if (mailResult.rejected.length != 0) return next(new ApiErrors())
 
             // if mail delivered successfully
-            return res.status(statusCode.ok).json(new ApiRespose(true, `OTP sent successfully`, `6 Digit OTP sent successfully on your email : ${email}`));
+            return res.status(statusCode.ok).json(new ApiRespose(true, Message.otpSent, `6 Digit OTP sent successfully on your email : ${email}`));
         }
 
         // genetate 6 Digit OTP
@@ -55,7 +56,7 @@ const sendVerificationMail = async (req, res, next) => {
 
 
         // if any error while generating OTP then send an error message
-        if (!otp) return next(new ApiErrors(statusCode.internalServerError, 'some thing went wrong'));
+        if (!otp) return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong));
 
 
         // store otp in database with userid and otp type linke verification ,reset,forget
@@ -72,7 +73,7 @@ const sendVerificationMail = async (req, res, next) => {
         console.log("saveOtp:>", saveOtp)
         // if any error while saving otp in DB
         if (!saveOtp.id) {
-            return next(new ApiErrors(statusCode.internalServerError, 'some thing went wrong'))
+            return next(new ApiErrors(statusCode.internalServerError, Message.internalError))
         }
         // generate a email template with otp
         const emailTemplate = generateVerifyEmailTemplate(otp, name)

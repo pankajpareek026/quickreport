@@ -7,6 +7,7 @@ import { ApiErrors } from '../../utils/apiErrors.utils.js';
 import { statusCode } from '../../utils/httpStatusCode.utils.js';
 import jwtUtil from '../../utils/jwt.util.js';
 import { User } from '../../models/users.model.js';
+import { Message } from '../../utils/responseMessage.utils.js';
 
 
 
@@ -39,7 +40,7 @@ const login = async (req, res, next) => {
 
     // Return a warning if the password is incorrect
     if (!isCorrect) {
-      return next(new ApiErrors(statusCode.badRequest, 'Invalid password'));
+      return next(new ApiErrors(statusCode.badRequest, Message.wrongPass));
     }
 
 
@@ -49,7 +50,7 @@ const login = async (req, res, next) => {
     // Check if there was an error creating the token
     if (token.data == null) {
 
-      return next(new ApiErrors(statusCode.internalServerError, 'Internal Server Error'))
+      return next(new ApiErrors(statusCode.internalServerError, Message.internalError))
     }
 
     // Set the JWT as a cookie and send a success response
@@ -61,7 +62,7 @@ const login = async (req, res, next) => {
       path: "/"
     }).status(200).json(new ApiRespose(
       true,
-      'Logged in successfully',
+      Message.loginSuccess,
       {
         auth: 'Bearer' + token.data
       },

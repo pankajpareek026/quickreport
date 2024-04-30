@@ -6,6 +6,7 @@ import { User } from "../../models/users.model.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
+import { Message } from "../../utils/responseMessage.utils.js";
 
 // const showRegisterPage = async (req, res, next) => {
 
@@ -82,7 +83,7 @@ const signUp = async (req, res, next) => {
         })
         if (userExists) {
             // console.log(me)
-            return next(new ApiErrors(statusCode.badRequest, "Username or email already exists !",))
+            return next(new ApiErrors(statusCode.badRequest, Message.emailExists,))
         }
 
         const formatedJoiningDate = new Date().toLocaleString("en-IN");
@@ -96,10 +97,10 @@ const signUp = async (req, res, next) => {
             joiningDate: Date.now()
         })
         if (!createUSer._id) {
-            return next(new ApiErrors(statusCode.internalServerError, "something went wrong", "error",))
+            return next(new ApiErrors(statusCode.internalServerError, Message.wentWrong, "error",))
         }
         // res.json(createUSer)
-        return res.status(statusCode.ok).json(new ApiRespose(true, "Registration Successfull",))
+        return res.status(statusCode.ok).json(new ApiRespose(true, Message.signupSuccess,))
 
 
         // res.render("Rresponse", { name: Name });

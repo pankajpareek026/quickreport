@@ -12,30 +12,30 @@ import auth from "../middlewares/auth.middleware.js";
 
 const router = Router();
 // to get all data related to funding page
-router.get('/funding',auth, funding)
+router.get('/funding', auth, funding)
 
 // search tansaction in funding page [?query=value]
-router.get('/funding/search',auth, fundingSearch)
+router.get('/funding/search', auth, fundingSearch)
 
 
 // add funding transaction
-router.post('/funding/new',auth, addFundingTransaction)
+router.post('/funding/new', auth, addFundingTransaction)
 
 
 
 // get detail of a funding transaction
-router.get('/funding/info/:transactionId',auth, transactionInfoFromFunding)
+router.get('/funding/info/:transactionId', auth, transactionInfoFromFunding)
 
 // paggination 
-router.get('/funding/:start/:end',auth, fundingPaggination)
+router.get('/funding/:start/:end/:pageLimit', auth, fundingPaggination)
 
 
 // edit funding transaction
-router.put('/funding/edit/:transactionId',auth, editTransactionFromFunding)
+router.put('/funding/edit/:transactionId', auth, editTransactionFromFunding)
 
 
 // delete funding transaction
-router.patch('/funding/delete/:transactionId',auth, deleteTransactionFromFunding)
+router.delete('/funding/delete/:transactionId', auth, deleteTransactionFromFunding)
 
 
 export {

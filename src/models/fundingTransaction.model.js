@@ -25,6 +25,10 @@ const fundingTransactionSchema = mongoose.Schema({
         default: ""
         // required: [true, "note is required"]
     },
+    tag: {
+        type: String,
+        default: ""
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
