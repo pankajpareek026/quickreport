@@ -1,5 +1,4 @@
-import Funding from "../../models/funding.model.js";
-import { User } from "../../models/users.model.js";
+import FundingModal from "../../models/funding.model.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
@@ -15,7 +14,7 @@ const deleteTransactionFromFunding = async (req, res, next) => {
 
 
         //delete transaction using transaction id
-        const deleteResult = await Funding.updateOne({ owner: userId }, {
+        const deleteResult = await FundingModal.updateOne({ owner: userId }, {
             $pull: { "transactions": { _id: transactionId } }
         })
 

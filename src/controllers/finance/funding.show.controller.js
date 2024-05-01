@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Funding from "../../models/funding.model.js";
+import FundingModal from "../../models/funding.model.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
@@ -14,7 +14,7 @@ const funding = async (req, res, next) => {
 
 
         // get 
-        const fundingData = await Funding.aggregate([
+        const fundingData = await FundingModal.aggregate([
             { $match: { owner: new mongoose.Types.ObjectId(userId) } },
             {
                 $project: {

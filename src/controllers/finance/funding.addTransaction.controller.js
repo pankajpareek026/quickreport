@@ -1,8 +1,8 @@
 // To add funding transactions
 
 import Joi from "joi";
-import Funding from "../../models/funding.model.js";
-import { User } from "../../models/users.model.js";
+import FundingModal from "../../models/funding.model.js";
+// import { User } from "../../models/users.model.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import mongoose from "mongoose";
@@ -91,7 +91,7 @@ const addFundingTransaction = async (req, res, next) => {
 
 
         //  save data in database
-        const fundingResult = await Funding.updateOne({ owner: userId }, {
+        const fundingResult = await FundingModal.updateOne({ owner: userId }, {
             $push: { transactions: transactionData }
         })
 

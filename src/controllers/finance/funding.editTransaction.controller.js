@@ -2,7 +2,7 @@ import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { Message } from "../../utils/responseMessage.utils.js";
-import Funding from './../../models/funding.model.js';
+import FundingModal from './../../models/funding.model.js';
 import Joi from "joi";
 
 const editTransactionFromFunding = async (req, res, next) => {
@@ -58,7 +58,7 @@ const editTransactionFromFunding = async (req, res, next) => {
 
 
         // update transaction 
-        const updateResult = await Funding.updateOne(
+        const updateResult = await FundingModal.updateOne(
             { "transactions._id": transactionId }, // Match documents containing the specific transaction
             {
                 $set: {

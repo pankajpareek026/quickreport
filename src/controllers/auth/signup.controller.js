@@ -2,7 +2,7 @@ import Joi from "joi";
 import * as yup from "yup";
 const { object, string, ref } = Joi
 import { hash } from "bcrypt";
-import { User } from "../../models/users.model.js";
+import { UserModel } from "../../models/users.model.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
@@ -78,7 +78,7 @@ const signUp = async (req, res, next) => {
 
 
         const hashedPassword = await hash(password, 10);
-        const userExists = await User.findOne({
+        const userExists = await UserModel.findOne({
             $or: [{ username: userName }, { email: emailId }]
         })
         if (userExists) {

@@ -1,6 +1,7 @@
 const resposeneMessage = {
     success: "success",
     badRequest: "Bad request . try again",
+    notFound: "not found",
     wentWrong: "Something went wrong . try again ",
     internalError: "Internal Server Error",
     unableToProcess: "Unable to process your request . try again later",

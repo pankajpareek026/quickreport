@@ -1,13 +1,13 @@
 import Joi from "joi";
-import Otp from "../../models/otp.model.js";
-import { User } from "../../models/users.model.js";
+import OtpModal from "../../models/otp.model.js";
+import { UserModel } from "../../models/users.model.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import verifyOTP from "../../utils/verifyOTP.utils.js";
-import Portfolio from './../../models/portfolio.model.js';
-import AssetSpace from "../../models/assetSpace.model.js";
-import Funding from "../../models/funding.model.js";
+import PortfolioModal from './../../models/portfolio.model.js';
+import AssetSpaceModal from "../../models/assetSpace.model.js";
+import FundingModal from "../../models/funding.model.js";
 import { Message } from "../../utils/responseMessage.utils.js";
 
 const verifyEmail = async (req, res, next) => {
@@ -43,7 +43,7 @@ const verifyEmail = async (req, res, next) => {
 
 
         // if match then update user isVerified =true 
-        const setVerified = await User.updateOne({ _id: userId }, {
+        const setVerified = await UserModel.updateOne({ _id: userId }, {
             $set: {
                 isVerified: true
             }
@@ -58,7 +58,7 @@ const verifyEmail = async (req, res, next) => {
         console.log(" 1. email verified 1/5 ")
 
         // delete otp if user verificatio status changed successfully
-        const deleteOTP = await Otp.deleteOne({ owner: userId, otpType: 'verify' });
+        const deleteOTP = await OtpModal.deleteOne({ owner: userId, otpType: 'verify' });
 
 
         // if OTP not deleted successfully
@@ -67,7 +67,7 @@ const verifyEmail = async (req, res, next) => {
 
 
         // create main PortFolio
-        const portfolioResult = await Portfolio.create({ owner: userId, name: "main" })
+        const portfolioResult = await PortfolioModal.create({ owner: userId, name: "main" })
 
 
         //any error while creating portfolio return error message
@@ -77,7 +77,7 @@ const verifyEmail = async (req, res, next) => {
 
 
         // create asset space
-        const assetSpaceResult = await AssetSpace.create({
+        const assetSpaceResult = await AssetSpaceModal.create({
             owner: userId,
             name: "main"
         })
@@ -90,7 +90,7 @@ const verifyEmail = async (req, res, next) => {
 
 
         // create funding 
-        const fundingResult = await Funding.create({ owner: userId });
+        const fundingResult = await FundingModal.create({ owner: userId });
         console.log("4. funding created 4/5 ")
         console.log("Funding ID :=> " + fundingResult._id);
 

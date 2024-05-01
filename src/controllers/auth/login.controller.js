@@ -6,7 +6,7 @@ import { ApiRespose } from '../../utils/apiResponse.utils.js';
 import { ApiErrors } from '../../utils/apiErrors.utils.js';
 import { statusCode } from '../../utils/httpStatusCode.utils.js';
 import jwtUtil from '../../utils/jwt.util.js';
-import { User } from '../../models/users.model.js';
+import { UserModel } from '../../models/users.model.js';
 import { Message } from '../../utils/responseMessage.utils.js';
 
 
@@ -24,7 +24,7 @@ const login = async (req, res, next) => {
     }
 
     // Find the user by email or username
-    const user = await User.findOne({
+    const user = await UserModel.findOne({
       $or: [{ "email": usernameorEmail }, { "username": usernameorEmail }]
     });
 

@@ -3,7 +3,7 @@ import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { Message } from "../../utils/responseMessage.utils.js";
-import Funding from './../../models/funding.model.js';
+import FundingModal from './../../models/funding.model.js';
 
 const fundingPaggination = async (req, res, next) => {
     try {
@@ -25,7 +25,7 @@ const fundingPaggination = async (req, res, next) => {
         }
 
         // get transaction between given limit
-        const result = await Funding.aggregate([
+        const result = await FundingModal.aggregate([
             {
                 $match: {
                     owner: new mongoose.Types.ObjectId(userId)

@@ -1,5 +1,5 @@
-import Otp from "../../models/otp.model.js";
-import { User } from "../../models/users.model.js";
+import OtpModal from "../../models/otp.model.js";
+import { UserModel } from "../../models/users.model.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
@@ -13,7 +13,7 @@ const sendVerificationMail = async (req, res, next) => {
         const { user: userId } = req.auth
         // console.log("user=>", req.auth)
 
-        const userInfo = await User.findOne({ _id: userId }) // find out the user by userid
+        const userInfo = await UserModel.findOne({ _id: userId }) // find out the user by userid
 
         // if user not found then send error message 
         if (!userInfo) {
@@ -32,7 +32,7 @@ const sendVerificationMail = async (req, res, next) => {
 
 
         // check if OTP already exists then send that otp again 
-        const otpExists = await Otp.findOne({ owner: _id, validTill: { $gt: Date.now() } })
+        const otpExists = await OtpModal.findOne({ owner: _id, validTill: { $gt: Date.now() } })
         console.log("Otp already exists =>", otpExists)
 
         // if exists then send otp again

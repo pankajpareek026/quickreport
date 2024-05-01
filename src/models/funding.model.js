@@ -27,6 +27,6 @@ const fundingSchema = mongoose.Schema({
     timestamps: true
 })
 
-const Funding = mongoose.model('funding', fundingSchema)
+const FundingModal = mongoose.model('funding', fundingSchema)
 
-export default Funding 
+export default FundingModal 

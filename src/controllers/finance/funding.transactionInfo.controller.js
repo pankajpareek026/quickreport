@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { ApiErrors } from "../../utils/apiErrors.utils.js";
-import Funding from './../../models/funding.model.js';
+import FundingModal from './../../models/funding.model.js';
 import { Message } from "../../utils/responseMessage.utils.js";
 
 const transactionInfoFromFunding = async (req, res, next) => {
@@ -13,7 +13,7 @@ const transactionInfoFromFunding = async (req, res, next) => {
         console.log("is Transaction Id :", mongoose.isObjectIdOrHexString(transactionId));
 
         // find out the transactio detail using transaction id in from transactios Array
-        const transactionDetail = await Funding.aggregate([
+        const transactionDetail = await FundingModal.aggregate([
             {
                 $unwind: "$transactions"
             },

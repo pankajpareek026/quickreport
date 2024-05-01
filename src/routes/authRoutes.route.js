@@ -24,13 +24,13 @@ router.post('/login', login);
 router.post('/forget', forgetPassword);
 
 // to handle reset password request
-router.post('/reset',auth, resetPassword);
+router.post('/reset', auth, resetPassword);
 
 // to send verification mail to the client
-router.get('/verify',auth, sendVerificationMail);
+router.get('/verify', auth, sendVerificationMail);
 
 // to verify email 
-router.post('/verify',auth, verifyEmail);
+router.post('/verify', auth, verifyEmail);
 
 
 export { router as authRouter }
