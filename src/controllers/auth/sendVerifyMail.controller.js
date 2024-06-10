@@ -25,7 +25,7 @@ const sendVerificationMail = async (req, res, next) => {
         const { _id, email, isVerified, name } = userInfo
 
 
-        // if user veried then redirect to the dashboard
+        // if user verified then redirect to the dashboard
         if (isVerified) {
             return res.status(statusCode.ok).json(new ApiRespose(true, "verified user", null, '/dashboard'))
         }

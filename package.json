@@ -1,11 +1,8 @@
 {
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^1.6.3",
     "bcrypt": "^5.1.1",
-=======
-    "axios": "^1.6.8",
->>>>>>> 2000092782b47e4bfb27a93ed3778ba42875766d
+    "body-parser": "^1.20.2",
     "chart.js": "^3.7.1",
     "cloudinary": "^1.41.1",
     "cookie-parser": "^1.4.6",
@@ -17,7 +14,6 @@
     "express-fileupload": "^1.4.0",
     "express-openid-connect": "^2.7.2",
     "express-session": "^1.17.2",
-<<<<<<< HEAD
     "express-validator": "^7.0.1",
     "forever": "^0.14.2",
     "joi": "^17.11.0",
@@ -27,15 +23,6 @@
     "nodemailer": "^6.7.3",
     "nodemon": "^3.0.2",
     "resend": "^3.2.0",
-=======
-    "forever": "^4.0.3",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.9.7",
-    "nodemailer": "^6.7.3",
-    "nodemon": "^3.1.0",
->>>>>>> 2000092782b47e4bfb27a93ed3778ba42875766d
     "sweetalert": "^2.1.2",
     "yup": "^1.4.0"
   },
