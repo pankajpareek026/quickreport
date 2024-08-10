@@ -16,7 +16,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.9.7",
     "nodemailer": "^6.7.3",
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.4",
     "sweetalert": "^2.1.2",
     "xlsx-to-json": "^0.3.0"
   },
@@ -26,7 +26,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [
     "node",
