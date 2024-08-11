@@ -114,7 +114,7 @@ const forgetPassword = async (req, res, next) => {
 
 
         // if mail delivered successfully
-        return res.status(statusCode.ok).json(new ApiRespose(true, `OTP sent successfully`, `6 Digit OTP sent successfully on your email : ${email}`));
+        return res.status(statusCode.ok).json(new ApiRespose(true, `OTP sent successfully`, { status: `6 Digit OTP sent successfully on your email : ${email}`, reqId: saveOtp.id }));
 
         // create a otp 
         // save otp

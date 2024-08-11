@@ -2,14 +2,14 @@ import { statusCode } from "../utils/httpStatusCode.utils.js"
 import jwtUtil from "../utils/jwt.util.js"
 const privateKey = process.env.JWT_KEY
 const auth = async (req, res, next) => {
-    console.log("Authentication")
+    // console.log("Authentication")
     const bearedToken = req.cookies.auth
-    console.log("bearer Token: " + bearedToken)
+    // console.log("bearer Token: " + bearedToken)
     if (req.cookies.auth) {
         try {
-            const token =await bearedToken.split('Bearer')[1]
-            console.log("Token: " + token)
-            console.log("Token: " + token)
+            const token = await bearedToken.split('Bearer')[1]
+            // console.log("Token: " + token)
+            // console.log("Token: " + token)
 
             // verify token which is send by user through cookies
             const verificationResult = await jwtUtil.verifyToken(token, privateKey)
@@ -26,12 +26,12 @@ const auth = async (req, res, next) => {
 
             // pass to the next with user credentials
             req.auth = verificationResult?.data
-            console.log(verificationResult)
+            // console.log(verificationResult)
             next()
 
         }
         catch (err) {
-            console.log(err.message)
+            // console.log(err.message)
             // res.json({ Error: err })
             throw new Error(err.message)
         }

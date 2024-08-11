@@ -6,6 +6,7 @@ import sendVerificationMail from "../controllers/auth/sendVerifyMail.controller.
 import verifyEmail from "../controllers/auth/verify.controller.js";
 import signUp from './../controllers/auth/signup.controller.js';
 import auth from "../middlewares/auth.middleware.js";
+import setNewPassword from "../controllers/auth/setNewPassword.controller.js";
 
 const router = Router();
 
@@ -24,7 +25,7 @@ router.post('/login', login);
 router.post('/forget', forgetPassword);
 
 // to handle reset password request
-router.post('/reset', auth, resetPassword);
+router.post('/change-password', auth, resetPassword);
 
 // to send verification mail to the client
 router.get('/verify', auth, sendVerificationMail);
@@ -32,5 +33,6 @@ router.get('/verify', auth, sendVerificationMail);
 // to verify email 
 router.post('/verify', auth, verifyEmail);
 
+router.post('/reset-password', auth, setNewPassword);
 
 export { router as authRouter }

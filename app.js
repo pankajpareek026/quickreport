@@ -38,7 +38,7 @@ app.use(
 
 
 // routes 
-app.use(authRouter)
+app.use('/user', authRouter)
 app.use(portfolioRouter)
 app.use(AssetSpaceRouter)
 app.use(financeRouter);
