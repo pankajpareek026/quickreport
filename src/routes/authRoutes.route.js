@@ -33,6 +33,6 @@ router.get('/verify', auth, sendVerificationMail);
 // to verify email 
 router.post('/verify', auth, verifyEmail);
 
-router.post('/reset-password', auth, setNewPassword);
+router.post('/reset-password', setNewPassword);
 
 export { router as authRouter }

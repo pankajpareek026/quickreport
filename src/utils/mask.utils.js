@@ -20,4 +20,4 @@ const emailMasker = (email) => {
 
 
 
-console.log(emailMasker('pankajpareek026@gmail.com'))
+export default emailMasker

@@ -8,6 +8,7 @@ import OtpModal from './../../models/otp.model.js';
 import generateOTP from './../../utils/otpGenerator.utils.js';
 import sendMail from "../../utils/sendMail.utils.js";
 import generateResetPassTemplate from "../../../templets/resetPassword.template.js";
+import emailMasker from "../../utils/mask.utils.js";
 // import generateResetPassTemplate from './../../../templets/resetPassword.template.js';
 
 const forgetPassword = async (req, res, next) => {
@@ -114,7 +115,7 @@ const forgetPassword = async (req, res, next) => {
 
 
         // if mail delivered successfully
-        return res.status(statusCode.ok).json(new ApiRespose(true, `OTP sent successfully`, { status: `6 Digit OTP sent successfully on your email : ${email}`, reqId: saveOtp.id }));
+        return res.status(statusCode.ok).json(new ApiRespose(true, `OTP sent successfully`, { status: `6 Digit OTP sent successfully on your email : ${emailMasker(email)}`, reqId: saveOtp.id }));
 
         // create a otp 
         // save otp
