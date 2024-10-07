@@ -33,6 +33,7 @@ router.get('/verify', auth, sendVerificationMail);
 // to verify email 
 router.post('/verify', auth, verifyEmail);
 
+// to set  new password after otp sent to client
 router.post('/reset-password', setNewPassword);
 
 export { router as authRouter }

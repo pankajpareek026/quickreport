@@ -2,12 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv'
 dotenv.config()
 const JWT_KEY = config.jwtKey
-import connectDB from './config/connection.js';
-
-connectDB()// establish database connection
-
-// console.log("Jwt key :", JWT_KEY)
-
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import nodemailer from 'nodemailer';
@@ -20,15 +14,39 @@ import { portfolioRouter } from './src/routes/portfolioRoutes.route.js';
 import { AssetSpaceRouter } from './src/routes/assetSpaceRoutes.route.js';
 import { financeRouter } from './src/routes/financeRoutes.route.js';
 import { config } from './config/config.js';
-
-
-var PORT = config.port || 7000
-
+import logger from "./logger.js";
+import morgan from "morgan";
 
 const app = express();
+const morganFormat = ":method :url :status :response-time ms";
+
+
+
+
 app.use(express.json());
 app.use(bodyparser.json());
 app.use(cookieParser())
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => {
+        // console.log("message =>", message)
+        const logObject = {
+          method: message.split(" ")[0],
+          url: message.split(" ")[1],
+          status: message.split(" ")[2],
+          responseTime: message.split(" ")[3],
+          timeStamp: Date.now(),
+        };
+        logger.info(JSON.stringify(logObject));
+      },
+    },
+  })
+);
+// app.use((req, res, next) => {
+//   console.log("Route : ", req.path);
+//   next()
+// })
 app.use(
   bodyparser.urlencoded({
     extended: true,
@@ -44,7 +62,8 @@ app.use(AssetSpaceRouter)
 app.use(financeRouter);
 
 
-
+// error handler which handle next()
+app.use(ErrorHandler)
 // var name;
 // app.get('/update', Authentication, (req, res) => {
 //   const user = req.auth.User;
@@ -1018,5 +1037,5 @@ var name
 //     res.redirect('/login')
 //   }
 // });
-app.use(ErrorHandler)
+
 export default app;

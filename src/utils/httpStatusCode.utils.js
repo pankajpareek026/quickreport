@@ -9,7 +9,8 @@ const statusCode = {
     notFound: 404,//not found
     internalServerError: 500, // in case of internal server error
     serviceUnavailable: 503,//The server is currently unable to handle the request due to temporary overloading or maintenance of the server
-
+    validationError: 422,// specific for validation errors in the context of a request's data.
+    alreadyExists: 409, // conflict is the most common choice for this scenario
 }
 
 export { statusCode }

@@ -1,8 +1,5 @@
 import { ApiErrors } from "../utils/apiErrors.utils.js";
-
-
-
-const isDebugMode = process.env.DEBUG_MODE;
+import { config } from "../../config/config.js";
 
 const ErrorHandler = (error, req, res, next) => {
     // const message = error.message || "Internal Server Error";
@@ -18,7 +15,8 @@ const ErrorHandler = (error, req, res, next) => {
         // Handle other types of errors
         const responsePayload = {
             type: "error",
-            message: isDebugMode ? error.message : "Internal Server Error",
+            message: config.debugMode ? error.message : "Internal Server Error",
+            Error: config.debugMode ? error : []
         };
 
 

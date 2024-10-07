@@ -16,6 +16,7 @@ const assetSchema = mongoose.Schema({
 })
 
 const spaceInfoSchema = mongoose.Schema({
+    _id: false,
     locationType: {
         type: String,
         enum: ['exchange', 'wallet', 'stake', 'hardwareWallet', 'dex', 'NA'],
@@ -42,12 +43,15 @@ const assetSpaceSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Asset Space Name is required'],
-        
+
+    },
+    status: {
+        type: Boolean,
+        default: true
     },
     assets: [assetSchema],// to store all assets 
-    spaceInfo: { // to store the information that is space is a exchange ,wallet ,dex,staked 
-        spaceInfoSchema
-    }
+    spaceInfo: spaceInfoSchema  // to store the information that is space is a exchange ,wallet ,dex,staked 
+
 
 
 }, {

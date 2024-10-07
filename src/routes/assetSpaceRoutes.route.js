@@ -17,45 +17,45 @@ import auth from './../middlewares/auth.middleware.js';  //middleware to cerify 
 const router = Router();
 
 // 
-router.get('/asset_space', auth, assetSpace)
+router.get('/asset-space', auth, assetSpace)
 
 
 // create a new assetSpace
-router.post('/asset_space/new', auth, createAssetSpace)
+router.post('/asset-space/new', auth, createAssetSpace)
 
 
 // information about  ## asset space which will be used to update or rename asset Space
-router.get('/asset_space/:spaceId/info', auth, assetSpaceInfo)
+router.get('/asset-space/:spaceId/info', auth, assetSpaceInfo)
 
 
 // delete a assetSpace
-router.patch('/asset_space/:spaceId/delete', auth, deleteAssetSpace)
+router.delete('/asset-space/:spaceId/delete', auth, deleteAssetSpace)
 
 
 // rename asset space
-router.put('/asset_space/:spaceId/rename', auth, renameAssetSpace)
+router.put('/asset-space/:spaceId/rename', auth, renameAssetSpace)
 
 
 // add asset in assest Spce
-router.post('/asset_space/:spaceId/asset/new', auth, addAssetToAssetSpace)
+router.post('/asset-space/:spaceId/asset/new', auth, addAssetToAssetSpace)
 
 // information about asset
 router.get('/asset_space/:spaceId/info/:assetId', auth, assetInfoFromAssetSpace)
 
 
 // edit asset in assetSpace [ ?transactionId]
-router.put('/asset_space/:spaceId/asset/edit', auth, editAssetFromAssetSpace)
+router.put('/asset-space/:spaceId/asset/edit', auth, editAssetFromAssetSpace)
 
 
 // delete asset in assetSpace  [ ?transactionId]
-router.patch('/asset_space/:spaceId/asset/delete', auth, deleteAssetFromAssetSpace)
+router.patch('/asset-space/:spaceId/asset/delete', auth, deleteAssetFromAssetSpace)
 
 // paggination in assetSpace [ ?start=0&end=100]
-router.get('/asset_space/:spaceId/', auth, assetSpacePaggination)
+router.get('/asset-space/:spaceId/', auth, assetSpacePaggination)
 
 
 // search anything in a perticular asset space
-router.get('/asset_space/:spaceId/search', auth, SearchInassetSpace)
+router.get('/asset-space/:spaceId/search', auth, SearchInassetSpace)
 
 
 
