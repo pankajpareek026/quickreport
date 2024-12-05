@@ -3,20 +3,20 @@ import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { isWalletAddress } from "../../utils/web3.utils.js";
-import { assetSpaceSchema } from "../../validators/index.validators.js";
+import { assetSpaceValidator } from "../../validators/index.validators.js";
 
 
 
 const createAssetSpace = async (req, res, next) => {
     try {
-        const { user } = req?.auth;
+        const { user } = req.auth;
 
         console.log(req.auth);
-        const { name, locationType, address } = await assetSpaceSchema.validate(req.body);
+        const { name, locationType, address } = await assetSpaceValidator.validate(req.body);
         // res.status(statusCode.ok).json(new ApiRespose(true, 'createAssetSpace'));
         // if wallet address is provided then check is it valid wallet address
         if (address !== "NA") {
-            const { is, address: walletAddress } = isWalletAddress(address);
+            const { is } = isWalletAddress(address);
             if (!is) {
                 next(new ApiErrors(statusCode.validationError, "Invalid wallet address",))
             }

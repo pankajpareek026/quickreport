@@ -7,7 +7,9 @@ import connectDB from './config/connection.js';
 
 
 app.listen(config.port, (err) => {
-    if (err) console.log(err)
     connectDB()
+
+    if (err) console.log(err)
+
     console.log("listining on ", config.port)
 });

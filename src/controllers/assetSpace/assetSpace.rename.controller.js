@@ -4,7 +4,7 @@ import { ApiErrors } from "../../utils/apiErrors.utils.js";
 import { ApiRespose } from "../../utils/apiResponse.utils.js";
 import { statusCode } from "../../utils/httpStatusCode.utils.js";
 import { Message } from "../../utils/responseMessage.utils.js";
-import { idSchema, assetSpaceSchema } from './../../validators/index.validators.js';
+import { idValidator, assetSpaceValidator } from './../../validators/index.validators.js';
 
 
 
@@ -13,7 +13,7 @@ const renameAssetSpace = async (req, res, next) => {
         const { user } = req.auth;
 
         const { spaceId } = req.params;
-        const updateSpaceSchema = assetSpaceSchema.concat(idSchema);
+        const updateSpaceSchema = assetSpaceValidator.concat(idValidator);
         const { name, locationType, address } = await updateSpaceSchema.validate({ ...req.body, id: spaceId, owner: user });
 
         const updateResult = await AssetSpace.findOneAndUpdate({ _id: spaceId },

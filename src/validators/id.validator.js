@@ -1,9 +1,14 @@
 import Yup from "yup";
 import mongoose from "mongoose";
-const idSchema = Yup.object({
+const idValidator = Yup.object({
     id: Yup.string().test('validate-objectId', 'Invalid request ', (value) => {
         return mongoose.Types.ObjectId.isValid(`${value}`)
     }).required('invalid request '),
 })
 
-export default idSchema;
+const idSchema = Yup.string().test('validate-objectId', 'Invalid request ', (value) => {
+    return mongoose.Types.ObjectId.isValid(`${value}`)
+}).required('invalid request ');
+export { idSchema };
+
+export default idValidator;

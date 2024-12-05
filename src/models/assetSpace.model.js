@@ -10,7 +10,7 @@ const assetSchema = mongoose.Schema({
         required: true
     },
     unit: {
-        type: BigInt,
+        type: String,
         required: true
     }
 })

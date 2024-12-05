@@ -40,7 +40,7 @@ router.put('/asset-space/:spaceId/rename', auth, renameAssetSpace)
 router.post('/asset-space/:spaceId/asset/new', auth, addAssetToAssetSpace)
 
 // information about asset
-router.get('/asset_space/:spaceId/info/:assetId', auth, assetInfoFromAssetSpace)
+router.get('/asset-space/:spaceId/info/:assetId', auth, assetInfoFromAssetSpace)
 
 
 // edit asset in assetSpace [ ?transactionId]
