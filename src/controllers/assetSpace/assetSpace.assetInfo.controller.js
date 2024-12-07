@@ -6,7 +6,6 @@ import { statusCode } from '../../utils/httpStatusCode.utils.js';
 import { Message } from '../../utils/responseMessage.utils.js';
 import { ApiRespose } from '../../utils/apiResponse.utils.js';
 import { log } from 'console';
-import mongoose from 'mongoose';
 
 // to assset details 
 const assetInfoFromAssetSpace = async (req, res, next) => {

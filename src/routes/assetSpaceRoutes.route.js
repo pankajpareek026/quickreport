@@ -48,7 +48,7 @@ router.put('/asset-space/:spaceId/asset/edit', auth, editAssetFromAssetSpace)
 
 
 // delete asset in assetSpace  [ ?transactionId]
-router.patch('/asset-space/:spaceId/asset/delete', auth, deleteAssetFromAssetSpace)
+router.patch('/asset-space/:spaceId/asset/:assetId', auth, deleteAssetFromAssetSpace)
 
 // paggination in assetSpace [ ?start=0&end=100]
 router.get('/asset-space/:spaceId/', auth, assetSpacePaggination)
