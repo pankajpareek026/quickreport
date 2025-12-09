@@ -1,0 +1,294 @@
+<%- include('partials/head', { 
+    title: typeof coinData !== 'undefined' && coinData ? `${coinData.name} (${coinData.symbol}) - QuickReport` : 'Coin Details - QuickReport',
+    description: typeof coinData !== 'undefined' && coinData ? `View detailed information, charts, and statistics for ${coinData.name} (${coinData.symbol})` : 'View detailed cryptocurrency information',
+    additionalStyles: `
+        <link rel="stylesheet" href="/css/coinDetails.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    `
+}) %>
+
+<body>
+    <%- include('partials/navbar', { isAuthenticated: typeof isAuthenticated !== 'undefined' ? isAuthenticated : false }) %>
+    
+    <div class="coin-details-container">
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p><%= error %></p>
+                <a href="/" class="btn btn-primary">Go to Home</a>
+            </div>
+        <% } else if (typeof coinData !== 'undefined' && coinData) { %>
+            
+            <!-- Coin Header -->
+            <div class="coin-header">
+                <div class="coin-header-content">
+                    <img src="<%= coinData.image %>" alt="<%= coinData.name %>" class="coin-large-icon">
+                    <div class="coin-header-info">
+                        <h1 class="coin-name"><%= coinData.name %> <span class="coin-symbol">(<%= coinData.symbol %>)</span></h1>
+                        <div class="coin-price-section">
+                            <span class="coin-price">$<%= coinData.currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 }) %></span>
+                            <span class="coin-price-change <%= coinData.priceChange24h >= 0 ? 'positive' : 'negative' %>">
+                                <%= coinData.priceChange24h >= 0 ? '+' : '' %><%= coinData.priceChange24h.toFixed(2) %>% (24h)
+                            </span>
+                        </div>
+                        <% if (coinData.rank) { %>
+                            <div class="coin-rank">Rank #<%= coinData.rank %></div>
+                        <% } %>
+                    </div>
+                    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+                        <div class="coin-actions">
+                            <button class="btn btn-primary btn-large" id="addToPortfolioBtn">
+                                <i class="fas fa-plus"></i> Add to Portfolio
+                            </button>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Price Chart Section -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2><i class="fas fa-chart-line"></i> Price Chart</h2>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-days="1">24H</button>
+                        <button class="chart-btn" data-days="7">7D</button>
+                        <button class="chart-btn" data-days="30">30D</button>
+                        <button class="chart-btn" data-days="365">1Y</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Market Stats Grid -->
+            <div class="market-stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Market Cap</div>
+                    <div class="stat-value">$<%= (coinData.marketCap / 1000000000).toFixed(2) %>B</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Volume (24h)</div>
+                    <div class="stat-value">$<%= (coinData.totalVolume / 1000000000).toFixed(2) %>B</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Circulating Supply</div>
+                    <div class="stat-value"><%= (coinData.circulatingSupply / 1000000).toFixed(2) %>M</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Supply</div>
+                    <div class="stat-value">
+                        <%= coinData.totalSupply ? (coinData.totalSupply / 1000000).toFixed(2) + 'M' : 'N/A' %>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">All-Time High</div>
+                    <div class="stat-value">$<%= coinData.ath.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 }) %></div>
+                    <div class="stat-change negative"><%= coinData.athChange.toFixed(2) %>% from ATH</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">All-Time Low</div>
+                    <div class="stat-value">$<%= coinData.atl.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 }) %></div>
+                    <div class="stat-change positive"><%= coinData.atlChange.toFixed(2) %>% from ATL</div>
+                </div>
+            </div>
+
+            <!-- Price Changes Grid -->
+            <div class="price-changes-grid">
+                <div class="change-card">
+                    <div class="change-label">24h Change</div>
+                    <div class="change-value <%= coinData.priceChange24h >= 0 ? 'positive' : 'negative' %>">
+                        <%= coinData.priceChange24h >= 0 ? '+' : '' %><%= coinData.priceChange24h.toFixed(2) %>%
+                    </div>
+                </div>
+                <div class="change-card">
+                    <div class="change-label">7d Change</div>
+                    <div class="change-value <%= coinData.priceChange7d >= 0 ? 'positive' : 'negative' %>">
+                        <%= coinData.priceChange7d >= 0 ? '+' : '' %><%= coinData.priceChange7d.toFixed(2) %>%
+                    </div>
+                </div>
+                <div class="change-card">
+                    <div class="change-label">30d Change</div>
+                    <div class="change-value <%= coinData.priceChange30d >= 0 ? 'positive' : 'negative' %>">
+                        <%= coinData.priceChange30d >= 0 ? '+' : '' %><%= coinData.priceChange30d.toFixed(2) %>%
+                    </div>
+                </div>
+                <div class="change-card">
+                    <div class="change-label">1y Change</div>
+                    <div class="change-value <%= coinData.priceChange1y >= 0 ? 'positive' : 'negative' %>">
+                        <%= coinData.priceChange1y >= 0 ? '+' : '' %><%= coinData.priceChange1y.toFixed(2) %>%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculators Section -->
+            <div class="calculators-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-calculator"></i> Calculators</h2>
+                </div>
+                <div class="calculators-grid">
+                    <!-- Crypto Calculator -->
+                    <div class="calculator-card">
+                        <h3><i class="fas fa-exchange-alt"></i> Convert</h3>
+                        <div class="calculator-form">
+                            <div class="calc-input-group">
+                                <input type="number" id="cryptoAmount" placeholder="Amount" step="0.00000001">
+                                <select id="cryptoFrom">
+                                    <option value="crypto"><%= coinData.symbol %></option>
+                                    <option value="usd">USD</option>
+                                </select>
+                            </div>
+                            <div class="calc-swap">
+                                <button class="btn-icon" id="swapCalc">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                            </div>
+                            <div class="calc-input-group">
+                                <input type="number" id="cryptoResult" placeholder="Result" readonly>
+                                <select id="cryptoTo">
+                                    <option value="usd">USD</option>
+                                    <option value="crypto"><%= coinData.symbol %></option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" id="convertBtn">Convert</button>
+                        </div>
+                    </div>
+
+                    <!-- Investment Calculator -->
+                    <div class="calculator-card">
+                        <h3><i class="fas fa-chart-area"></i> Investment Calculator</h3>
+                        <div class="calculator-form">
+                            <div class="calc-input-group">
+                                <label>Investment Amount (USD)</label>
+                                <input type="number" id="investmentAmount" placeholder="1000" step="0.01">
+                            </div>
+                            <div class="calc-input-group">
+                                <label>Date</label>
+                                <input type="date" id="investmentDate" max="<%= new Date().toISOString().split('T')[0] %>">
+                            </div>
+                            <button class="btn btn-primary" id="calculateInvestmentBtn">Calculate</button>
+                            <div class="calc-result" id="investmentResult" style="display: none;">
+                                <div class="result-label">Current Value:</div>
+                                <div class="result-value" id="investmentValue"></div>
+                                <div class="result-label">Profit/Loss:</div>
+                                <div class="result-value" id="investmentPL"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Section -->
+            <div class="description-section">
+                <h2><i class="fas fa-info-circle"></i> About <%= coinData.name %></h2>
+                <div class="description-content">
+                    <%- coinData.description ? coinData.description.replace(/<[^>]*>/g, '').substring(0, 1000) : 'No description available' %>
+                    <% if (coinData.description && coinData.description.length > 1000) { %>
+                        <span class="description-more">...</span>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Links Section -->
+            <div class="links-section">
+                <h2><i class="fas fa-link"></i> Resources</h2>
+                <div class="links-grid">
+                    <% if (coinData.homepage) { %>
+                        <a href="<%= coinData.homepage %>" target="_blank" class="link-card">
+                            <i class="fas fa-globe"></i> Website
+                        </a>
+                    <% } %>
+                    <% if (coinData.blockchainSite) { %>
+                        <a href="<%= coinData.blockchainSite %>" target="_blank" class="link-card">
+                            <i class="fas fa-link"></i> Blockchain Explorer
+                        </a>
+                    <% } %>
+                    <% if (coinData.github) { %>
+                        <a href="<%= coinData.github %>" target="_blank" class="link-card">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    <% } %>
+                    <% if (coinData.twitter) { %>
+                        <a href="https://twitter.com/<%= coinData.twitter %>" target="_blank" class="link-card">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                    <% } %>
+                    <% if (coinData.subreddit) { %>
+                        <a href="<%= coinData.subreddit %>" target="_blank" class="link-card">
+                            <i class="fab fa-reddit"></i> Reddit
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+
+        <% } else { %>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Coin data not available. Please try again later.</p>
+                <a href="/" class="btn btn-primary">Go to Home</a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Add to Portfolio Modal -->
+    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+        <div class="modal" id="addToPortfolioModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add <%= typeof coinData !== 'undefined' && coinData ? coinData.name : 'Coin' %> to Portfolio</h2>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <form id="addToPortfolioForm" action="/portfolio" method="post">
+                    <input type="hidden" name="coinName" id="modalCoinName" value="<%= typeof coinData !== 'undefined' && coinData ? coinData.symbol.toUpperCase() + 'USDT' : '' %>">
+                    <div class="form-group">
+                        <label>Order Type</label>
+                        <select name="ordertype" required>
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (USD)</label>
+                        <input type="number" name="price" id="modalPrice" step="0.00000001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Units</label>
+                        <input type="number" name="units" step="0.00000001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Cost (USD)</label>
+                        <input type="number" name="totals" step="0.01" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelModal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Transaction</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <% } %>
+
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts', { 
+        additionalScripts: '<script src="/js/coinDetailsPage.js"></script>' 
+    }) %>
+    
+    <script>
+        // Pass data to JavaScript
+        <% if (typeof coinData !== 'undefined' && coinData) { %>
+            window.coinData = <%- JSON.stringify(coinData) %>;
+        <% } else { %>
+            window.coinData = null;
+        <% } %>
+        
+        <% if (typeof priceHistory !== 'undefined' && priceHistory) { %>
+            window.priceHistory = <%- JSON.stringify(priceHistory) %>;
+        <% } else { %>
+            window.priceHistory = null;
+        <% } %>
+        
+        window.isAuthenticated = <%= typeof isAuthenticated !== 'undefined' && isAuthenticated ? 'true' : 'false' %>;
+    </script>
+</body>
+</html>
+

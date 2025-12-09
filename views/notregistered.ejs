@@ -1,57 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
-  <title>Invalid User</title>
-</head>
-<style>
-  body {
-
-    font-family: 'Roboto Mono', monospace;
-  }
-
-  .swal-overlay {
-    background-color: rgb(244, 233, 233);
-  }
-</style>
+<%- include('partials/head', { title: 'Login Failed', description: 'Invalid credentials' }) %>
 
 <body>
+    <%- include('partials/navbar', { isAuthenticated: false }) %>
+    
+    <div class="form-container text-center">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title text-error">
+                    <i class="fas fa-times-circle"></i> Login Failed
+                </h1>
+            </div>
+            <div class="card-body">
+                <p class="alert-message" style="font-size: 1.1rem; margin: 20px 0; color: var(--text-secondary);">
+                    Invalid username or password. Please try again.
+                </p>
+                <div class="button-group" style="margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
+                    <a href="/login" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Try Again
+                    </a>
+                    <a href="/register" class="btn btn-secondary">
+                        <i class="fas fa-user-plus"></i> Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    swal("Invalid Username OR Password", " TRY AGAIN !", "warning", {
-      buttons: {
-        cancel: "Register",
-        catch: {
-          text: "Try Again",
-          value: "redirect",
-        },
-
-      },
-    })
-      .then((value) => {
-        switch (value) {
-
-
-
-          case "redirect":
-            window.location = "/login"
-            break;
-
-          default:
-            swal.close()
-            window.location = "/user"
-        }
-
-      });
-  </script>
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
 </body>
-
 </html>

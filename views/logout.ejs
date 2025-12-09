@@ -1,48 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <title>LogOut Successfully</title>
-</head>
-<style>
-  .swal-overlay {
-    background-color: rgba(165, 147, 43, 0.45);
-  }
-</style>
+<%- include('partials/head', { title: 'Logged Out', description: 'You have been logged out' }) %>
 
 <body>
-  <script>
-    swal("Logout Seccessfully", "  Login To Acess Features!", "", {
-      buttons: {
-        cancel: "Home ",
-        catch: {
-          text: "Login",
-          value: "redirect",
-        },
+    <%- include('partials/navbar', { isAuthenticated: false }) %>
+    
+    <div class="form-container text-center">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title" style="color: var(--info-color);">
+                    <i class="fas fa-sign-out-alt"></i> Logged Out
+                </h1>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 1.1rem; margin: 20px 0; color: var(--text-secondary);">
+                    You have been successfully logged out.
+                </p>
+                <p style="font-size: 0.9rem; margin: 20px 0; color: var(--text-muted);">
+                    Thank you for using QuickReport!
+                </p>
+                <div class="button-group" style="margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
+                    <a href="/login" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Login Again
+                    </a>
+                    <a href="/" class="btn btn-secondary">
+                        <i class="fas fa-home"></i> Go Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      },
-    })
-      .then((value) => {
-        switch (value) {
-
-
-
-          case "redirect":
-            window.location = "/login"
-            break;
-
-          default:
-            swal.close()
-            window.location = "/"
-        }
-
-      });
-  </script>
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
+    
+    <script>
+        // Auto-redirect to home after 3 seconds
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 3000);
+    </script>
 </body>
-
 </html>

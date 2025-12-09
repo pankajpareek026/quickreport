@@ -1,0 +1,25 @@
+<!-- External Libraries -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Coin Features -->
+<script src="/js/coinDetails.js"></script>
+<script src="/js/cryptoCalculator.js"></script>
+<script src="/js/investmentCalculator.js"></script>
+
+<!-- Google Charts (if needed) -->
+<% if (typeof useCharts !== 'undefined' && useCharts) { %>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<% } %>
+
+<!-- Main JavaScript -->
+<script src="/js/main.js"></script>
+
+<!-- Additional Scripts -->
+<% if (typeof additionalScripts !== 'undefined') { %>
+    <%- additionalScripts %>
+<% } %>
+
+</body>
+</html>
+

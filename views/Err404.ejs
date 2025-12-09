@@ -1,16 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERRO:404</title>
-</head>
+<%- include('partials/head', { title: 'Error 404', description: 'Page not found' }) %>
+
 <body>
-    <H1>Some Thing Went Wrong </H1>
-    <h1 style="text-align: center;" >ERROR - 404 </h1>
-    <br>
-    <br>
-    <p>Back To <a href="/">HOME</a> </p>
+    <%- include('partials/navbar', { isAuthenticated: false }) %>
+    
+    <div class="form-container text-center">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title text-error" style="font-size: 4rem; margin: 20px 0;">
+                    404
+                </h1>
+            </div>
+            <div class="card-body">
+                <h2 style="color: var(--text-primary); margin: 20px 0;">
+                    <i class="fas fa-exclamation-triangle"></i> Page Not Found
+                </h2>
+                <p style="font-size: 1.1rem; margin: 20px 0; color: var(--text-secondary);">
+                    The page you're looking for doesn't exist or has been moved.
+                </p>
+                <div class="button-group" style="margin-top: 30px;">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Go to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
 </body>
 </html>

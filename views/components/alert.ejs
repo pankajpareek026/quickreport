@@ -1,0 +1,20 @@
+<% if (typeof alertMessage !== 'undefined' && alertMessage) { %>
+    <div class="alert alert-<%= typeof alertType !== 'undefined' ? alertType : 'info' %>" role="alert">
+        <span class="alert-icon">
+            <% if (typeof alertType !== 'undefined' && alertType === 'error') { %>
+                <i class="fas fa-exclamation-circle"></i>
+            <% } else if (alertType === 'success') { %>
+                <i class="fas fa-check-circle"></i>
+            <% } else if (alertType === 'warning') { %>
+                <i class="fas fa-exclamation-triangle"></i>
+            <% } else { %>
+                <i class="fas fa-info-circle"></i>
+            <% } %>
+        </span>
+        <span class="alert-message"><%= alertMessage %></span>
+        <button class="alert-close" onclick="this.parentElement.remove()" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+<% } %>
+

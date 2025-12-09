@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/xMYYFwC/flogo.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <title>Success</title>
-</head>
+<%- include('partials/head', { title: 'Registration Success', description: 'Registration completed successfully' }) %>
 
 <body>
-    <script>
-        swal({
-            title: `Congrats ,  <%-name-%> `,
-            text: 'Registration Successful , You will Be Redirected To Login Page .',
-            icon: "success",
+    <%- include('partials/navbar', { isAuthenticated: false }) %>
+    
+    <div class="form-container text-center">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title text-success">
+                    <i class="fas fa-check-circle"></i> Registration Successful!
+                </h1>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 1.1rem; margin: 20px 0; color: var(--text-secondary);">
+                    Welcome, <strong style="color: var(--primary-color);"><%= typeof name !== 'undefined' ? name : 'User' %></strong>!<br>
+                    Your account has been created successfully.
+                </p>
+                <p style="font-size: 0.9rem; margin: 20px 0; color: var(--text-muted);">
+                    Please verify your email address to complete the registration process.
+                </p>
+                <div class="button-group" style="margin-top: 30px;">
+                    <a href="/emailvarification" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Verify Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        });
-        setTimeout(() => {
-            window.location = "/login"
-        }, 5000)
-
-
-    </script>
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
 </body>
-
 </html>

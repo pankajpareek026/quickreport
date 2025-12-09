@@ -102,3 +102,11 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Upload directory files
+upload/*
+!upload/.gitkeep
+
+# MongoDB SSL certificates (if any)
+*.pem
+config/ssl.pem

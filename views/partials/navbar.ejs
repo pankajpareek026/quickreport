@@ -1,0 +1,67 @@
+<nav class="mainmenu">
+    <div class="logo-container">
+        <logo>
+            <m style="color: orangered; font-weight: bold; font-size: x-large; margin-left: 25px;">Q</m>
+            <m style="color: wheat;">U</m>
+            <m style="color: white;">I</m>
+            <m style="color: greenyellow;">C</m>
+            <m style="color: orangered;">K</m>
+            <m style="color: rgb(248, 247, 246);">Report</m>
+        </logo>
+    </div>
+    
+    <button class="mobile-menu-toggle" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="nav-links" id="navLinks">
+        <span class="home">
+            <a href="/" title="Home">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">Home</span>
+            </a>
+        </span>
+        
+        <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+            <span>
+                <a href="/dash-bord" title="Dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </span>
+        <% } %>
+        
+        <span>
+            <a href="/News" title="News">
+                <i class="fas fa-newspaper"></i>
+                <span class="nav-text">News</span>
+            </a>
+        </span>
+        
+        <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+            <span>
+                <a href="/user" title="User Profile">
+                    <i class="far fa-user"></i>
+                    <span class="nav-text">Profile</span>
+                </a>
+            </span>
+        <% } else { %>
+            <span>
+                <a href="/register" title="Register">
+                    <i class="far fa-user"></i>
+                    <span class="nav-text">Register</span>
+                </a>
+            </span>
+        <% } %>
+    </div>
+</nav>
+
+<script>
+function toggleMobileMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    navLinks.classList.toggle('active');
+    toggle.classList.toggle('active');
+}
+</script>
+

@@ -1,43 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <title> Login Success</title>
-</head>
-<style>
-  .swal-overlay {
-  background-color: rgb(195, 195, 204);
-  }
-</style>
+<%- include('partials/head', { title: 'Email Verified', description: 'Email verification successful' }) %>
+
 <body>
-    <script>
-     
-              swal("Your Email Is Verified successFully","success", {
-  buttons: {
-    cancel: "Dash Bord",
-    catch: {
-      text: "Home",
-      value: "redirect",
-    },
+    <%- include('partials/navbar', { isAuthenticated: true }) %>
     
-  },
-})
-.then((value) => {
-  switch (value) {
-    case "redirect":
-     window.location="/"
-      break;
-    default:
-    window.location="/dash-bord"
-  }
+    <div class="form-container text-center">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title text-success">
+                    <i class="fas fa-check-circle"></i> Email Verified!
+                </h1>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 1.1rem; margin: 20px 0; color: var(--text-secondary);">
+                    Your email address has been successfully verified.
+                </p>
+                <p style="font-size: 0.9rem; margin: 20px 0; color: var(--text-muted);">
+                    You can now access all features of QuickReport.
+                </p>
+                <div class="button-group" style="margin-top: 30px;">
+                    <a href="/dash-bord" class="btn btn-primary">
+                        <i class="fas fa-chart-pie"></i> Go to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
- });
-
-
-
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
+    
+    <script>
+        // Auto-redirect to dashboard after 3 seconds
+        setTimeout(() => {
+            window.location.href = '/dash-bord';
+        }, 3000);
     </script>
 </body>
 </html>
