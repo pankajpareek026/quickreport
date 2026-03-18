@@ -24,17 +24,17 @@ const POPULAR_COINS = [
 function initCoinDatalist(datalistId = 'coinList') {
     const datalist = document.getElementById(datalistId);
     if (!datalist) return;
-    
+
     // Clear existing options
     datalist.innerHTML = '';
-    
+
     // Add popular coins
     POPULAR_COINS.forEach(coin => {
         const option = document.createElement('option');
         option.value = coin;
         datalist.appendChild(option);
     });
-    
+
     // Fetch comprehensive coin list from CoinGecko
     fetchCoinGeckoCoinList(datalist);
 }
@@ -47,7 +47,7 @@ async function fetchCoinGeckoCoinList(datalist) {
     try {
         const response = await fetch('https://api.coingecko.com/api/v3/coins/list');
         const coins = await response.json();
-        
+
         if (coins && Array.isArray(coins)) {
             // Add all coins to datalist
             coins.forEach(coin => {
@@ -60,63 +60,37 @@ async function fetchCoinGeckoCoinList(datalist) {
             });
         }
     } catch (error) {
-        console.warn('Failed to fetch comprehensive coin list:', error);
-        // Fallback to additional coins from Binance
-        fetchAdditionalCoins(datalist);
+        console.warn('Failed to fetch comprehensive coin list from CoinGecko:', error);
+        // Continue with popular coins already added
     }
 }
 
 /**
- * Fetch additional coins from Binance API (for portfolio forms)
- * @param {HTMLElement} datalist - Datalist element to populate
+ * Get current price for a coin using CoinGecko
+ * @param {string} coinId - Coin ID or symbol (e.g., 'bitcoin')
+ * @returns {Promise<number>} Current price in USD
  */
-async function fetchAdditionalCoins(datalist) {
+async function getCoinPrice(coinId) {
     try {
-        const response = await fetch('https://api.binance.com/api/v3/exchangeInfo');
+        const id = coinId.toLowerCase().trim();
+        const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`);
         const data = await response.json();
-        
-        if (data.symbols) {
-            const usdtPairs = data.symbols
-                .filter(s => s.symbol.endsWith('USDT') && s.status === 'TRADING')
-                .map(s => s.symbol)
-                .sort();
-            
-            // Add unique coins not already in popular list
-            usdtPairs.forEach(coin => {
-                if (!POPULAR_COINS.includes(coin)) {
-                    const option = document.createElement('option');
-                    option.value = coin;
-                    datalist.appendChild(option);
-                }
-            });
-        }
-    } catch (error) {
-        console.warn('Failed to fetch additional coins from Binance:', error);
-        // Continue with popular coins only
-    }
-}
 
-/**
- * Get current price for a coin pair
- * @param {string} symbol - Coin symbol (e.g., 'BTCUSDT')
- * @returns {Promise<number>} Current price
- */
-async function getCoinPrice(symbol) {
-    try {
-        const response = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol.toUpperCase()}`);
-        const data = await response.json();
-        
-        if (data.code === -1121) {
-            throw new Error('Pair not found');
+        if (!data || !data[id] || typeof data[id].usd === 'undefined') {
+            throw new Error('Coin not found or price unavailable');
         }
-        
-        const price = parseFloat(data.askPrice || data.lastPrice);
-        if (price <= 0.001) {
+
+        const price = parseFloat(data[id].usd);
+
+        // Formatting for precision
+        if (price <= 0.000001) {
+            return parseFloat(price.toFixed(10));
+        } else if (price <= 0.001) {
             return parseFloat(price.toFixed(8));
         }
         return parseFloat(price.toFixed(4));
     } catch (error) {
-        console.error('Error fetching price:', error);
+        console.error('Error fetching price from CoinGecko:', error);
         throw error;
     }
 }

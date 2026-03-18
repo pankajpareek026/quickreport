@@ -1,252 +1,226 @@
-<%- include('partials/head', { 
-    title: 'Update Transaction', 
-    description: 'Update your cryptocurrency transaction',
-    additionalStyles: '<link rel="stylesheet" href="/css/pages.css">'
-}) %>
+<%- include('partials/head', { title: 'Update Transaction' , description: 'Modify your existing trade records' ,
+    additionalStyles: '<link rel="stylesheet" href="/css/auth.css"><link rel="stylesheet" href="/css/dashboard.css">' })
+    %>
 
-<body>
-    <%- include('partials/navbar', { isAuthenticated: true }) %>
-    
-    <div class="form-container" style="max-width: 600px;">
-        <div class="card">
-            <div class="card-header text-center">
-                <h1 class="card-title">
-                    <i class="fas fa-edit"></i> Update Transaction
-                </h1>
+    <style>
+        .update-container {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+        }
+
+        .glass-form-card {
+            width: 100%;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-header h2 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            flex: 1;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .premium-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 18px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .premium-input:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(248, 134, 5, 0.1);
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-premium {
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+    </style>
+
+    <body>
+        <%- include('partials/navbar', { isAuthenticated: true }) %>
+
+            <div class="update-container">
+                <% if (typeof result !=='undefined' && result && result.length> 0) { %>
+                    <div class="glass-form-card">
+                        <div class="form-header">
+                            <h2><i class="fas fa-edit" style="color: var(--primary-color);"></i> Adjust Transaction</h2>
+                        </div>
+
+                        <form action="/update" method="post" id="updateForm">
+                            <input type="hidden" name="id" value="<%= result[0].ID %>">
+
+                            <div class="input-row">
+                                <div class="input-group" style="flex: 2;">
+                                    <label>Asset Name</label>
+                                    <input type="text" id="coinName" name="coinName" class="premium-input"
+                                        list="coinList" value="<%= result[0].Coin_Name %>" required autocomplete="off">
+                                    <datalist id="coinList"></datalist>
+                                </div>
+                                <div class="input-group" style="flex: 1;">
+                                    <label>Order Type</label>
+                                    <select name="ordertype" id="ordertype" class="premium-input">
+                                        <option value="BUY" <%=result[0].ORDER_TYPE==='BUY' ? 'selected' : '' %>>BUY
+                                        </option>
+                                        <option value="SELL" <%=result[0].ORDER_TYPE==='SELL' ? 'selected' : '' %>>SELL
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Execution Price (USD)</label>
+                                <div style="position: relative;">
+                                    <input type="number" id="price" name="price" class="premium-input"
+                                        value="<%= result[0].PRICE %>" step="any" required>
+                                    <button type="button" onclick="fetchPrice()"
+                                        style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--primary-color); border: none; border-radius: 8px; color: white; padding: 6px 10px; cursor: pointer;">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Units / Quantity</label>
+                                <input type="number" id="units" name="units" class="premium-input"
+                                    value="<%= Math.abs(result[0].UNITS) %>" step="any" required
+                                    oninput="calculateTotal()">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Settlement Amount (USD)</label>
+                                <input type="number" id="totals" name="totals" class="premium-input"
+                                    value="<%= result[0].TOTAL_COST || result[0].SELL_COST %>" step="any" required
+                                    oninput="calculateTotal()" style="background: rgba(0,0,0,0.2);">
+                            </div>
+
+                            <div class="btn-group">
+                                <a href="/dash-bord" class="btn-premium btn-cancel">Cancel</a>
+                                <button type="submit" class="btn-premium btn-save">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <% } else { %>
+                        <div class="glass-form-card" style="text-align: center;">
+                            <i class="fas fa-exclamation-triangle fa-3x"
+                                style="color: var(--error-color); margin-bottom: 20px;"></i>
+                            <h2 style="color: var(--text-primary);">Record Not Found</h2>
+                            <a href="/dash-bord" class="btn-premium btn-save">Return to Dashboard</a>
+                        </div>
+                        <% } %>
             </div>
-            
-            <% if (typeof result !== 'undefined' && result && result.length > 0) { %>
-                <form action="/update" method="post" id="updateForm" class="form-body">
-                    <input type="hidden" name="id" value="<%= result[0].ID %>">
-                    
-                    <div class="form-group">
-                        <label for="coinName" class="form-label">
-                            <i class="fas fa-coins" style="color: var(--primary-color);"></i> Coin Name
-                        </label>
-                        <div style="display: flex; gap: 0;">
-                            <input 
-                                type="text" 
-                                id="coinName" 
-                                name="coinName" 
-                                class="coin-name-input" 
-                                list="coinList"
-                                value="<%= result[0].Coin_Name %>"
-                                required
-                                autocomplete="off"
-                                style="width: 70%; border-radius: 5px 0 0 5px;"
-                            >
-                            <select 
-                                name="ordertype" 
-                                id="ordertype" 
-                                class="order-type-select"
-                                required
-                                style="width: 30%; border-radius: 0 5px 5px 0; border-left: 2px solid var(--bg-darker);"
-                            >
-                                <option value="BUY" <%= result[0].ORDER_TYPE === 'BUY' ? 'selected' : '' %>>BUY</option>
-                                <option value="SELL" <%= result[0].ORDER_TYPE === 'SELL' ? 'selected' : '' %>>SELL</option>
-                            </select>
-                        </div>
-                        <datalist id="coinList"></datalist>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="price" class="form-label">
-                            <i class="fas fa-dollar-sign" style="color: var(--primary-color);"></i> Price per Unit
-                        </label>
-                        <div style="display: flex; align-items: center; gap: 5px;">
-                            <span id="priceSymbol" style="color: var(--primary-color); font-weight: bold;">$</span>
-                            <input 
-                                type="number" 
-                                id="price" 
-                                name="price" 
-                                class="form-number-input" 
-                                value="<%= result[0].PRICE %>"
-                                step="any"
-                                required
-                                onclick="fetchPrice()"
-                                style="flex: 1;"
-                            >
-                            <button 
-                                type="button" 
-                                onclick="fetchPrice()" 
-                                class="btn btn-secondary"
-                                style="padding: 8px 15px;"
-                                title="Fetch current price"
-                            >
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="units" class="form-label">
-                            <i class="fas fa-calculator" style="color: var(--primary-color);"></i> Units/Quantity
-                        </label>
-                        <input 
-                            type="number" 
-                            id="units" 
-                            name="units" 
-                            class="form-number-input" 
-                            value="<%= Math.abs(result[0].UNITS) %>"
-                            step="any"
-                            required
-                            onkeyup="calculateTotal()"
-                            onkeydown="calculateTotal()"
-                        >
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="totals" class="form-label">
-                            <i class="fas fa-money-bill-wave" style="color: var(--primary-color);"></i> Total Cost
-                        </label>
-                        <div style="display: flex; align-items: center; gap: 5px;">
-                            <span id="totalSymbol" style="color: var(--primary-color); font-weight: bold;">$</span>
-                            <input 
-                                type="number" 
-                                id="totals" 
-                                name="totals" 
-                                class="form-number-input" 
-                                value="<%= result[0].TOTAL_COST || result[0].SELL_COST %>"
-                                step="any"
-                                required
-                                onkeyup="calculateTotal()"
-                                style="flex: 1;"
-                            >
-                        </div>
-                    </div>
-                    
-                    <div class="btns" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px;">
-                        <button type="reset" class="btn btn-secondary">
-                            <i class="fas fa-redo"></i> Reset
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Update
-                        </button>
-                    </div>
-                </form>
-            <% } else { %>
-                <div class="alert alert-error">
-                    <i class="fas fa-exclamation-circle"></i>
-                    Transaction not found. <a href="/dash-bord" style="color: var(--error-color);">Go to Dashboard</a>
-                </div>
-            <% } %>
-        </div>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="/funding" class="btn btn-success" style="text-decoration: none;">
-                <i class="fas fa-wallet"></i> Funding
-            </a>
-            <a href="/dash-bord" class="btn btn-secondary" style="text-decoration: none; margin-left: 10px;">
-                <i class="fas fa-chart-pie"></i> Dashboard
-            </a>
-        </div>
-    </div>
 
-    <%- include('partials/footer') %>
-    <%- include('partials/scripts', { 
-        additionalScripts: '<script src="/js/coins.js"></script>' 
-    }) %>
-    
-    <script>
-        // Initialize coin datalist
-        document.addEventListener('DOMContentLoaded', function() {
-            initCoinDatalist('coinList');
-        });
-        
-        // Number validation
-        function onlyNumberKey(evt) {
-            const ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-            if (ASCIICode == 46) return true;
-            else if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
-            return true;
-        }
-        
-        // Fetch price from Binance
-        async function fetchPrice() {
-            const coinName = document.getElementById('coinName').value.trim().toUpperCase();
-            const priceInput = document.getElementById('price');
-            
-            if (!coinName) {
-                Swal.fire({
-                    title: 'Coin Name Required!',
-                    text: 'Please enter or select a coin name first.',
-                    icon: 'warning',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return;
-            }
-            
-            if (!navigator.onLine) {
-                Swal.fire({
-                    title: 'Offline!',
-                    text: 'Please connect to the internet.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return;
-            }
-            
-            try {
-                priceInput.disabled = true;
-                priceInput.value = 'Fetching...';
-                
-                const price = await getCoinPrice(coinName);
-                
-                if (price && price > 0) {
-                    priceInput.value = price;
-                    calculateTotal();
-                } else {
-                    throw new Error('Invalid price');
-                }
-            } catch (error) {
-                Swal.fire({
-                    title: 'Price Not Found!',
-                    text: `Could not fetch price for ${coinName}. Please enter manually.`,
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-            } finally {
-                priceInput.disabled = false;
-            }
-        }
-        
-        // Calculate total
-        function calculateTotal() {
-            const price = parseFloat(document.getElementById('price').value) || 0;
-            const units = parseFloat(document.getElementById('units').value) || 0;
-            const total = price * units;
-            
-            if (total > 0) {
-                const totalInput = document.getElementById('totals');
-                if (total < 0.0001) {
-                    totalInput.value = total.toFixed(8);
-                } else {
-                    totalInput.value = total.toFixed(2);
-                }
-            }
-        }
-        
-        // Auto-calculate
-        document.getElementById('price').addEventListener('input', calculateTotal);
-        
-        // Form validation
-        document.getElementById('updateForm').addEventListener('submit', function(e) {
-            const coinName = document.getElementById('coinName').value.trim();
-            const price = parseFloat(document.getElementById('price').value);
-            const units = parseFloat(document.getElementById('units').value);
-            const total = parseFloat(document.getElementById('totals').value);
-            
-            if (!coinName || !price || price <= 0 || !units || units <= 0 || !total || total <= 0) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Invalid Data!',
-                    text: 'Please fill all fields with valid values.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return false;
-            }
-        });
-    </script>
-</body>
-</html>
+            <%- include('partials/footer') %>
+                <%- include('partials/scripts', { additionalScripts: '<script src="/js/coins.js"></script>' }) %>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            initCoinDatalist('coinList');
+                        });
+
+                        async function fetchPrice() {
+                            const coinName = document.getElementById('coinName').value.trim();
+                            const priceInput = document.getElementById('price');
+
+                            if (!coinName) return;
+
+                            try {
+                                priceInput.style.opacity = '0.5';
+                                const price = await getCoinPrice(coinName);
+                                if (price) {
+                                    priceInput.value = price;
+                                    calculateTotal();
+                                }
+                            } catch (e) {
+                                console.error(e);
+                            } finally {
+                                priceInput.style.opacity = '1';
+                            }
+                        }
+
+                        function calculateTotal() {
+                            const price = parseFloat(document.getElementById('price').value) || 0;
+                            const units = parseFloat(document.getElementById('units').value) || 0;
+                            const totalInput = document.getElementById('totals');
+                            totalInput.value = (price * units).toFixed(2);
+                        }
+                    </script>
+    </body>
+
+    </html>

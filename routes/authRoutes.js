@@ -34,7 +34,9 @@ router.post('/login', login);
 // Protected routes
 router.get('/user', Authentication, getUser);
 router.get('/emailvarification', Authentication, sendEmailVerification);
-router.get('/v', Authentication, verifyEmail);
+router.get('/verify', Authentication, verifyEmail);
+router.post('/verify', Authentication, verifyEmail);
+router.get('/resend-otp', Authentication, sendEmailVerification);
 router.get('/logout', Authentication, logout);
 
 module.exports = router;

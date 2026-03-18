@@ -1,0 +1,163 @@
+/* ============================================
+   Authentication UI - Glassmorphism Design
+   ============================================ */
+
+.auth-page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px 60px;
+    background: radial-gradient(circle at top right, rgba(248, 134, 5, 0.1), transparent),
+        var(--bg-primary);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(36, 38, 43, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: authFadeUp 0.6s ease-out;
+}
+
+@keyframes authFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-header {
+    background: linear-gradient(to right, rgba(248, 134, 5, 0.1), transparent);
+    padding: 40px 30px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.auth-header i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.auth-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
+
+.auth-body {
+    padding: 30px;
+}
+
+.auth-group {
+    margin-bottom: 20px;
+}
+
+.auth-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.auth-label i {
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.auth-input-wrapper {
+    position: relative;
+}
+
+.auth-input {
+    width: 100%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0 20px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.auth-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(248, 134, 5, 0.1);
+}
+
+.auth-input::placeholder {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.auth-footer {
+    padding: 0 30px 40px;
+    text-align: center;
+}
+
+.auth-support-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.auth-support-text a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-support-text a:hover {
+    text-decoration: underline;
+}
+
+.auth-btn-long {
+    width: 100%;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* Secondary Actions */
+.social-login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.social-login-divider::before,
+.social-login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}

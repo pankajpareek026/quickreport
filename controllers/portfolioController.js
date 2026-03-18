@@ -274,7 +274,8 @@ const getTransactionDetails = async (req, res) => {
       PRICE: tx.price,
       UNITS: tx.units,
       TOTAL_COST: tx.totalCost,
-      SELL_COST: tx.sellCost
+      SELL_COST: tx.sellCost,
+      DATE: tx.createdAt
     }));
 
     res.render("Details", {

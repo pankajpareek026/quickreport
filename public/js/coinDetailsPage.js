@@ -296,6 +296,44 @@ function performConversion() {
 }
 
 /**
+ * Fetch historical price for a given coin and date.
+ * Primary:  CoinGecko /history (works within past 365 days).
+ * Fallback: CryptoCompare histoday (free, no API key, full multi-year history).
+ */
+async function fetchHistoricalPrice(coinId, symbol, dateObj, formattedDate) {
+    // --- Primary: CoinGecko ---
+    try {
+        const cgResponse = await fetch(
+            `https://api.coingecko.com/api/v3/coins/${coinId}/history?date=${formattedDate}`
+        );
+        if (cgResponse.ok) {
+            const cgData = await cgResponse.json();
+            if (cgData.market_data && cgData.market_data.current_price && cgData.market_data.current_price.usd) {
+                return cgData.market_data.current_price.usd;
+            }
+        }
+        // 401 / error 10012 → fall through to CryptoCompare
+    } catch (e) {
+        console.warn('CoinGecko historical fetch failed, trying CryptoCompare...', e);
+    }
+
+    // --- Fallback: CryptoCompare histoday (no API key needed) ---
+    const toTs = Math.floor(dateObj.getTime() / 1000) + 86400; // end-of-day timestamp
+    const ccUrl = `https://min-api.cryptocompare.com/data/v2/histoday?fsym=${symbol}&tsym=USD&limit=1&toTs=${toTs}`;
+    const ccResponse = await fetch(ccUrl);
+    if (!ccResponse.ok) throw new Error('Could not fetch historical price from any source');
+    const ccData = await ccResponse.json();
+    if (
+        ccData.Response === 'Success' &&
+        ccData.Data && ccData.Data.Data && ccData.Data.Data.length > 0
+    ) {
+        const dayData = ccData.Data.Data[ccData.Data.Data.length - 1];
+        if (dayData.close && dayData.close > 0) return dayData.close;
+    }
+    throw new Error('Historical price not available for this date');
+}
+
+/**
  * Calculate investment returns
  */
 async function calculateInvestment() {
@@ -305,12 +343,18 @@ async function calculateInvestment() {
     const investmentValue = document.getElementById('investmentValue');
     const investmentPL = document.getElementById('investmentPL');
     
+    // New result fields
+    const investedAmountDisplay = document.getElementById('investedAmountDisplay');
+    const historicalPriceDisplay = document.getElementById('historicalPriceDisplay');
+    const coinsPurchasedDisplay = document.getElementById('coinsPurchasedDisplay');
+    const breakdownSteps = document.getElementById('breakdownSteps');
+    
     if (!investmentAmount || !investmentDate || !investmentResult) return;
     
     const amount = parseFloat(investmentAmount.value);
-    const date = investmentDate.value;
+    const dateStr = investmentDate.value;
     
-    if (!amount || amount <= 0 || !date) {
+    if (!amount || amount <= 0 || !dateStr) {
         Swal.fire({
             icon: 'warning',
             title: 'Invalid Input',
@@ -320,49 +364,73 @@ async function calculateInvestment() {
         return;
     }
     
+    const calculateBtn = document.getElementById('calculateInvestmentBtn');
+    const originalText = calculateBtn.innerHTML;
+    calculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calculating...';
+    calculateBtn.disabled = true;
+    
     try {
-        // Get historical price
-        const dateTimestamp = Math.floor(new Date(date).getTime() / 1000);
-        const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${window.coinData.id}/history?date=${dateTimestamp}`
+        const dateObj = new Date(dateStr);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
+        const coinSymbol = window.coinData.symbol.toUpperCase();
+
+        const historicalPrice = await fetchHistoricalPrice(
+            window.coinData.id, coinSymbol, dateObj, formattedDate
         );
-        const data = await response.json();
+
+        const currentPrice = window.coinData.currentPrice;
+            
+        // Calculate
+        const coinsBought = amount / historicalPrice;
+        const currentValue = coinsBought * currentPrice;
+        const profitLoss = currentValue - amount;
+        const profitLossPercent = ((currentValue - amount) / amount) * 100;
         
-        if (data.market_data && data.market_data.current_price) {
-            const historicalPrice = data.market_data.current_price.usd;
-            const currentPrice = window.coinData.currentPrice;
-            
-            // Calculate
-            const coinsBought = amount / historicalPrice;
-            const currentValue = coinsBought * currentPrice;
-            const profitLoss = currentValue - amount;
-            const profitLossPercent = ((currentValue - amount) / amount) * 100;
-            
-            // Display results
-            investmentValue.textContent = '$' + currentValue.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-            
-            const plClass = profitLoss >= 0 ? 'positive' : 'negative';
-            investmentPL.className = 'result-value ' + plClass;
-            investmentPL.textContent = (profitLoss >= 0 ? '+' : '') + '$' + profitLoss.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }) + ' (' + (profitLossPercent >= 0 ? '+' : '') + profitLossPercent.toFixed(2) + '%)';
-            
-            investmentResult.style.display = 'block';
-        } else {
-            throw new Error('Historical price not available');
-        }
+        // Update primary results
+        investedAmountDisplay.textContent = '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2 });
+        historicalPriceDisplay.textContent = '$' + historicalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 });
+        coinsPurchasedDisplay.textContent = coinsBought.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 8 }) + ' ' + coinSymbol;
+        
+        investmentValue.textContent = '$' + currentValue.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+        
+        const plClass = profitLoss >= 0 ? 'positive' : 'negative';
+        investmentPL.className = 'result-value ' + plClass;
+        investmentPL.textContent = (profitLoss >= 0 ? '+' : '') + '$' + profitLoss.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + ' (' + (profitLossPercent >= 0 ? '+' : '') + profitLossPercent.toFixed(2) + '%)';
+        
+        // Generate breakdown steps
+        breakdownSteps.innerHTML = `
+            <li><strong>Step 1:</strong> Calculate coins purchased. <br> 
+                <code>$${amount} (Invested) ÷ $${historicalPrice.toFixed(4)} (Price on ${formattedDate}) = ${coinsBought.toFixed(6)} ${coinSymbol}</code>
+            </li>
+            <li><strong>Step 2:</strong> Calculate current value. <br> 
+                <code>${coinsBought.toFixed(6)} ${coinSymbol} × $${currentPrice.toFixed(4)} (Current Price) = $${currentValue.toFixed(2)}</code>
+            </li>
+            <li><strong>Step 3:</strong> Calculate Profit/Loss. <br> 
+                <code>$${currentValue.toFixed(2)} (Value) - $${amount} (Invested) = $${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)</code>
+            </li>
+        `;
+        
+        investmentResult.style.display = 'block';
     } catch (error) {
         console.error('Investment calculation error:', error);
         Swal.fire({
             icon: 'error',
             title: 'Calculation Error',
-            text: 'Could not fetch historical price data. Please try a different date.',
+            text: error.message || 'Could not fetch historical price data. Please try a different date.',
             confirmButtonColor: 'var(--primary-color)'
         });
+    } finally {
+        calculateBtn.innerHTML = originalText;
+        calculateBtn.disabled = false;
     }
 }
 

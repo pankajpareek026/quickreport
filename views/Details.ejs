@@ -1,282 +1,258 @@
-<%- include('partials/head', { 
-    title: `Transaction Details | ${typeof CmcSymbol !== 'undefined' ? CmcSymbol : 'Coin'}USDT`, 
-    description: 'View detailed transaction history and portfolio statistics',
-    additionalStyles: '<link rel="stylesheet" href="/css/pages.css"><script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>'
-}) %>
+<%- include('partials/head', { title: `Details | ${typeof CmcSymbol !=='undefined' ? CmcSymbol : 'Asset' }`,
+    description: 'Transaction history and asset performance analytics' ,
+    additionalStyles: '<link rel="stylesheet" href="/css/assetDetails.css"><script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>'
+    }) %>
 
-<body>
-    <%- include('partials/navbar', { isAuthenticated: true }) %>
-    
-    <% if (typeof results !== 'undefined' && results && results.length > 0) { %>
-        <!-- Coin Header Section -->
-        <div class="coin-details-header">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <% if (typeof ImageSrc !== 'undefined' && ImageSrc) { %>
-                    <img src="<%= ImageSrc %>" alt="<%= typeof CmcName !== 'undefined' ? CmcName : 'Coin' %>" class="coin-logo">
-                <% } %>
-                <div class="coin-info">
-                    <div class="coin-name"><%= typeof CmcName !== 'undefined' ? CmcName : 'Unknown Coin' %></div>
-                    <div class="coin-symbol"><%= typeof CmcSymbol !== 'undefined' ? CmcSymbol : 'N/A' %></div>
-                </div>
-            </div>
-            
-            <div class="coin-price-section">
-                <div class="current-price">
-                    $<%= typeof CurrenPrice !== 'undefined' ? parseFloat(CurrenPrice).toFixed(3) : '0.000' %>
-                </div>
-                <% if (typeof ChangeIn24H !== 'undefined') { %>
-                    <div class="price-change <%= ChangeIn24H >= 0 ? 'positive' : 'negative' %>">
-                        <%= ChangeIn24H >= 0 ? '+' : '' %><%= parseFloat(ChangeIn24H).toFixed(2) %>%
-                    </div>
-                <% } %>
-                
-                <div class="time-periods">
-                    <% if (typeof ChangeIn7D !== 'undefined') { %>
-                        <div>
-                            <button class="time-period-btn">7D</button>
-                            <span class="time-period-value <%= ChangeIn7D >= 0 ? 'positive' : 'negative' %>">
-                                <%= ChangeIn7D >= 0 ? '+' : '' %><%= parseFloat(ChangeIn7D).toFixed(2) %>%
-                            </span>
-                        </div>
-                    <% } %>
-                    <% if (typeof ChangeIn30D !== 'undefined') { %>
-                        <div>
-                            <button class="time-period-btn">30D</button>
-                            <span class="time-period-value <%= ChangeIn30D >= 0 ? 'positive' : 'negative' %>">
-                                <%= ChangeIn30D >= 0 ? '+' : '' %><%= parseFloat(ChangeIn30D).toFixed(2) %>%
-                            </span>
-                        </div>
-                    <% } %>
-                    <% if (typeof ChangeIn60D !== 'undefined') { %>
-                        <div>
-                            <button class="time-period-btn">60D</button>
-                            <span class="time-period-value <%= ChangeIn60D >= 0 ? 'positive' : 'negative' %>">
-                                <%= ChangeIn60D >= 0 ? '+' : '' %><%= parseFloat(ChangeIn60D).toFixed(2) %>%
-                            </span>
-                        </div>
-                    <% } %>
-                    <% if (typeof ChangeIn90D !== 'undefined') { %>
-                        <div>
-                            <button class="time-period-btn">90D</button>
-                            <span class="time-period-value <%= ChangeIn90D >= 0 ? 'positive' : 'negative' %>">
-                                <%= ChangeIn90D >= 0 ? '+' : '' %><%= parseFloat(ChangeIn90D).toFixed(2) %>%
-                            </span>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Invested</div>
-                <div class="stat-value">$<%= typeof SumInvested !== 'undefined' ? parseFloat(SumInvested).toFixed(3) : '0.000' %></div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-label">Current Value</div>
-                <div class="stat-value">$<%= typeof holding !== 'undefined' && typeof CurrenPrice !== 'undefined' ? parseFloat(holding * CurrenPrice).toFixed(2) : '0.00' %></div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-label">Average Price</div>
-                <div class="stat-value">$<%= typeof Avp !== 'undefined' ? parseFloat(Avp).toFixed(3) : '0.000' %></div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-label">Holding</div>
-                <div class="stat-value">
-                    <%= typeof holding !== 'undefined' ? parseFloat(holding).toFixed(3) : '0.000' %> 
-                    <%= typeof CmcSymbol !== 'undefined' ? CmcSymbol : '' %>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-label">Volume</div>
-                <div class="stat-value">
-                    <%= typeof volume !== 'undefined' ? parseFloat(volume).toFixed(3) : '0.000' %> 
-                    <%= typeof CmcSymbol !== 'undefined' ? CmcSymbol : '' %>
-                </div>
-            </div>
-            
-            <div class="stat-card pnl-section">
-                <div class="stat-label">P&L</div>
-                <% 
-                    const pnlAmount = typeof TotalPNLP !== 'undefined' && typeof SumInvested !== 'undefined' 
-                        ? (TotalPNLP * SumInvested) / 100 
-                        : 0;
-                    const pnlClass = typeof TotalPNLP !== 'undefined' && TotalPNLP >= 0 ? 'positive' : 'negative';
-                %>
-                <div class="pnl-amount <%= pnlClass %>">
-                    $<%= parseFloat(Math.abs(pnlAmount)).toFixed(2) %>
-                </div>
-                <div class="pnl-percentage <%= pnlClass %>">
-                    (<%= typeof TotalPNLP !== 'undefined' ? (TotalPNLP >= 0 ? '+' : '') + parseFloat(TotalPNLP).toFixed(2) : '0.00' %>%)
-                </div>
-            </div>
-        </div>
-        
-        <!-- Add Transaction Button -->
-        <div style="text-align: center; margin: 20px 0;">
-            <button class="add-transaction-btn" onclick="showAddTransactionOptions()">
-                <i class="fas fa-plus"></i> Add Transaction
-            </button>
-        </div>
-        
-        <!-- Transactions Table -->
-        <div class="transactions-section">
-            <div class="transactions-section-wrapper">
-            <table class="transactions-table">
-                <thead>
-                    <tr>
-                        <th>Order Type</th>
-                        <th>Price</th>
-                        <th>Units</th>
-                        <th>Cost</th>
-                        <th>Sell Cost</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% 
-                        let totalUNITS = 0;
-                        let TotalCOST = 0;
-                        for (let i = 0; i < results.length; i++) {
-                            totalUNITS += parseFloat(results[i].UNITS);
-                            TotalCOST += parseFloat(results[i].TOTAL_COST || 0);
-                    %>
-                        <tr>
-                            <td>
-                                <span class="<%= results[i].ORDER_TYPE === 'BUY' ? 'gain' : 'loss' %>">
-                                    <%= results[i].ORDER_TYPE.toUpperCase() %>
-                                </span>
-                            </td>
-                            <td>$<%= parseFloat(results[i].PRICE).toFixed(4) %></td>
-                            <td><%= parseFloat(results[i].UNITS).toFixed(6) %></td>
-                            <td>$<%= parseFloat(results[i].TOTAL_COST || 0).toFixed(2) %></td>
-                            <td>$<%= parseFloat(results[i].SELL_COST || 0).toFixed(2) %></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="/update?id=<%= results[i].ID %>" class="action-icon edit" title="Edit">
-                                        <i class="far fa-edit"></i>
-                                    </a>
-                                    <a onclick="deleteTransaction('<%= results[i].ID %>', '<%= results[i].Coin_Name %>')" 
-                                       class="action-icon delete" 
-                                       title="Delete">
-                                        <i class="fas fa-times"></i>
-                                    </a>
+    <body>
+        <%- include('partials/navbar', { isAuthenticated: true }) %>
+
+            <div class="details-container">
+                <% if (typeof results !=='undefined' && results && results.length> 0) { %>
+
+                    <!-- Hero Asset Section -->
+                    <div class="glass-card asset-header">
+                        <div class="asset-identity">
+                            <div class="asset-logo-container">
+                                <% if (typeof ImageSrc !=='undefined' && ImageSrc) { %>
+                                    <img src="<%= ImageSrc %>" alt="<%= CmcName %>">
+                                    <% } else { %>
+                                        <i class="fas fa-coins fa-2x" style="color: var(--primary-color);"></i>
+                                        <% } %>
+                            </div>
+                            <div class="asset-titles">
+                                <h1>
+                                    <%= typeof CmcName !=='undefined' ? CmcName : Asset_Name %>
+                                </h1>
+                                <div class="asset-symbol">
+                                    <%= typeof CmcSymbol !=='undefined' ? CmcSymbol : '' %> / USD
                                 </div>
-                            </td>
-                        </tr>
-                    <% } %>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2"></td>
-                        <td style="font-weight: bold;">
-                            <%= parseFloat(totalUNITS).toFixed(6) %> <%= typeof CmcSymbol !== 'undefined' ? CmcSymbol : '' %>
-                        </td>
-                        <td style="font-size: 1.2rem;">
-                            $<%= parseFloat(TotalCOST).toFixed(4) %>
-                        </td>
-                        <td colspan="2"></td>
-                    </tr>
-                </tfoot>
-            </table>
-            </div>
-        </div>
-        
-        <!-- Chart Section (if needed) -->
-        <div id="chart_div" style="margin: 20px 10px; background-color: var(--bg-dark); border-radius: var(--border-radius); padding: 20px; min-height: 400px;"></div>
-        
-    <% } else { %>
-        <div class="form-container" style="max-width: 600px; margin-top: 120px;">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h1 class="card-title">
-                        <i class="fas fa-exclamation-circle"></i> No Transactions Found
-                    </h1>
-                </div>
-                <div class="form-body" style="text-align: center; padding: 30px;">
-                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
-                        No transactions found for this asset. Start by adding your first transaction!
-                    </p>
-                    <div style="display: flex; gap: 10px; justify-content: center;">
-                        <a href="/portfolio" class="btn btn-primary">
-                            <i class="fas fa-exchange-alt"></i> Add Transaction
-                        </a>
-                        <a href="/dash-bord" class="btn btn-secondary">
-                            <i class="fas fa-chart-pie"></i> Dashboard
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <% } %>
+                            </div>
+                        </div>
 
-    <%- include('partials/footer') %>
-    <%- include('partials/scripts') %>
-    
-    <script>
-        // Delete transaction function
-        function deleteTransaction(id, coinName) {
-            Swal.fire({
-                title: 'Delete Transaction?',
-                text: `Are you sure you want to delete this transaction for ${coinName}?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: 'var(--error-color)',
-                cancelButtonColor: 'var(--text-secondary)',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = `/delete?id=${id}`;
-                }
-            });
-        }
-        
-        // Show add transaction options
-        function showAddTransactionOptions() {
-            Swal.fire({
-                title: '<h3 style="color: var(--primary-color);">Add Transaction</h3>',
-                html: `
-                    <div style="margin-top: 20px;">
-                        <button id="fundingBtn" class="btn btn-primary" style="width: 150px; margin: 10px;">
-                            <i class="fas fa-wallet"></i> Funding
-                        </button>
-                        <button id="buysellBtn" class="btn btn-success" style="width: 150px; margin: 10px;">
-                            <i class="fas fa-exchange-alt"></i> Buy/Sell
-                        </button>
+                        <div class="asset-price-info">
+                            <div class="asset-price">
+                                $<%= typeof CurrenPrice !=='undefined' ? parseFloat(CurrenPrice).toLocaleString('en-US',
+                                    { minimumFractionDigits: 2, maximumFractionDigits: 6 }) : '0.00' %>
+                            </div>
+                            <div class="asset-change <%= ChangeIn24H >= 0 ? 'positive' : 'negative' %>">
+                                <i class="fas fa-caret-<%= ChangeIn24H >= 0 ? 'up' : 'down' %>"></i>
+                                <%= Math.abs(parseFloat(ChangeIn24H || 0)).toFixed(2) %>% (24h)
+                            </div>
+                        </div>
                     </div>
-                `,
-                showConfirmButton: false,
-                showCancelButton: true,
-                cancelButtonText: 'Close',
-                allowOutsideClick: true,
-                allowEscapeKey: true
-            });
-            
-            document.getElementById('fundingBtn').addEventListener('click', function() {
-                window.location.href = '/funding';
-            });
-            
-            document.getElementById('buysellBtn').addEventListener('click', function() {
-                window.location.href = '/portfolio';
-            });
-        }
-        
-        // Initialize Google Charts if needed
-        <% if (typeof FinalData !== 'undefined' && FinalData) { %>
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-        
-        function drawChart() {
-            // Chart implementation can be added here if needed
-            console.log('Chart data available');
-        }
-        <% } %>
-    </script>
-</body>
-</html>
+
+                    <!-- Intervals Row -->
+                    <div class="glass-card intervals-card">
+                        <div class="interval-box">
+                            <div class="interval-label">7D</div>
+                            <div class="interval-pct <%= ChangeIn7D >= 0 ? 'positive' : 'negative' %>">
+                                <%= ChangeIn7D>= 0 ? '+' : '' %><%= parseFloat(ChangeIn7D || 0).toFixed(2) %>%
+                            </div>
+                        </div>
+                        <div class="interval-box">
+                            <div class="interval-label">30D</div>
+                            <div class="interval-pct <%= ChangeIn30D >= 0 ? 'positive' : 'negative' %>">
+                                <%= ChangeIn30D>= 0 ? '+' : '' %><%= parseFloat(ChangeIn30D || 0).toFixed(2) %>%
+                            </div>
+                        </div>
+                        <div class="interval-box">
+                            <div class="interval-label">60D</div>
+                            <div class="interval-pct <%= ChangeIn60D >= 0 ? 'positive' : 'negative' %>">
+                                <%= ChangeIn60D>= 0 ? '+' : '' %><%= parseFloat(ChangeIn60D || 0).toFixed(2) %>%
+                            </div>
+                        </div>
+                        <div class="interval-box">
+                            <div class="interval-label">90D</div>
+                            <div class="interval-pct <%= ChangeIn90D >= 0 ? 'positive' : 'negative' %>">
+                                <%= ChangeIn90D>= 0 ? '+' : '' %><%= parseFloat(ChangeIn90D || 0).toFixed(2) %>%
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="glass-card chart-card" style="margin-bottom: 30px; padding: 25px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2
+                                style="font-size: 1.1rem; color: var(--text-primary); display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-chart-area" style="color: var(--primary-color);"></i> Performance (7D)
+                            </h2>
+                            <div id="chart-status"
+                                style="font-size: 0.8rem; color: var(--text-secondary); opacity: 0.7;">Fetching
+                                historical data...</div>
+                        </div>
+                        <div id="assetChart" style="min-height: 250px;"></div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="asset-stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label"><i class="fas fa-hand-holding-usd"></i> Invested</div>
+                            <div class="stat-value">$<%= parseFloat(SumInvested || 0).toLocaleString() %>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label"><i class="fas fa-wallet"></i> Current Value</div>
+                            <div class="stat-value">$<%= parseFloat(holding * CurrenPrice).toLocaleString(undefined,
+                                    {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label"><i class="fas fa-tag"></i> Avg. Price</div>
+                            <div class="stat-value">$<%= parseFloat(Avp || 0).toLocaleString(undefined,
+                                    {minimumFractionDigits: 2, maximumFractionDigits: 4}) %>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label"><i class="fas fa-cubes"></i> Holdings</div>
+                            <div class="stat-value">
+                                <%= parseFloat(holding || 0).toFixed(4) %>
+                                    <%= CmcSymbol %>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label"><i class="fas fa-chart-line"></i> Total P&L</div>
+                            <div class="stat-value <%= TotalPNLP >= 0 ? 'positive' : 'negative' %>">
+                                <%= TotalPNLP>= 0 ? '+' : '' %><%= parseFloat(TotalPNLP || 0).toFixed(2) %>%
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transactions List -->
+                    <div class="glass-card">
+                        <div class="transactions-header">
+                            <h2><i class="fas fa-history" style="color: var(--primary-color);"></i> Trade History</h2>
+                            <button class="btn-add-sm" onclick="showAddTransactionOptions()">
+                                <i class="fas fa-plus-circle"></i> New Trade
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="premium-details-table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Price</th>
+                                        <th>Units</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(let i=0; i < results.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <span
+                                                    class="order-badge <%= results[i].ORDER_TYPE === 'BUY' ? 'badge-buy' : 'badge-sell' %>">
+                                                    <%= results[i].ORDER_TYPE %>
+                                                </span>
+                                            </td>
+                                            <td style="color: var(--text-secondary); font-size: 0.85rem;">
+                                                <%= results[i].DATE ? new
+                                                    Date(results[i].DATE).toLocaleDateString('en-US', { day: '2-digit' ,
+                                                    month: 'short' , year: 'numeric' }) : new
+                                                    Date().toLocaleDateString() %>
+                                            </td>
+                                            <td style="font-family: 'Roboto Mono', monospace;">
+                                                $<%= parseFloat(results[i].PRICE).toLocaleString() %>
+                                            </td>
+                                            <td style="font-family: 'Roboto Mono', monospace;">
+                                                <%= parseFloat(Math.abs(results[i].UNITS)).toFixed(4) %>
+                                            </td>
+                                            <td style="font-family: 'Roboto Mono', monospace; font-weight: 600;">
+                                                $<%= parseFloat(results[i].TOTAL_COST ||
+                                                    results[i].SELL_COST).toLocaleString() %>
+                                            </td>
+                                            <td>
+                                                <div class="detail-actions">
+                                                    <a href="/update?id=<%= results[i].ID %>"
+                                                        class="action-btn-circle edit" title="Edit Trade">
+                                                        <i class="fas fa-pen"></i>
+                                                    </a>
+                                                    <button
+                                                        onclick="confirmDelete('<%= results[i].ID %>', '<%= results[i].Coin_Name %>')"
+                                                        class="action-btn-circle delete" title="Delete Trade">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <% } else { %>
+                        <div class="glass-card" style="text-align: center; padding: 60px 20px;">
+                            <i class="fas fa-search fa-4x"
+                                style="color: var(--primary-color); opacity: 0.5; margin-bottom: 20px;"></i>
+                            <h2 style="color: var(--text-primary);">No Transactions Found</h2>
+                            <p style="color: var(--text-secondary); margin-bottom: 30px;">There are no recorded trades
+                                for this asset yet.</p>
+                            <a href="/portfolio" class="btn btn-primary">Add Your First Trade</a>
+                        </div>
+                        <% } %>
+            </div>
+
+            <%- include('partials/footer') %>
+                <%- include('partials/scripts') %>
+
+                    <script>
+                        // Premium Delete Confirmation
+                        function confirmDelete(id, coinName) {
+                            Swal.fire({
+                                title: 'Delete Trade?',
+                                text: `You are about to remove this trade for ${coinName.toUpperCase()}. This action cannot be undone.`,
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#ff5e5e',
+                                cancelButtonColor: '#303030',
+                                confirmButtonText: 'Yes, delete it!',
+                                background: '#1a1a1a',
+                                color: '#ffffff',
+                                customClass: {
+                                    popup: 'premium-swal-popup',
+                                    confirmButton: 'premium-swal-btn error',
+                                    cancelButton: 'premium-swal-btn secondary'
+                                },
+                                backdrop: `rgba(0,0,0,0.6) backdrop-filter(blur(5px))`
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = `/delete?id=${id}&Asset=${coinName}`;
+                                }
+                            });
+                        }
+
+                        // Show add transaction options
+                        function showAddTransactionOptions() {
+                            Swal.fire({
+                                title: 'Investment Action',
+                                text: 'How would you like to update your holdings?',
+                                icon: 'question',
+                                showDenyButton: true,
+                                showCancelButton: true,
+                                confirmButtonText: '<i class="fas fa-exchange-alt"></i> Buy/Sell Asset',
+                                denyButtonText: '<i class="fas fa-wallet"></i> Manage Funding',
+                                cancelButtonText: 'Close',
+                                customClass: {
+                                    popup: 'premium-swal-popup',
+                                    confirmButton: 'premium-swal-btn primary',
+                                    denyButton: 'premium-swal-btn success',
+                                    cancelButton: 'premium-swal-btn secondary'
+                                },
+                                confirmButtonColor: 'var(--primary-color)',
+                                denyButtonColor: 'var(--success-color)'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/portfolio';
+                                } else if (result.isDenied) {
+                                    window.location.href = '/funding';
+                                }
+                            });
+                        }
+                    </script>
+    </body>
+
+    </html>

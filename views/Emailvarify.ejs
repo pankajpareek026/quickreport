@@ -1,75 +1,78 @@
-<%- include('partials/head', { title: 'Email Verification', description: 'Verify your email address' }) %>
+<%- include('partials/head', { title: 'Email Verification' , description: 'Verify your email address' }) %>
 
-<body>
-    <%- include('partials/navbar', { isAuthenticated: true }) %>
-    
-    <div class="form-container">
-        <div class="card">
-            <div class="card-header text-center">
-                <h1 class="card-title">
-                    <i class="fas fa-envelope"></i> Email Verification
-                </h1>
-            </div>
-            
-            <div class="card-body">
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    We've sent a 6-digit verification code to your email:
-                    <strong style="color: var(--primary-color);"><%= typeof userEmail !== 'undefined' ? userEmail : 'your email' %></strong>
+    <body>
+        <%- include('partials/navbar', { isAuthenticated: true }) %>
+
+            <div class="form-container">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1 class="card-title">
+                            <i class="fas fa-envelope"></i> Email Verification
+                        </h1>
+                    </div>
+
+                    <div class="card-body">
+                        <% if (typeof error !=='undefined' && error) { %>
+                            <div class="alert alert-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <%= error %>
+                            </div>
+                            <% } %>
+
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    We've sent a 6-digit verification code to your email:
+                                    <strong style="color: var(--primary-color);">
+                                        <%= typeof userEmail !=='undefined' ? userEmail : 'your email' %>
+                                    </strong>
+                                </div>
+
+                                <form action="/verify" method="post" id="otpForm" class="form-body">
+                                    <div class="form-group">
+                                        <label for="userotp" class="form-label">
+                                            <i class="fas fa-key" style="color: var(--primary-color);"></i> Verification
+                                            Code
+                                        </label>
+                                        <input type="text" id="userotp" name="userotp" class="form-input"
+                                            placeholder="Enter 6-digit code" required maxlength="6" minlength="6"
+                                            pattern="[0-9]{6}" autocomplete="off">
+                                        <small style="color: var(--text-muted); font-size: 0.85rem;">
+                                            Enter the 6-digit code sent to your email
+                                        </small>
+                                    </div>
+
+                                    <div class="form-group" style="margin-top: 25px;">
+                                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                            <i class="fas fa-check"></i> Verify Email
+                                        </button>
+                                    </div>
+
+                                    <div class="text-center" style="margin-top: 20px;">
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                                            Didn't receive the code?
+                                            <a href="/resend-otp"
+                                                style="color: var(--primary-color); font-weight: 600;">
+                                                Resend Email
+                                            </a>
+                                        </p>
+                                    </div>
+                                </form>
+                    </div>
                 </div>
-                
-                <form action="/verify" method="post" id="otpForm" class="form-body">
-                    <div class="form-group">
-                        <label for="userotp" class="form-label">
-                            <i class="fas fa-key" style="color: var(--primary-color);"></i> Verification Code
-                        </label>
-                        <input 
-                            type="text" 
-                            id="userotp" 
-                            name="userotp" 
-                            class="form-input" 
-                            placeholder="Enter 6-digit code"
-                            required
-                            maxlength="6"
-                            minlength="6"
-                            pattern="[0-9]{6}"
-                            autocomplete="off"
-                        >
-                        <small style="color: var(--text-muted); font-size: 0.85rem;">
-                            Enter the 6-digit code sent to your email
-                        </small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-top: 25px;">
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-check"></i> Verify Email
-                        </button>
-                    </div>
-                    
-                    <div class="text-center" style="margin-top: 20px;">
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                            Didn't receive the code? 
-                            <a href="/resend-otp" style="color: var(--primary-color); font-weight: 600;">
-                                Resend Email
-                            </a>
-                        </p>
-                    </div>
-                </form>
             </div>
-        </div>
-    </div>
 
-    <%- include('partials/footer') %>
-    <%- include('partials/scripts') %>
-    
-    <script>
-        // Auto-focus on OTP input
-        document.getElementById('userotp').focus();
-        
-        // Format OTP input (numbers only)
-        document.getElementById('userotp').addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-    </script>
-</body>
-</html>
+            <%- include('partials/footer') %>
+                <%- include('partials/scripts') %>
+
+                    <script>
+                        // Auto-focus on OTP input
+                        document.getElementById('userotp').focus();
+
+                        // Format OTP input (numbers only)
+                        document.getElementById('userotp').addEventListener('input', function (e) {
+                            this.value = this.value.replace(/[^0-9]/g, '');
+                        });
+                    </script>
+    </body>
+
+    </html>

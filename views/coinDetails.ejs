@@ -168,10 +168,32 @@
                             </div>
                             <button class="btn btn-primary" id="calculateInvestmentBtn">Calculate</button>
                             <div class="calc-result" id="investmentResult" style="display: none;">
-                                <div class="result-label">Current Value:</div>
-                                <div class="result-value" id="investmentValue"></div>
-                                <div class="result-label">Profit/Loss:</div>
-                                <div class="result-value" id="investmentPL"></div>
+                                <div class="result-grid">
+                                    <div class="result-item">
+                                        <div class="result-label">Initial Investment:</div>
+                                        <div class="result-value" id="investedAmountDisplay"></div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-label">Price on Date:</div>
+                                        <div class="result-value" id="historicalPriceDisplay"></div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-label">Coins Purchased:</div>
+                                        <div class="result-value" id="coinsPurchasedDisplay"></div>
+                                    </div>
+                                    <div class="result-item">
+                                        <div class="result-label">Current Value:</div>
+                                        <div class="result-value" id="investmentValue"></div>
+                                    </div>
+                                </div>
+                                <div class="pnl-highlight">
+                                    <div class="result-label">Total Profit/Loss:</div>
+                                    <div class="result-value" id="investmentPL"></div>
+                                </div>
+                                <div class="calculation-breakdown" id="calcBreakdown">
+                                    <h4><i class="fas fa-list-ol"></i> Step-by-Step Calculation</h4>
+                                    <ul id="breakdownSteps"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -352,17 +352,30 @@ function renderCoinRow(coin, index) {
 }
 
 /**
+ * Get currency symbol for the currently selected currency
+ */
+function getCurrencySymbol() {
+    const symbolMap = {
+        usd: '$',
+        eur: '€',
+        inr: '₹'
+    };
+    return symbolMap[HomePageState.currentCurrency] || '$';
+}
+
+/**
  * Format price
  */
 function formatPrice(price) {
     if (!price) return 'N/A';
+    const sym = getCurrencySymbol();
     
     if (price >= 1000000) {
-        return `$${(price / 1000000).toFixed(3)}M`;
+        return `${sym}${(price / 1000000).toFixed(3)}M`;
     } else if (price >= 1000) {
-        return `$${(price / 1000).toFixed(2)}K`;
+        return `${sym}${(price / 1000).toFixed(2)}K`;
     } else {
-        return `$${price.toFixed(6)}`;
+        return `${sym}${price.toFixed(6)}`;
     }
 }
 
@@ -371,15 +384,16 @@ function formatPrice(price) {
  */
 function formatVolume(volume) {
     if (!volume) return 'N/A';
+    const sym = getCurrencySymbol();
     
     if (volume >= 1000000000) {
-        return `$${(volume / 1000000000).toFixed(2)}B`;
+        return `${sym}${(volume / 1000000000).toFixed(2)}B`;
     } else if (volume >= 1000000) {
-        return `$${(volume / 1000000).toFixed(2)}M`;
+        return `${sym}${(volume / 1000000).toFixed(2)}M`;
     } else if (volume >= 1000) {
-        return `$${(volume / 1000).toFixed(2)}K`;
+        return `${sym}${(volume / 1000).toFixed(2)}K`;
     } else {
-        return `$${volume.toFixed(2)}`;
+        return `${sym}${volume.toFixed(2)}`;
     }
 }
 

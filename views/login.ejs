@@ -1,66 +1,57 @@
-<%- include('partials/head', { title: 'Login', description: 'Login to QuickReport' }) %>
+<%- include('partials/head', { title: 'Login | QuickReport' ,
+    description: 'Access your cryptocurrency portfolio dashboard.' ,
+    additionalStyles: '<link rel="stylesheet" href="/css/auth.css">' }) %>
 
-<body>
-    <%- include('partials/navbar', { isAuthenticated: false }) %>
-    
-    <div class="form-container">
-        <div class="card">
-            <div class="card-header text-center">
-                <h1 class="card-title">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </h1>
+    <body>
+        <%- include('partials/navbar', { isAuthenticated: false }) %>
+
+            <div class="auth-page-wrapper">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <i class="fas fa-user-shield"></i>
+                        <h1>Welcome Back</h1>
+                        <p>Log in to access your synchronized portfolio</p>
+                    </div>
+
+                    <form action="/login" method="post" id="loginForm" class="auth-body">
+                        <div class="auth-group">
+                            <label for="usrName" class="auth-label">
+                                <i class="fas fa-user"></i> Username or Email
+                            </label>
+                            <div class="auth-input-wrapper">
+                                <input type="text" id="usrName" name="usrName" class="auth-input"
+                                    placeholder="your@email.com" required autocomplete="username">
+                            </div>
+                        </div>
+
+                        <div class="auth-group">
+                            <label for="Passlog" class="auth-label">
+                                <i class="fas fa-lock"></i> Password
+                            </label>
+                            <div class="auth-input-wrapper">
+                                <input type="password" id="Passlog" name="Passlog" class="auth-input"
+                                    placeholder="••••••••" required autocomplete="current-password">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary auth-btn-long">
+                            Login to Dashboard
+                        </button>
+
+                        <div class="social-login-divider">Alternatively</div>
+
+                        <div class="auth-footer">
+                            <p class="auth-support-text">
+                                Don't have an account yet?
+                                <a href="/register">Create Secure Account</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
-            
-            <form action="/login" method="post" id="loginForm" class="form-body">
-                <div class="form-group">
-                    <label for="usrName" class="form-label">
-                        <i class="fas fa-user" style="color: var(--primary-color);"></i> Username or Email
-                    </label>
-                    <input 
-                        type="text" 
-                        id="usrName" 
-                        name="usrName" 
-                        class="form-input" 
-                        placeholder="Enter your username or email"
-                        required
-                        autocomplete="username"
-                    >
-                </div>
-                
-                <div class="form-group">
-                    <label for="Passlog" class="form-label">
-                        <i class="fas fa-lock" style="color: var(--primary-color);"></i> Password
-                    </label>
-                    <input 
-                        type="password" 
-                        id="Passlog" 
-                        name="Passlog" 
-                        class="form-input" 
-                        placeholder="Enter your password"
-                        required
-                        autocomplete="current-password"
-                    >
-                </div>
-                
-                <div class="form-group" style="margin-top: 25px;">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                </div>
-                
-                <div class="text-center" style="margin-top: 20px;">
-                    <p style="color: var(--text-secondary);">
-                        Don't have an account? 
-                        <a href="/register" style="color: var(--primary-color); font-weight: 600;">
-                            Register here
-                        </a>
-                    </p>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <%- include('partials/footer') %>
-    <%- include('partials/scripts') %>
-</body>
-</html>
+            <%- include('partials/footer') %>
+                <%- include('partials/scripts') %>
+    </body>
+
+    </html>

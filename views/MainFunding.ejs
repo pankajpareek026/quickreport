@@ -1,128 +1,191 @@
-<%- include('partials/head', { 
-    title: 'Funding Management', 
-    description: 'Add deposit or withdrawal transactions',
-    additionalStyles: '<link rel="stylesheet" href="/css/pages.css">'
-}) %>
+<%- include('partials/head', { title: 'Wallet Funding' , description: 'Manage your deposits and withdrawals' ,
+    additionalStyles: '<link rel="stylesheet" href="/css/auth.css"><link rel="stylesheet" href="/css/dashboard.css">' })
+    %>
 
-<body>
-    <%- include('partials/navbar', { isAuthenticated: true }) %>
-    
-    <div class="form-container" style="max-width: 500px;">
-        <div class="card">
-            <div class="card-header text-center">
-                <h1 class="card-title">
-                    <i class="fas fa-wallet"></i> Add Funding Transaction
-                </h1>
-            </div>
-            
-            <form action="/funding" method="post" id="fundingForm" class="form-body">
-                <div class="form-group">
-                    <label for="amount" class="form-label">
-                        <i class="fas fa-dollar-sign" style="color: var(--primary-color);"></i> Amount
-                    </label>
-                    <input 
-                        type="number" 
-                        id="amount" 
-                        name="amount" 
-                        class="form-input" 
-                        placeholder="Enter amount"
-                        required
-                        step="0.01"
-                        min="0"
-                        onkeypress="return onlyNumberKey(event)"
-                    >
-                </div>
-                
-                <div class="form-group">
-                    <label for="type" class="form-label">
-                        <i class="fas fa-exchange-alt" style="color: var(--primary-color);"></i> Transaction Type
-                    </label>
-                    <select name="type" id="type" class="form-select" required>
-                        <option value="Deposit">Deposit</option>
-                        <option value="withdraw">Withdrawal</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="Discription" class="form-label">
-                        <i class="fas fa-comment" style="color: var(--primary-color);"></i> Description
-                    </label>
-                    <textarea 
-                        id="Discription" 
-                        name="Discription" 
-                        class="form-input" 
-                        rows="4"
-                        placeholder="Enter description (e.g., from Bank of India)"
-                        minlength="5"
-                        maxlength="100"
-                        required
-                        style="resize: vertical;"
-                    ></textarea>
-                    <small style="color: var(--text-muted); font-size: 0.85rem;">
-                        Minimum 5 characters, maximum 100 characters
-                    </small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="date" class="form-label">
-                        <i class="fas fa-calendar" style="color: var(--primary-color);"></i> Date
-                    </label>
-                    <input 
-                        type="date" 
-                        id="date" 
-                        name="date" 
-                        class="form-input" 
-                        required
-                        max="<%= new Date().toISOString().split('T')[0] %>"
-                    >
-                </div>
-                
-                <div class="btns" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px;">
-                    <button type="reset" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Clear
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-check"></i> Submit
-                    </button>
-                </div>
-            </form>
-        </div>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="/portfolio" class="btn btn-success" style="text-decoration: none;">
-                <i class="fas fa-exchange-alt"></i> Buy/Sell Transactions
-            </a>
-        </div>
-    </div>
-
-    <%- include('partials/footer') %>
-    <%- include('partials/scripts') %>
-    
-    <script>
-        function onlyNumberKey(evt) {
-            var ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-            if (ASCIICode == 46) return true; // Allow decimal point
-            else if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
-            return true;
+    <style>
+        .funding-container {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
         }
-        
-        // Set default date to today
-        document.getElementById('date').value = new Date().toISOString().split('T')[0];
-        
-        // Form validation
-        document.getElementById('fundingForm').addEventListener('submit', function(e) {
-            const amount = parseFloat(document.getElementById('amount').value);
-            if (amount <= 0) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Invalid Amount!',
-                    text: 'Please enter a valid amount greater than 0.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return false;
-            }
-        });
-    </script>
-</body>
-</html>
+
+        .glass-form-card {
+            width: 100%;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-header h2 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            flex: 1;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .premium-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 18px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .premium-input:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(248, 134, 5, 0.1);
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-premium {
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.05rem;
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+    </style>
+
+    <body>
+        <%- include('partials/navbar', { isAuthenticated: true }) %>
+
+            <div class="funding-container">
+                <div class="glass-form-card">
+                    <div class="form-header">
+                        <h2><i class="fas fa-wallet" style="color: var(--primary-color); margin-right: 10px;"></i>
+                            Wallet Management</h2>
+                        <p>Transfer funds to or from your terminal</p>
+                    </div>
+
+                    <form action="/funding" method="post" id="fundingForm">
+                        <div class="input-row">
+                            <div class="input-group" style="flex: 1;">
+                                <label>Amount (USD)</label>
+                                <input type="number" id="amount" name="amount" class="premium-input" placeholder="0.00"
+                                    step="0.01" min="0" required>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label>Action</label>
+                                <select name="type" id="type" class="premium-input">
+                                    <option value="Deposit">DEPOSIT</option>
+                                    <option value="withdraw">WITHDRAW</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Transfer Reference</label>
+                            <textarea id="Discription" name="Discription" class="premium-input" rows="3"
+                                placeholder="e.g. Bank Transfer, Wallet A..."></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Transaction Date</label>
+                            <input type="date" id="date" name="date" class="premium-input" required
+                                max="<%= new Date().toISOString().split('T')[0] %>">
+                        </div>
+
+                        <div class="btn-group">
+                            <a href="/dash-bord" class="btn-premium btn-cancel">Cancel</a>
+                            <button type="submit" class="btn-premium btn-save">
+                                <i class="fas fa-paper-plane"></i> Execute Transfer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <%- include('partials/footer') %>
+                <%- include('partials/scripts') %>
+
+                    <script>
+                        // Set default date to today
+                        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+                        document.getElementById('fundingForm').addEventListener('submit', function (e) {
+                            const amount = parseFloat(document.getElementById('amount').value);
+                            if (amount <= 0) {
+                                e.preventDefault();
+                                Swal.fire({
+                                    title: 'Invalid Amount',
+                                    text: 'Amount must be greater than zero.',
+                                    icon: 'error',
+                                    confirmButtonColor: 'var(--primary-color)'
+                                });
+                            }
+                        });
+                    </script>
+    </body>
+
+    </html>

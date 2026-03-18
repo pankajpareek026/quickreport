@@ -42,6 +42,7 @@ const getDashboard = async (req, res) => {
         Fbalance: [{ balance: balance || 0 }],
         fundingResult: fundingResult || [],
         Current_Value: 0,
+        portValue: 0,
         chartContent: [],
         coinname: [],
         cv: 0,
@@ -70,20 +71,26 @@ const getDashboard = async (req, res) => {
       chartContent.push([`${result._id},${result.TC}`]);
     });
 
-    // Get current prices from Binance
-    const url = "https://api.binance.com/api/v3/ticker/24hr?symbol=";
-    const pricePromises = coinname.map(coinName => 
-      axios.get(url + coinName).then(response => ({
-        coinName,
-        price: parseFloat(response.data.askPrice)
-      })).catch(() => ({ coinName, price: 0 }))
-    );
+    // Get current prices from CoinGecko
+    const ids = coinname.map(c => c.toLowerCase()).join(',');
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`;
 
-    const prices = await Promise.all(pricePromises);
-    const priceMap = {};
-    prices.forEach(p => {
-      priceMap[p.coinName] = p.price;
-    });
+    let priceMap = {};
+    try {
+      const response = await axios.get(url, {
+        headers: { 'Accept': 'application/json', 'User-Agent': 'QuickReport/1.0' },
+        timeout: 10000
+      });
+      const data = response.data;
+      coinname.forEach(coin => {
+        const id = coin.toLowerCase();
+        priceMap[coin] = data[id] ? data[id].usd : 0;
+      });
+    } catch (apiError) {
+      console.error('CoinGecko Price Fetch Error:', apiError.message);
+      // Fallback: set all prices to 0 if API fails
+      coinname.forEach(coin => { priceMap[coin] = 0; });
+    }
 
     // Calculate PnL for each coin
     coinname.forEach((coin, i) => {
@@ -93,14 +100,14 @@ const getDashboard = async (req, res) => {
       if (TotalUnit[i] > 0) {
         dpnlvalue = ((TotalUnit[i] * price) + SellCost[i]) - TotalCost[i];
         Current_Value += dpnlvalue;
-        ppnlvalue = TotalCost[i] > 0 
-          ? ((((TotalUnit[i] * price) + SellCost[i]) - TotalCost[i]) / TotalCost[i]) * 100 
+        ppnlvalue = TotalCost[i] > 0
+          ? ((((TotalUnit[i] * price) + SellCost[i]) - TotalCost[i]) / TotalCost[i]) * 100
           : 0;
       } else {
         dpnlvalue = SellCost[i] - TotalCost[i];
         Current_Value += dpnlvalue;
-        ppnlvalue = TotalCost[i] > 0 
-          ? ((SellCost[i] - TotalCost[i]) / TotalCost[i]) * 100 
+        ppnlvalue = TotalCost[i] > 0
+          ? ((SellCost[i] - TotalCost[i]) / TotalCost[i]) * 100
           : 0;
       }
 
@@ -127,6 +134,7 @@ const getDashboard = async (req, res) => {
       Fbalance: [{ balance: balance || 0 }],
       fundingResult: fundingResult || [],
       Current_Value,
+      portValue: parseFloat(invested) + parseFloat(Current_Value),
       chartContent,
       coinname,
       cv: 0,

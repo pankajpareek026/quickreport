@@ -1,81 +1,108 @@
-<%- include('partials/head', { title: 'QuickReport - Cryptocurrency Portfolio Tracker' ,
-  description: 'Track your cryptocurrency portfolio, view real-time prices, and manage your investments' ,
+<%- include('partials/head', { title: 'QuickReport | Cryptocurrency Portfolio Tracker' ,
+  description: 'Track your cryptocurrency portfolio with professional analytics and real-time data.' ,
   additionalStyles: '<link rel="stylesheet" href="/css/homePage.css">' }) %>
 
   <body>
     <%- include('partials/navbar', { isAuthenticated: false }) %>
 
-      <!-- Fear & Greed Index -->
-      <div class="fear-greed-index" id="feargreed" title="Fear & Greed Index">
-        <p id="fngName">Loading...</p>
-      </div>
+      <section class="home-hero">
+        <div class="fng-hero-card" id="feargreed">
+          <div class="fng-dot"></div>
+          <span class="fng-text" id="fngName">Market Pulse: Loading...</span>
+        </div>
 
-      <!-- Search Section -->
-      <div class="search-section">
-        <div class="search-wrapper">
-          <input type="search" id="search" class="search-input"
-            placeholder="Search any cryptocurrency (e.g., bitcoin, ethereum)" list="coinId" autocomplete="off">
-          <button id="submitID" class="search-button" type="button">
-            <i class="fas fa-search"></i> Search
+        <h1 class="hero-title">Track Your Crypto<br>Like a Professional</h1>
+        <p class="hero-subtitle">The ultimate portfolio tracker for retail investors and whales alike. Secure,
+          comprehensive, and entirely free.</p>
+
+        <div class="hero-cta">
+          <a href="/register" class="btn btn-primary btn-lg">Start Tracking Now</a>
+          <a href="#market-explore" class="btn btn-outline-secondary btn-lg">Explore Market</a>
+        </div>
+
+        <!-- Pulse Grid (Market Overviews) -->
+        <div class="pulse-grid">
+          <div class="pulse-card">
+            <div class="pulse-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="pulse-info">
+              <h4>Market Status</h4>
+              <div class="pulse-value">Live Data 24/7</div>
+            </div>
+          </div>
+          <div class="pulse-card">
+            <div class="pulse-icon"><i class="fas fa-arrow-trend-up"></i></div>
+            <div class="pulse-info">
+              <h4>Top Gainer</h4>
+              <div class="pulse-value text-success" id="gainDisplay">--</div>
+            </div>
+          </div>
+          <div class="pulse-card">
+            <div class="pulse-icon"><i class="fas fa-arrow-trend-down"></i></div>
+            <div class="pulse-info">
+              <h4>Top Loser</h4>
+              <div class="pulse-value text-error" id="lossDisplay">--</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="market-pulse" id="market-explore">
+        <!-- Search & Filter Container -->
+        <div class="landing-search-container">
+          <div class="search-main">
+            <i class="fas fa-search"></i>
+            <input type="search" id="search" class="premium-search-input" placeholder="Search any cryptocurrency..."
+              list="coinId" autocomplete="off">
+          </div>
+
+          <select id="currency" class="premium-select" title="Select Currency">
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="inr">INR</option>
+          </select>
+
+          <button id="submitID" class="btn btn-primary" style="height: 60px; border-radius: 15px; padding: 0 30px;">
+            Find Coin
           </button>
+
+          <datalist id="coinId"></datalist>
         </div>
 
-        <select id="currency" class="currency-selector" title="Select Currency">
-          <option value="usd">USD</option>
-          <option value="eur">EUR</option>
-          <option value="gbp">GBP</option>
-          <option value="jpy">JPY</option>
-          <option value="inr">INR</option>
-          <option value="btc">BTC</option>
-          <option value="eth">ETH</option>
-        </select>
+        <!-- Main Market Table -->
+        <div class="landing-table-container">
+          <table id="MainTable" class="premium-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Coin</th>
+                <th>Price</th>
+                <th>24h Change</th>
+                <th>24h Volume</th>
+                <th>ATH</th>
+                <th>From ATH</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
 
-        <datalist id="coinId">
-          <!-- Popular coins preloaded, more will be loaded dynamically -->
-        </datalist>
-      </div>
-
-      <!-- Stats Bar -->
-      <div class="stats-bar">
-        <div class="stats-item">
-          <span class="stats-label">Market Status:</span>
-          <span class="stats-label"># OUT OF TOP 250</span>
+          <!-- Loading Spinner -->
+          <div class="loader-container" id="loader">
+            <div class="lds-roller">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p class="loading-text">Synchronizing global market data...</p>
+          </div>
         </div>
-        <div class="stats-item">
-          <span class="stats-label">Gainers:</span>
-          <input type="text" id="gain" class="stats-input gain" disabled readonly>
-        </div>
-        <div class="stats-item">
-          <span class="stats-label">Losers:</span>
-          <input type="text" id="loss" class="stats-input loss" disabled readonly>
-        </div>
-      </div>
-
-      <!-- Coins Table Container -->
-      <div class="coins-table-container">
-        <table id="MainTable" class="coins-table">
-          <thead>
-            <tr>
-              <th title="Rank According To Market Capital" class="rank-header">#</th>
-              <th>Coin</th>
-              <th title="Current Price">Price</th>
-              <th title="Price Change In Last 24 Hours">Change (24h)</th>
-              <th title="Volume (Buy + Sell)">Volume</th>
-              <th title="All Time High">ATH</th>
-              <th title="Down From All Time High">From ATH</th>
-              <th title="Date Of All Time High">ATH Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Coins will be dynamically inserted here -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Loading Spinner -->
-      <div class="loader loading--full-height" id="loader">
-        <div class="loading-spinner"></div>
-        <p class="loading-text">Loading cryptocurrency data...</p>
       </div>
 
       <%- include('partials/footer') %>
@@ -83,9 +110,27 @@
           additionalScripts: '<script src="/js/homePage.js"></script><script src="/js/coins.js"></script>' }) %>
 
           <script>
-            // Initialize coin datalist with popular coins
             document.addEventListener('DOMContentLoaded', function () {
               initCoinDatalist('coinId');
+
+              // Sync stats to display fields (bridging old logic to new UI)
+              const gainInput = document.getElementById('gain');
+              const lossInput = document.getElementById('loss');
+              const observer = new MutationObserver(() => {
+                if (gainInput) document.getElementById('gainDisplay').textContent = gainInput.value;
+                if (lossInput) document.getElementById('lossDisplay').textContent = lossInput.value;
+              });
+
+              // Start observing once the elements might exist (legacy js might create them)
+              const interval = setInterval(() => {
+                const g = document.getElementById('gain');
+                const l = document.getElementById('loss');
+                if (g && l) {
+                  document.getElementById('gainDisplay').textContent = g.value;
+                  document.getElementById('lossDisplay').textContent = l.value;
+                  clearInterval(interval);
+                }
+              }, 1000);
             });
           </script>
   </body>

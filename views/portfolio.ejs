@@ -1,286 +1,249 @@
-<%- include('partials/head', { 
-    title: 'Add Transaction', 
-    description: 'Add buy or sell transaction to your portfolio',
-    additionalStyles: '<link rel="stylesheet" href="/css/pages.css">'
-}) %>
+<%- include('partials/head', { title: 'Add Transaction' , description: 'Add a new trade to your portfolio' ,
+    additionalStyles: '<link rel="stylesheet" href="/css/auth.css"><link rel="stylesheet" href="/css/dashboard.css">' })
+    %>
 
-<body>
-    <%- include('partials/navbar', { isAuthenticated: true }) %>
-    
-    <div class="form-container" style="max-width: 600px;">
-        <div class="card">
-            <div class="card-header text-center">
-                <h1 class="card-title">
-                    <i class="fas fa-exchange-alt"></i> Add Transaction
-                </h1>
-    </div>
-            
-            <form action="/portfolio" method="post" id="transactionForm" class="form-body">
-                <div class="form-group">
-                    <label for="coinName" class="form-label">
-                        <i class="fas fa-coins" style="color: var(--primary-color);"></i> Coin Name
-                    </label>
-                    <div style="display: flex; gap: 0;">
-                        <input 
-                            type="text" 
-                            id="coinName" 
-                            name="coinName" 
-                            class="coin-name-input" 
-                            list="coinList"
-                            placeholder="Select or type coin (e.g., BTCUSDT)"
-                            required
-                            autocomplete="off"
-                            style="width: 70%; border-radius: 5px 0 0 5px;"
-                        >
-                        <select 
-                            name="ordertype" 
-                            id="ordertype" 
-                            class="order-type-select"
-                            required
-                            style="width: 30%; border-radius: 0 5px 5px 0; border-left: 2px solid var(--bg-darker);"
-                        >
-                    <option value="BUY">BUY</option>
-                    <option value="SELL">SELL</option>
-                </select>
-            </div>
-                    <datalist id="coinList"></datalist>
-                    <small style="color: var(--text-muted); font-size: 0.85rem; display: block; margin-top: 5px;">
-                        Type to search or select from list
-                    </small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="price" class="form-label">
-                        <i class="fas fa-dollar-sign" style="color: var(--primary-color);"></i> Price per Unit
-                    </label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <span id="priceSymbol" style="color: var(--primary-color); font-weight: bold; display: none;">$</span>
-                        <input 
-                            type="number" 
-                            id="price" 
-                            name="price" 
-                            class="form-number-input" 
-                            placeholder="Enter price or click to fetch"
-                            step="any"
-                            required
-                            onclick="fetchPrice()"
-                            style="flex: 1;"
-                        >
-                        <button 
-                            type="button" 
-                            onclick="fetchPrice()" 
-                            class="btn btn-secondary"
-                            style="padding: 8px 15px;"
-                            title="Fetch current price from Binance"
-                        >
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
+    <style>
+        .portfolio-container {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+        }
+
+        .glass-form-card {
+            width: 100%;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-header h2 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            flex: 1;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .premium-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 18px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .premium-input:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(248, 134, 5, 0.1);
+        }
+
+        select.premium-input {
+            background: #201f1f;
+            cursor: pointer;
+        }
+
+        select.premium-input option {
+            background: #201f1f;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        select.premium-input option:hover,
+        select.premium-input option:checked {
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-premium {
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.05rem;
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+    </style>
+
+    <body>
+        <%- include('partials/navbar', { isAuthenticated: true }) %>
+
+            <div class="portfolio-container">
+                <div class="glass-form-card">
+                    <div class="form-header">
+                        <h2><i class="fas fa-plus-circle" style="color: var(--primary-color); margin-right: 10px;"></i>
+                            Add Asset</h2>
+                        <p>Record your buy or sell transactions</p>
                     </div>
+
+                    <form action="/portfolio" method="post" id="transactionForm">
+                        <div class="input-row">
+                            <div class="input-group" style="flex: 2;">
+                                <label>Coin / Symbol</label>
+                                <input type="text" id="coinName" name="coinName" class="premium-input" list="coinList"
+                                    placeholder="e.g. bitcoin" required autocomplete="off">
+                                <datalist id="coinList"></datalist>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label>Order Type</label>
+                                <select name="ordertype" id="ordertype" class="premium-input">
+                                    <option value="BUY">BUY</option>
+                                    <option value="SELL">SELL</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Price per Coin (USD)</label>
+                            <div style="position: relative;">
+                                <input type="number" id="price" name="price" class="premium-input" placeholder="0.00"
+                                    step="any" required>
+                                <button type="button" onclick="fetchPrice()"
+                                    style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--primary-color); border: none; border-radius: 8px; color: white; padding: 6px 10px; cursor: pointer;">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Units / Quantity</label>
+                            <input type="number" id="units" name="units" class="premium-input" placeholder="0.1234"
+                                step="any" required oninput="calculateTotal()">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Total Investment</label>
+                            <input type="number" id="totals" name="totals" class="premium-input" placeholder="0.00"
+                                step="any" required readonly style="background: rgba(0,0,0,0.2); cursor: not-allowed;">
+                        </div>
+
+                        <div class="btn-group">
+                            <a href="/dash-bord" class="btn-premium btn-cancel">Cancel</a>
+                            <button type="submit" class="btn-premium btn-save">
+                                <i class="fas fa-check"></i> Record Trade
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                
-                <div class="form-group">
-                    <label for="units" class="form-label">
-                        <i class="fas fa-calculator" style="color: var(--primary-color);"></i> Units/Quantity
-                    </label>
-                    <input 
-                        type="number" 
-                        id="units" 
-                        name="units" 
-                        class="form-number-input" 
-                        placeholder="Enter quantity"
-                        step="any"
-                        required
-                        onkeyup="calculateTotal()"
-                        onkeydown="calculateTotal()"
-                    >
-                </div>
-                
-                <div class="form-group">
-                    <label for="totals" class="form-label">
-                        <i class="fas fa-money-bill-wave" style="color: var(--primary-color);"></i> Total Cost
-                    </label>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <span id="totalSymbol" style="color: var(--primary-color); font-weight: bold; display: none;">$</span>
-                        <input 
-                            type="number" 
-                            id="totals" 
-                            name="totals" 
-                            class="form-number-input" 
-                            placeholder="Auto-calculated"
-                            step="any"
-                            required
-                            readonly
-                            style="flex: 1; background-color: var(--bg-darker);"
-                        >
-                    </div>
-                </div>
-                
-                <div class="btns" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px;">
-                    <button type="reset" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Clear
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-check"></i> Add Transaction
-                    </button>
-                </div>
-            </form>
             </div>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="/funding" class="btn btn-success" style="text-decoration: none;">
-                <i class="fas fa-wallet"></i> Funding Management
-            </a>
-        </div>
-    </div>
 
-    <%- include('partials/footer') %>
-    <%- include('partials/scripts', { 
-        additionalScripts: '<script src="/js/coins.js"></script>' 
-    }) %>
+            <%- include('partials/footer') %>
+                <%- include('partials/scripts', { additionalScripts: '<script src="/js/coins.js"></script>' }) %>
 
-    <script>
-        // Initialize coin datalist on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initCoinDatalist('coinList');
-        });
-        
-        // Number input validation
-        function onlyNumberKey(evt) {
-            const ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-            if (ASCIICode == 46) return true; // Allow decimal point
-            else if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
-            return true;
-        }
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            initCoinDatalist('coinList');
+                        });
 
-        // Fetch price from Binance API
-        async function fetchPrice() {
-            const coinName = document.getElementById('coinName').value.trim().toUpperCase();
-            const priceInput = document.getElementById('price');
-            const symbolSpan = document.getElementById('priceSymbol');
-            const totalSymbol = document.getElementById('totalSymbol');
-            
-            if (!coinName) {
-                Swal.fire({
-                    title: 'Coin Name Required!',
-                    text: 'Please enter or select a coin name first.',
-                    icon: 'warning',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return;
-            }
-            
-            if (!navigator.onLine) {
-                Swal.fire({
-                    title: 'Offline!',
-                    text: 'Please connect to the internet to fetch prices.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return;
-            }
-            
-            try {
-                // Show loading
-                priceInput.disabled = true;
-                priceInput.value = 'Fetching...';
-                
-                const price = await getCoinPrice(coinName);
-                
-                if (price && price > 0) {
-                    priceInput.value = price;
-                    symbolSpan.style.display = 'inline';
-                    totalSymbol.style.display = 'inline';
-                    symbolSpan.textContent = '$';
-                    totalSymbol.textContent = '$';
-                    
-                    // Recalculate total if units are entered
-                    calculateTotal();
-                } else {
-                    throw new Error('Invalid price received');
-                }
-            } catch (error) {
-                Swal.fire({
-                    title: 'Price Not Found!',
-                    text: `Could not fetch price for ${coinName}. Please enter manually.`,
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                priceInput.value = '';
-            } finally {
-                priceInput.disabled = false;
-            }
-        }
-        
-        // Calculate total cost
-        function calculateTotal() {
-            const price = parseFloat(document.getElementById('price').value) || 0;
-            const units = parseFloat(document.getElementById('units').value) || 0;
-            const total = price * units;
-            
-            if (total > 0) {
-                const totalInput = document.getElementById('totals');
-                if (total < 0.0001) {
-                    totalInput.value = total.toFixed(8);
-                } else {
-                    totalInput.value = total.toFixed(2);
-                }
-            }
-        }
-        
-        // Auto-calculate on price change
-        document.getElementById('price').addEventListener('input', calculateTotal);
-        
-        // Form validation
-        document.getElementById('transactionForm').addEventListener('submit', function(e) {
-            const coinName = document.getElementById('coinName').value.trim();
-            const price = parseFloat(document.getElementById('price').value);
-            const units = parseFloat(document.getElementById('units').value);
-            const total = parseFloat(document.getElementById('totals').value);
-            
-            if (!coinName) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Coin Name Required!',
-                    text: 'Please select or enter a coin name.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return false;
-            }
-            
-            if (!price || price <= 0) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Invalid Price!',
-                    text: 'Please enter a valid price.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return false;
-            }
-            
-            if (!units || units <= 0) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Invalid Units!',
-                    text: 'Please enter a valid quantity.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return false;
-            }
-            
-            if (!total || total <= 0) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Invalid Total!',
-                    text: 'Total cost must be greater than 0.',
-                    icon: 'error',
-                    confirmButtonColor: 'var(--primary-color)'
-                });
-                return false;
-            }
-        });
-    </script>
-</body>
-</html>
+                        async function fetchPrice() {
+                            const coinName = document.getElementById('coinName').value.trim();
+                            const priceInput = document.getElementById('price');
+
+                            if (!coinName) {
+                                Swal.fire({
+                                    title: 'Coin Name Needed',
+                                    text: 'Please enter a coin ID first (e.g., bitcoin)',
+                                    icon: 'info',
+                                    confirmButtonColor: 'var(--primary-color)'
+                                });
+                                return;
+                            }
+
+                            try {
+                                priceInput.style.opacity = '0.5';
+                                const price = await getCoinPrice(coinName);
+                                if (price) {
+                                    priceInput.value = price;
+                                    calculateTotal();
+                                }
+                            } catch (e) {
+                                Swal.fire({
+                                    title: 'Price Fetch Failed',
+                                    text: 'Make sure you entered the correct Coin ID (e.g., cardano, solana)',
+                                    icon: 'error',
+                                    confirmButtonColor: 'var(--primary-color)'
+                                });
+                            } finally {
+                                priceInput.style.opacity = '1';
+                            }
+                        }
+
+                        function calculateTotal() {
+                            const price = parseFloat(document.getElementById('price').value) || 0;
+                            const units = parseFloat(document.getElementById('units').value) || 0;
+                            const totalInput = document.getElementById('totals');
+                            totalInput.value = (price * units).toFixed(2);
+                        }
+                    </script>
+    </body>
+
+    </html>
