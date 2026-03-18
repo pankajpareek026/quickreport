@@ -265,13 +265,20 @@
                                     const query = searchInput.value.trim().toLowerCase();
                                     Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
                                         const assetCell = row.querySelector('.asset-name');
-                                        const qtyCell = row.cells[1]; // Quantity column
-                                        if (!assetCell || !qtyCell) return;
+                                        // Columns: 0=Asset, 1=Quantity, 2=Avg. Cost, 3=Returns, 4=Settlement
+                                        const qtyCell = row.cells[1];
+                                        const costCell = row.cells[2];
+                                        const settlementCell = row.cells[4];
+                                        if (!assetCell || !qtyCell || !costCell || !settlementCell) return;
                                         const assetName = assetCell.textContent.trim().toLowerCase();
                                         const assetQty = qtyCell.textContent.trim().toLowerCase();
+                                        const assetCost = costCell.textContent.trim().toLowerCase();
+                                        const assetSettlement = settlementCell.textContent.trim().toLowerCase();
                                         if (
                                             assetName.includes(query) ||
                                             assetQty.includes(query) ||
+                                            assetCost.includes(query) ||
+                                            assetSettlement.includes(query) ||
                                             query === ''
                                         ) {
                                             row.style.display = '';
