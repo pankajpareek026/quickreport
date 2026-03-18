@@ -254,7 +254,7 @@
                     <%- include('partials/scripts') %>
 
                         <script>
-                            // Asset search functionality
+                            // Improved asset search: filter by name or quantity
                             document.addEventListener('DOMContentLoaded', function () {
                                 const searchInput = document.getElementById('assetSearchInput');
                                 const searchBtn = document.getElementById('assetSearchBtn');
@@ -265,9 +265,15 @@
                                     const query = searchInput.value.trim().toLowerCase();
                                     Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
                                         const assetCell = row.querySelector('.asset-name');
-                                        if (!assetCell) return;
+                                        const qtyCell = row.cells[1]; // Quantity column
+                                        if (!assetCell || !qtyCell) return;
                                         const assetName = assetCell.textContent.trim().toLowerCase();
-                                        if (assetName.includes(query) || query === '') {
+                                        const assetQty = qtyCell.textContent.trim().toLowerCase();
+                                        if (
+                                            assetName.includes(query) ||
+                                            assetQty.includes(query) ||
+                                            query === ''
+                                        ) {
                                             row.style.display = '';
                                         } else {
                                             row.style.display = 'none';
