@@ -105,6 +105,35 @@
     box-shadow: var(--shadow);
 }
 
+.asset-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.asset-search-bar input[type="text"] {
+    background: #222;
+    color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.asset-search-bar input[type="text"]:focus {
+    border-color: var(--primary-color);
+}
+
+.asset-search-bar button {
+    padding: 8px 18px;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+}
+
 .section-title {
     color: var(--primary-color);
     font-size: 1.5rem;

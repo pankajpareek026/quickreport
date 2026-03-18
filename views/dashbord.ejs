@@ -129,10 +129,16 @@
                         <h2 style="font-size: 1.2rem; display: flex; align-items: center; gap: 10px;">
                             <i class="fas fa-layer-group" style="color: var(--primary-color);"></i> Asset Portfolio
                         </h2>
+                        <div class="asset-search-bar">
+                            <input type="text" id="assetSearchInput" placeholder="Search asset..." autocomplete="off"
+                                style="padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color); background: #222; color: #fff; font-size: 1rem; min-width: 180px;">
+                            <button class="premium-btn primary" id="assetSearchBtn"
+                                style="margin-left: 8px; padding: 8px 18px; font-size: 1rem;"
+                                aria-label="Search Asset"><i class="fas fa-search"></i></button>
+                        </div>
                     </div>
-
                     <div class="table-responsive">
-                        <table class="holdings-table">
+                        <table class="holdings-table" id="assetTable">
                             <thead>
                                 <tr>
                                     <th>Asset</th>
@@ -143,7 +149,7 @@
                                     <th style="text-align: right;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="assetTableBody">
                                 <% if(results.length> 0) { %>
                                     <% for(var i=0; i < results.length; i++) { %>
                                         <tr>
@@ -153,7 +159,8 @@
                                                         style="width: 32px; height: 32px; background: rgba(248, 134, 5, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary-color);">
                                                         <i class="fas fa-coins"></i>
                                                     </div>
-                                                    <span style="font-weight: 700; color: var(--text-primary);">
+                                                    <span class="asset-name"
+                                                        style="font-weight: 700; color: var(--text-primary);">
                                                         <%= results[i].Coin_Name.toUpperCase() %>
                                                     </span>
                                                 </div>
@@ -247,6 +254,27 @@
                     <%- include('partials/scripts') %>
 
                         <script>
+                            // Asset search functionality
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const searchInput = document.getElementById('assetSearchInput');
+                                const searchBtn = document.getElementById('assetSearchBtn');
+                                const tableBody = document.getElementById('assetTableBody');
+                                searchInput.addEventListener('input', filterAssets);
+                                searchBtn.addEventListener('click', filterAssets);
+                                function filterAssets() {
+                                    const query = searchInput.value.trim().toLowerCase();
+                                    Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+                                        const assetCell = row.querySelector('.asset-name');
+                                        if (!assetCell) return;
+                                        const assetName = assetCell.textContent.trim().toLowerCase();
+                                        if (assetName.includes(query) || query === '') {
+                                            row.style.display = '';
+                                        } else {
+                                            row.style.display = 'none';
+                                        }
+                                    });
+                                }
+                            });
                             async function Secure() {
                                 const display = document.getElementById('investedValueDisplay');
                                 const portDisplay = document.getElementById('portfolioValueDisplay');
