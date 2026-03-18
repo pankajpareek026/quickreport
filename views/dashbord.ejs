@@ -60,21 +60,24 @@
     <body>
         <%- include('partials/navbar', { isAuthenticated: true }) %>
 
-            <div class="dashboard-container">
-                <div class="dashboard-header" style="margin-bottom: 40px;">
+            <main class="dashboard-container" aria-label="Dashboard">
+                <section class="dashboard-header"
+                    style="margin-bottom: 48px; display: flex; justify-content: space-between; align-items: center;">
                     <div class="welcome-section">
-                        <h1 class="welcome-title">Wealth Overview</h1>
-                        <p class="welcome-subtitle">Managed by QuickReport Terminal</p>
+                        <h1 class="welcome-title" style="font-size:2.2rem; font-weight:900; color:#fff;">Wealth Overview
+                        </h1>
+                        <p class="welcome-subtitle" style="font-size:1.1rem; color:var(--text-secondary);">Managed by
+                            QuickReport Terminal</p>
                     </div>
-                    <div class="header-actions">
-                        <button class="premium-btn primary" onclick="ShowOptions()">
+                    <nav class="header-actions" aria-label="Dashboard Actions">
+                        <button class="premium-btn primary" onclick="ShowOptions()" aria-label="Add New Record">
                             <i class="fas fa-plus-circle"></i> NEW RECORD
                         </button>
-                        <button class="premium-btn secondary" onclick="ConfirmDelete()">
+                        <button class="premium-btn secondary" onclick="ConfirmDelete()" aria-label="Reset Portfolio">
                             <i class="fas fa-undo"></i> RESET
                         </button>
-                    </div>
-                </div>
+                    </nav>
+                </section>
 
                 <!-- Stats Grid -->
                 <div class="stats-grid">
@@ -238,83 +241,83 @@
                                         <% } %>
                     </div>
                 </div>
-            </div>
+                </div>
 
-            <%- include('partials/footer') %>
-                <%- include('partials/scripts') %>
+                <%- include('partials/footer') %>
+                    <%- include('partials/scripts') %>
 
-                    <script>
-                        async function Secure() {
-                            const display = document.getElementById('investedValueDisplay');
-                            const portDisplay = document.getElementById('portfolioValueDisplay');
-                            const pnlDisplay = document.getElementById('totalPnlDisplay');
-                            const eye = document.getElementById('eye').querySelector('i');
+                        <script>
+                            async function Secure() {
+                                const display = document.getElementById('investedValueDisplay');
+                                const portDisplay = document.getElementById('portfolioValueDisplay');
+                                const pnlDisplay = document.getElementById('totalPnlDisplay');
+                                const eye = document.getElementById('eye').querySelector('i');
 
-                            if (display.textContent.includes('*')) {
-                                display.textContent = '$<%= parseFloat(invested || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>';
-                                portDisplay.textContent = '$<%= portValue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>';
-                                pnlDisplay.textContent = '<%= Current_Value >= 0 ? "+" : "-" %>$<%= Math.abs(parseFloat(Current_Value || 0)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>';
-                                eye.className = 'fas fa-eye';
-                            } else {
-                                display.textContent = '$****';
-                                portDisplay.textContent = '$****';
-                                pnlDisplay.textContent = '****';
-                                eye.className = 'fas fa-eye-slash';
+                                if (display.textContent.includes('*')) {
+                                    display.textContent = '$<%= parseFloat(invested || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>';
+                                    portDisplay.textContent = '$<%= portValue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>';
+                                    pnlDisplay.textContent = '<%= Current_Value >= 0 ? "+" : "-" %>$<%= Math.abs(parseFloat(Current_Value || 0)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>';
+                                    eye.className = 'fas fa-eye';
+                                } else {
+                                    display.textContent = '$****';
+                                    portDisplay.textContent = '$****';
+                                    pnlDisplay.textContent = '****';
+                                    eye.className = 'fas fa-eye-slash';
+                                }
                             }
-                        }
 
-                        function ConfirmDelete() {
-                            Swal.fire({
-                                title: 'Reset Portfolio?',
-                                text: "This will permanently delete all your transaction and funding data!",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#f88605',
-                                cancelButtonColor: '#303030',
-                                confirmButtonText: 'Yes, reset it!',
-                                background: '#1a1a1a',
-                                color: '#ffffff',
-                                customClass: {
-                                    popup: 'premium-swal-popup',
-                                    confirmButton: 'premium-swal-btn',
-                                    cancelButton: 'premium-swal-btn'
-                                }
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/reset';
-                                }
-                            });
-                        }
+                            function ConfirmDelete() {
+                                Swal.fire({
+                                    title: 'Reset Portfolio?',
+                                    text: "This will permanently delete all your transaction and funding data!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#f88605',
+                                    cancelButtonColor: '#303030',
+                                    confirmButtonText: 'Yes, reset it!',
+                                    background: '#1a1a1a',
+                                    color: '#ffffff',
+                                    customClass: {
+                                        popup: 'premium-swal-popup',
+                                        confirmButton: 'premium-swal-btn',
+                                        cancelButton: 'premium-swal-btn'
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = '/reset';
+                                    }
+                                });
+                            }
 
-                        function ShowOptions() {
-                            Swal.fire({
-                                title: 'New Transaction',
-                                text: "Choose the record type",
-                                icon: 'question',
-                                showCancelButton: true,
-                                showDenyButton: true,
-                                confirmButtonColor: '#48bb78',
-                                denyButtonColor: '#f88605',
-                                cancelButtonColor: '#303030',
-                                confirmButtonText: '<i class="fas fa-shopping-cart"></i> Buy/Sell Asset',
-                                denyButtonText: '<i class="fas fa-wallet"></i> Deposit/Withdraw',
-                                background: '#1a1a1a',
-                                color: '#ffffff',
-                                customClass: {
-                                    popup: 'premium-swal-popup',
-                                    confirmButton: 'premium-swal-btn',
-                                    denyButton: 'premium-swal-btn',
-                                    cancelButton: 'premium-swal-btn'
-                                }
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/portfolio';
-                                } else if (result.isDenied) {
-                                    window.location.href = '/funding';
-                                }
-                            });
-                        }
-                    </script>
+                            function ShowOptions() {
+                                Swal.fire({
+                                    title: 'New Transaction',
+                                    text: "Choose the record type",
+                                    icon: 'question',
+                                    showCancelButton: true,
+                                    showDenyButton: true,
+                                    confirmButtonColor: '#48bb78',
+                                    denyButtonColor: '#f88605',
+                                    cancelButtonColor: '#303030',
+                                    confirmButtonText: '<i class="fas fa-shopping-cart"></i> Buy/Sell Asset',
+                                    denyButtonText: '<i class="fas fa-wallet"></i> Deposit/Withdraw',
+                                    background: '#1a1a1a',
+                                    color: '#ffffff',
+                                    customClass: {
+                                        popup: 'premium-swal-popup',
+                                        confirmButton: 'premium-swal-btn',
+                                        denyButton: 'premium-swal-btn',
+                                        cancelButton: 'premium-swal-btn'
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = '/portfolio';
+                                    } else if (result.isDenied) {
+                                        window.location.href = '/funding';
+                                    }
+                                });
+                            }
+                        </script>
     </body>
 
     </html>

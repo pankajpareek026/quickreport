@@ -25,6 +25,8 @@
     box-shadow: var(--shadow);
 }
 
+
+
 .stat-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary-color);
